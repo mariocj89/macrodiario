@@ -11,14 +11,15 @@ const navigator = createStackNavigator(
       navigationOptions: {
         title: "Configuración",
         headerBackTitle: "Guardar",
-      }
-    }
+      },
+    },
   },
   {
     initialRouteName: "DayInput",
     defaultNavigationOptions: {
       title: "Macro Diario",
       headerBackTitle: "Volver",
+      headerStyle: { backgroundColor: "rgba(183,226,111,5)" },
     },
   }
 );
