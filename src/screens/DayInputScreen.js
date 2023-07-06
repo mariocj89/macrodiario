@@ -4,6 +4,7 @@ import DayPicker from "../components/DayPicker";
 import MacroInput from "../components/MacroInput";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Storage from "../storage";
+import DateStr from "../dateStr";
 
 DEFAULT_TAKES = {
   vegetables: 0,
@@ -22,7 +23,7 @@ DEFAULT_MAX_TAKES = {
 
 const reducer = (state, action) => {
   console.log("Action: ", action, state);
-  const date = new Date(state.date);
+  const date = state.date;
   var takes = state.dayData ? { ...state.dayData.takes } : null;
   var maxTakes = state.dayData ? { ...state.dayData.maxTakes } : null;
   switch (action.type) {
@@ -40,12 +41,8 @@ const reducer = (state, action) => {
       maxTakes = { ...maxTakes, ...action.payload };
       Storage.saveMaxTakes(date, maxTakes);
       return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
-    case "incDay":
-      date.setDate(date.getDate() + 1);
-      return { ...state, date: date, dayData: null };
-    case "decDay":
-      date.setDate(date.getDate() - 1);
-      return { ...state, date: date, dayData: null };
+    case "set_day":
+      return { ...state, date: action.payload, dayData: null };
     default:
       console.warn("Unexpected action: ", action);
       return state;
@@ -57,25 +54,18 @@ const loadDayData = async (day, dispatch) => {
   const takes = await Storage.getDayTakes(day);
   dispatch({
     type: "load_day_data",
-    payload: { takes: takes, maxTakes: maxTakes },
+    payload: {
+      takes: takes ?? DEFAULT_TAKES,
+      maxTakes: maxTakes ?? DEFAULT_MAX_TAKES,
+    },
   });
 };
 
-const today = () => {
-  const defaultDate = new Date();
-  defaultDate.setHours(0, 0, 0, 0);
-  return defaultDate;
-};
-
-const isDateToday = (date) => {
-  const diffTime = Math.abs(today() - date);
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays < 1;
-};
 
 const DayInputScreen = ({ navigation }) => {
+  const inputDate = navigation.getParam("date");
   const defaultState = {
-    date: today(),
+    date: DateStr.today(),
     dayData: null,
   };
   const [state, dispatch] = useReducer(reducer, defaultState);
@@ -85,7 +75,7 @@ const DayInputScreen = ({ navigation }) => {
     loadDayData(date, dispatch);
     dayData = { takes: null, maxTakes: null }; // Allow to load to prevent blinking
   }
-  const isToday = isDateToday(date);
+  const isToday = date === DateStr.today();
   const takes = dayData.takes ?? DEFAULT_TAKES;
   const maxTakes = dayData.maxTakes ?? DEFAULT_MAX_TAKES;
   const fruitsEnabled = maxTakes.fruits > 0;
@@ -97,8 +87,7 @@ const DayInputScreen = ({ navigation }) => {
           <DayPicker
             style={styles.dayPicker}
             date={date}
-            onIncDate={() => dispatch({ type: "incDay" })}
-            onDecDate={() => dispatch({ type: "decDay" })}
+            onDayChange={(day) => dispatch({type: "set_day", payload: day})}
           />
         </View>
         <View style={styles.controlHeader}>

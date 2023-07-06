@@ -2,6 +2,7 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import DayInputScreen from "./src/screens/DayInputScreen";
 import ConfigScreen from "./src/screens/ConfigScreen";
+import CalendarScreen from "./src/screens/CalendarScreen";
 
 const navigator = createStackNavigator(
   {
@@ -11,6 +12,12 @@ const navigator = createStackNavigator(
       navigationOptions: {
         title: "Configuración",
         headerBackTitle: "Guardar",
+      },
+    },
+    Calendar: {
+      screen: CalendarScreen,
+      navigationOptions: {
+        title: "Calendario",
       },
     },
   },

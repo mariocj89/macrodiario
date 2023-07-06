@@ -1,46 +1,46 @@
 import React from "react";
 import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { withNavigation } from "react-navigation";
+import DateStr from "../dateStr";
 
-const DayPicker = ({ date, onIncDate, onDecDate }) => {
-  var today = new Date();
-  today.setHours(0, 0, 0, 0); // Ignore time
-  const diffTime = Math.abs(today - date);
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-  const day = date.toLocaleDateString("es-ES", {day: 'numeric'});
-  const month = date.toLocaleDateString("es-ES", { month: 'short'});
-  var dateStr = `${day} / ${month[0].toUpperCase() + month.slice(1)}`
-  if (diffDays === 0) {
+const DayPicker = ({ date, onDayChange, navigation }) => {
+  var jsDate = new Date(date);
+  const day = jsDate.toLocaleDateString("es-ES", { day: "numeric" });
+  const month = jsDate.toLocaleDateString("es-ES", { month: "short" });
+  var dateStr = `${day} / ${month[0].toUpperCase() + month.slice(1)}`;
+  if (date == DateStr.today()) {
     dateStr = "Hoy";
-  } else if (diffDays === 1) {
+  } else if (date === DateStr.decDay(DateStr.today())) {
     dateStr = "Ayer";
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.dayText}>{dateStr}</Text>
-      <TouchableOpacity onPress={onDecDate}>
+      <TouchableOpacity onPress={() => onDayChange(DateStr.decDay(date))}>
         <MaterialCommunityIcons
           style={styles.controlButton}
           name="chevron-left"
           size={30}
         />
       </TouchableOpacity>
-      <MaterialCommunityIcons
-        style={styles.controlButton}
-        name="calendar-month"
-        size={25}
-      />
-      {diffDays > 0 ? (
-        <TouchableOpacity onPress={onIncDate}>
+      <TouchableOpacity onPress={() => navigation.navigate("Calendar", {onDayChange})}>
+        <MaterialCommunityIcons
+          style={styles.controlButton}
+          name="calendar-month"
+          size={25}
+        />
+      </TouchableOpacity>
+      {dateStr === "Hoy" ? null : (
+        <TouchableOpacity onPress={() => onDayChange(DateStr.incDay(date))}>
           <MaterialCommunityIcons
             style={styles.controlButton}
             name="chevron-right"
             size={30}
           />
         </TouchableOpacity>
-      ) : null}
+      )}
     </View>
   );
 };
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   controlButton: {},
 });
 
-export default DayPicker;
+export default withNavigation(DayPicker);

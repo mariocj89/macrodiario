@@ -1,7 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DateStr from "./dateStr";
 
 const dateToKey = (date) => {
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDay() + 1).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 };
 
 const save = async (key, value) => {
@@ -22,18 +26,15 @@ const get = async (key) => {
 };
 
 const saveDayTakes = async (date, takes) => {
-  const day = dateToKey(date);
-  save(`takes-${day}`, takes);
+  save(`takes/${date}`, takes);
 };
 
 const getDayTakes = async (date) => {
-  const day = dateToKey(date);
-  return get(`takes-${day}`);
+  return get(`takes/${date}`);
 };
 
 const getMaxTakes = async (date) => {
-  const day = dateToKey(date);
-  const maxTakes = await get(`maxTakes-${day}`);
+  const maxTakes = await get(`maxTakes/${date}`);
   if (maxTakes !== null) {
     return maxTakes;
   }
@@ -41,9 +42,25 @@ const getMaxTakes = async (date) => {
 };
 
 const saveMaxTakes = async (date, maxTakes) => {
-  const day = dateToKey(date);
   save("maxTakes", maxTakes); // for all future configs
-  save(`maxTakes-${day}`, maxTakes);
+  save(`maxTakes/${date}`, maxTakes);
+};
+
+const getMonthData = async (year, month) => {
+  const result = {};
+  for (let day = 1; day < 32; day++) {
+    const date = new Date(year, month, day);
+    if (date.getMonth() !== month) {
+      continue;
+    }
+    const takes = await getDayTakes(DateStr.dateToStr(date));
+    if (takes === null) {
+      continue
+    }
+    const maxTakes = await getMaxTakes(DateStr.dateToStr(date));
+    result[DateStr.dateToStr(date)] = {maxTakes, takes}
+  }
+  return result;
 };
 
 const Storage = {
@@ -51,6 +68,7 @@ const Storage = {
   getDayTakes: getDayTakes,
   getMaxTakes: getMaxTakes,
   saveMaxTakes: saveMaxTakes,
+  getMonthData: getMonthData,
 };
 
 export default Storage;
