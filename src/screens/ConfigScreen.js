@@ -7,6 +7,7 @@ const ConfigScreen = ({ navigation }) => {
   const dispatch = navigation.getParam("dispatch");
   return (
     <ScrollView style={styles.container}>
+      <Text style={styles.header}>Raciones diarias:</Text>
       <MaxInput
         macroImage={require("../../assets/macro-vegetables.png")}
         macroName="Verduras"

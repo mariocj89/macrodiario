@@ -22,49 +22,43 @@ DEFAULT_MAX_TAKES = {
 
 const reducer = (state, action) => {
   console.log("Action: ", action, state);
-  var takes = state.takes === null ? DEFAULT_TAKES : { ...state.takes };
-  var maxTakes =
-    state.maxTakes === null ? DEFAULT_MAX_TAKES : { ...state.maxTakes };
   const date = new Date(state.date);
-  var macro;
+  var takes = state.dayData ? { ...state.dayData.takes } : null;
+  var maxTakes = state.dayData ? { ...state.dayData.maxTakes } : null;
   switch (action.type) {
     case "take":
-      macro = action.payload;
-      takes[macro] += 1;
+      takes[action.payload] += 1;
       Storage.saveDayTakes(date, takes);
-      return { ...state, takes: takes };
+      return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
     case "untake":
-      macro = action.payload;
-      takes[macro] -= 1;
+      takes[action.payload] -= 1;
       Storage.saveDayTakes(date, takes);
-      return { ...state, takes: takes };
-    case "load_takes":
-      return { ...state, takes: { ...takes, ...action.payload } };
-    case "load_max_takes":
-      return { ...state, maxTakes: { ...maxTakes, ...action.payload } };
+      return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
+    case "load_day_data":
+      return { ...state, dayData: action.payload };
     case "set_max_takes":
       maxTakes = { ...maxTakes, ...action.payload };
-      Storage.saveMaxTakes(maxTakes);
-      return { ...state, maxTakes: maxTakes };
+      Storage.saveMaxTakes(date, maxTakes);
+      return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
     case "incDay":
       date.setDate(date.getDate() + 1);
-      return { ...state, date: date, takes: null };
+      return { ...state, date: date, dayData: null };
     case "decDay":
       date.setDate(date.getDate() - 1);
-      return { ...state, date: date, takes: null };
+      return { ...state, date: date, dayData: null };
     default:
       console.warn("Unexpected action: ", action);
       return state;
   }
 };
 
-const loadTakes = async (day, dispatch) => {
+const loadDayData = async (day, dispatch) => {
+  const maxTakes = await Storage.getMaxTakes(day);
   const takes = await Storage.getDayTakes(day);
-  dispatch({ type: "load_takes", payload: takes });
-};
-const loadMaxTakes = async (dispatch) => {
-  const maxTakes = await Storage.getMaxTakes();
-  dispatch({ type: "load_max_takes", payload: maxTakes });
+  dispatch({
+    type: "load_day_data",
+    payload: { takes: takes, maxTakes: maxTakes },
+  });
 };
 
 const today = () => {
@@ -73,22 +67,27 @@ const today = () => {
   return defaultDate;
 };
 
+const isDateToday = (date) => {
+  const diffTime = Math.abs(today() - date);
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays < 1;
+};
+
 const DayInputScreen = ({ navigation }) => {
   const defaultState = {
     date: today(),
-    maxTakes: null,
-    takes: null,
+    dayData: null,
   };
   const [state, dispatch] = useReducer(reducer, defaultState);
   const date = state.date;
-  if (state.takes === null) {
-    loadTakes(date, dispatch);
+  var dayData = state.dayData;
+  if (state.dayData === null) {
+    loadDayData(date, dispatch);
+    dayData = { takes: null, maxTakes: null }; // Allow to load to prevent blinking
   }
-  if (state.maxTakes === null) {
-    loadMaxTakes(dispatch);
-  }
-  const takes = state.takes ?? DEFAULT_TAKES;
-  const maxTakes = state.maxTakes ?? DEFAULT_MAX_TAKES;
+  const isToday = isDateToday(date);
+  const takes = dayData.takes ?? DEFAULT_TAKES;
+  const maxTakes = dayData.maxTakes ?? DEFAULT_MAX_TAKES;
   const fruitsEnabled = maxTakes.fruits > 0;
 
   return (
@@ -103,10 +102,19 @@ const DayInputScreen = ({ navigation }) => {
           />
         </View>
         <View style={styles.controlHeader}>
-          <TouchableOpacity onPress={()=>{navigation.navigate("Config", {maxTakes: maxTakes, dispatch: dispatch})}}>
+          <TouchableOpacity
+            disabled={!isToday}
+            onPress={() => {
+              navigation.navigate("Config", {
+                maxTakes: maxTakes,
+                dispatch: dispatch,
+              });
+            }}
+          >
             <MaterialCommunityIcons
               style={styles.controlButton}
-              name="cog"
+              color={isToday ? "black" : "grey"}
+              name={isToday ? "cog" : "cog-off"}
               size={25}
             />
           </TouchableOpacity>
@@ -121,7 +129,11 @@ const DayInputScreen = ({ navigation }) => {
       </View>
       <ScrollView style={styles.macroContainers}>
         <MacroInput
-          macroTitle={fruitsEnabled? "Verduras y Hortalizas": "Verduras, Frutas y Hortalizas"}
+          macroTitle={
+            fruitsEnabled
+              ? "Verduras y Hortalizas"
+              : "Verduras, Frutas y Hortalizas"
+          }
           macroSubtitle=""
           marcoImage={require("../../assets/macro-vegetables.png")}
           currentTakes={takes.vegetables}
@@ -156,17 +168,17 @@ const DayInputScreen = ({ navigation }) => {
           onTake={() => dispatch({ type: "take", payload: "fats" })}
           onUntake={() => dispatch({ type: "untake", payload: "fats" })}
         />
-        {
-        fruitsEnabled? <MacroInput
-          macroTitle="Frutas"
-          macroSubtitle=""
-          marcoImage={require("../../assets/macro-fruits.png")}
-          currentTakes={takes.fruits}
-          maxTakes={maxTakes.fruits}
-          onTake={() => dispatch({ type: "take", payload: "fruits" })}
-          onUntake={() => dispatch({ type: "untake", payload: "fruits" })}
-        />: null
-        }
+        {fruitsEnabled ? (
+          <MacroInput
+            macroTitle="Frutas"
+            macroSubtitle=""
+            marcoImage={require("../../assets/macro-fruits.png")}
+            currentTakes={takes.fruits}
+            maxTakes={maxTakes.fruits}
+            onTake={() => dispatch({ type: "take", payload: "fruits" })}
+            onUntake={() => dispatch({ type: "untake", payload: "fruits" })}
+          />
+        ) : null}
         <View style={{ height: 150 }} />
       </ScrollView>
     </>
