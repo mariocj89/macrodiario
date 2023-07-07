@@ -1,10 +1,8 @@
 import { StyleSheet, View, ScrollView, Text } from "react-native";
-import { useState } from "react";
 import MaxInput from "../components/MaxInput";
 
-const ConfigScreen = ({ navigation }) => {
-  const maxTakes = navigation.getParam("maxTakes");
-  const dispatch = navigation.getParam("dispatch");
+const ConfigScreen = ({ route }) => {
+  const { maxTakes, dispatch } = route.params;
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>Raciones diarias:</Text>

@@ -62,8 +62,7 @@ const loadDayData = async (day, dispatch) => {
 };
 
 
-const DayInputScreen = ({ navigation }) => {
-  const inputDate = navigation.getParam("date");
+const DayInputScreen = ({ navigation, route }) => {
   const defaultState = {
     date: DateStr.today(),
     dayData: null,

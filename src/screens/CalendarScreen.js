@@ -88,8 +88,8 @@ const makeMarkedDay = (dayData) => {
   };
 };
 
-const CalendarScreen = ({ navigation }) => {
-  const onDayChange = navigation.getParam("onDayChange");
+const CalendarScreen = ({ navigation, route }) => {
+  const {onDayChange} = route.params;
   const [markedDays, setMarkedDays] = useState({});
   useEffect(() => {
     loadMonthData(2023, 6, setMarkedDays);
