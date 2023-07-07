@@ -89,10 +89,14 @@ const makeMarkedDay = (dayData) => {
 };
 
 const CalendarScreen = ({ navigation, route }) => {
-  const {onDayChange} = route.params;
+  const { onDayChange } = route.params;
   const [markedDays, setMarkedDays] = useState({});
   useEffect(() => {
-    loadMonthData(2023, 6, setMarkedDays);
+    loadMonthData(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      setMarkedDays
+    );
   }, []);
   return (
     <>
@@ -102,6 +106,10 @@ const CalendarScreen = ({ navigation, route }) => {
         onDayPress={(date) => {
           onDayChange(DateStr.dateToStr(new Date(date.dateString)));
           navigation.navigate("DayInput");
+        }}
+        onMonthChange={(date) => {
+          setMarkedDays({});
+          loadMonthData(date.year, date.month - 1, setMarkedDays);
         }}
         disabledByDefault
         disableAllTouchEventsForDisabledDays
