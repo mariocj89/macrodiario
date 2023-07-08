@@ -59,6 +59,13 @@ const loadDayData = async (day, dispatch) => {
       maxTakes: maxTakes ?? DEFAULT_MAX_TAKES,
     },
   });
+  if (maxTakes === null) {
+    // First time setup
+    // User might rely on the default values, so we need to save them.
+    // otherwise the calendar screen will fail to load, as we expect
+    // loadMaxTakes to always return something
+    Storage.saveMaxTakes(day, DEFAULT_MAX_TAKES);
+  }
 };
 
 

@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#abe45b"
       },
-      "package": "com.macrodiario",
+      "package": "com.macrodiario2",
       "versionCode": 2
     },
     "web": {
@@ -35,7 +35,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "8c1e21a4-e82d-40db-b585-7dea033f0930"
+        "projectId": "aedb2798-dae1-4090-b99e-e14caf6bac80"
       }
     },
     "owner": "etcaterva"
