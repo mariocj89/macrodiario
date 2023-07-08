@@ -51,7 +51,6 @@ const loadMonthData = async (year, month, action) => {
   const monthData = await Storage.getMonthData(year, month);
   var result = {};
   for (const [date, dayData] of Object.entries(monthData)) {
-    console.log("Setting ", date, dayData);
     result[date] = makeMarkedDay(dayData);
   }
   action(result);
