@@ -5,6 +5,7 @@ import MacroInput from "../components/MacroInput";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Storage from "../storage";
 import DateStr from "../dateStr";
+import useDayState from "../hooks/useDayState";
 
 DEFAULT_TAKES = {
   vegetables: 0,
@@ -21,33 +22,6 @@ DEFAULT_MAX_TAKES = {
   fruits: 0,
 };
 
-const reducer = (state, action) => {
-  console.log("Action: ", action, state);
-  const date = state.date;
-  var takes = state.dayData ? { ...state.dayData.takes } : null;
-  var maxTakes = state.dayData ? { ...state.dayData.maxTakes } : null;
-  switch (action.type) {
-    case "take":
-      takes[action.payload] += 1;
-      Storage.saveDayTakes(date, takes);
-      return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
-    case "untake":
-      takes[action.payload] -= 1;
-      Storage.saveDayTakes(date, takes);
-      return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
-    case "load_day_data":
-      return { ...state, dayData: action.payload };
-    case "set_max_takes":
-      maxTakes = { ...maxTakes, ...action.payload };
-      Storage.saveMaxTakes(date, maxTakes);
-      return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
-    case "set_day":
-      return { ...state, date: action.payload, dayData: null };
-    default:
-      console.warn("Unexpected action: ", action);
-      return state;
-  }
-};
 
 const loadDayData = async (day, dispatch) => {
   const maxTakes = await Storage.getMaxTakes(day);
@@ -70,11 +44,7 @@ const loadDayData = async (day, dispatch) => {
 
 
 const DayInputScreen = ({ navigation, route }) => {
-  const defaultState = {
-    date: DateStr.today(),
-    dayData: null,
-  };
-  const [state, dispatch] = useReducer(reducer, defaultState);
+  const [state, dispatch] = useDayState();
   const date = state.date;
   var dayData = state.dayData;
   if (state.dayData === null) {

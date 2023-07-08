@@ -27,7 +27,7 @@ const DayPicker = ({ date, onDayChange }) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Calendar", { onDayChange })}
+        onPress={() => navigation.navigate("Calendar")}
       >
         <MaterialCommunityIcons
           style={styles.controlButton}

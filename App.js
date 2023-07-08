@@ -13,20 +13,24 @@ export default function App() {
         screenOptions={{
           headerTitle: "Macro Diario",
           headerStyle: { backgroundColor: "rgba(183,226,111,5)" },
+          headerBackTitle: "Volver",
         }}
-        headerBackTitle="Volver"
       >
         <Stack.Screen name="DayInput" component={DayInputScreen} />
         <Stack.Screen
           name="Config"
           component={ConfigScreen}
-          title="Configuración"
-          headerBackTitle="Guardar"
+          options={{
+            headerTitle:"Configuración",
+            headerBackTitle: "Guardar",
+          }}
         />
         <Stack.Screen
           name="Calendar"
           component={CalendarScreen}
-          title="Calendario"
+          options={{
+            headerTitle:"Calendario"
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
