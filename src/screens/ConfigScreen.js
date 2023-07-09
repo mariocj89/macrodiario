@@ -1,53 +1,54 @@
-import { StyleSheet, View, ScrollView, Text, useContext } from "react-native";
+import { React, useContext } from "react";
+import { StyleSheet, View, ScrollView, Text } from "react-native";
 import MaxInput from "../components/MaxInput";
 import StateContext from "../context/stateProvider";
 
-const ConfigScreen = ({ route }) => {
+const ConfigScreen = () => {
   const [state, manager] = useContext(StateContext);
   const maxTakes = state.dayData.maxTakes;
+  const macroConfigInputs = [
+    {
+      title: "Verduras",
+      key: "vegetables",
+      image: require("../../assets/macro-vegetables.png"),
+    },
+    {
+      title: "Proteinas",
+      key: "proteins",
+      image: require("../../assets/macro-proteins.png"),
+    },
+    {
+      title: "Carbohidratos",
+      key: "carbs",
+      image: require("../../assets/macro-carbs.png"),
+    },
+    {
+      title: "Grasas",
+      key: "fats",
+      image: require("../../assets/macro-fats.png"),
+    },
+    {
+      title: "Fruta",
+      key: "fruits",
+      image: require("../../assets/macro-fruits.png"),
+    },
+  ];
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>Raciones diarias:</Text>
-      <MaxInput
-        macroImage={require("../../assets/macro-vegetables.png")}
-        macroName="Verduras"
-        value={maxTakes.vegetables}
-        onUpdateValue={(newValue) => {
-          manager.setMaxTakes({ vegetables: newValue });
-        }}
-      />
-      <MaxInput
-        macroImage={require("../../assets/macro-proteins.png")}
-        macroName="Proteinas"
-        value={maxTakes.proteins}
-        onUpdateValue={(newValue) => {
-          manager.setMaxTakes({ proteins: newValue });
-        }}
-      />
-      <MaxInput
-        macroImage={require("../../assets/macro-carbs.png")}
-        macroName={"Carbohidratos"}
-        value={maxTakes.carbs}
-        onUpdateValue={(newValue) => {
-          manager.setMaxTakes({ carbs: newValue });
-        }}
-      />
-      <MaxInput
-        macroImage={require("../../assets/macro-fats.png")}
-        macroName="Grasas"
-        value={maxTakes.fats}
-        onUpdateValue={(newValue) => {
-          manager.setMaxTakes({ fats: newValue });
-        }}
-      />
-      <MaxInput
-        macroImage={require("../../assets/macro-fruits.png")}
-        macroName="Fruta"
-        value={maxTakes.fruits}
-        onUpdateValue={(newValue) => {
-          manager.setMaxTakes({ fruits: newValue });
-        }}
-      />
+      {macroConfigInputs.map(({ title, key, image }) => {
+        return (
+          <MaxInput
+            macroImage={image}
+            key={key}
+            macroName={title}
+            value={maxTakes[key]}
+            onUpdateValue={(newValue) => {
+              manager.setMaxTakes({ [key]: newValue });
+            }}
+          />
+        );
+      })}
       <View style={{ height: 150 }} />
     </ScrollView>
   );

@@ -1,4 +1,4 @@
-import {React, useContext} from "react";
+import { React, useContext } from "react";
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import DayPicker from "../components/DayPicker";
 import MacroInput from "../components/MacroInput";
@@ -25,6 +25,43 @@ const DayInputScreen = ({ navigation }) => {
       [macro]: takes[macro] - 1,
     });
   };
+
+  const macroInputs = [
+    {
+      title: fruitsEnabled
+        ? "Verduras y Hortalizas"
+        : "Verduras, Frutas y Hortalizas",
+      subtitle: "",
+      key: "vegetables",
+      image: require("../../assets/macro-vegetables.png"),
+    },
+    {
+      title: "Proteinas",
+      subtitle: "Carne, pescado y huevos",
+      key: "proteins",
+      image: require("../../assets/macro-proteins.png"),
+    },
+    {
+      title: "Carbohidratos",
+      subtitle: "Pan, pasta, patata, arroz, legumbres",
+      key: "carbs",
+      image: require("../../assets/macro-carbs.png"),
+    },
+    {
+      title: "Grasas",
+      subtitle: "Aceite, yougurt, aguacate, frutos secos",
+      key: "fats",
+      image: require("../../assets/macro-fats.png"),
+    },
+  ];
+  if (fruitsEnabled) {
+    macroInputs.push({
+      title: "Frutas",
+      subtitle: "",
+      key: "fruits",
+      image: require("../../assets/macro-fruits.png"),
+    });
+  }
 
   return (
     <>
@@ -58,57 +95,20 @@ const DayInputScreen = ({ navigation }) => {
         </View>
       </View>
       <ScrollView style={styles.macroContainers}>
-        <MacroInput
-          macroTitle={
-            fruitsEnabled
-              ? "Verduras y Hortalizas"
-              : "Verduras, Frutas y Hortalizas"
-          }
-          macroSubtitle=""
-          marcoImage={require("../../assets/macro-vegetables.png")}
-          currentTakes={takes.vegetables}
-          maxTakes={maxTakes.vegetables}
-          onTake={() => incTakes("vegetables")}
-          onUntake={() => decTakes("vegetables")}
-        />
-        <MacroInput
-          macroTitle="Proteinas"
-          macroSubtitle="Carne, pescado y huevos"
-          marcoImage={require("../../assets/macro-proteins.png")}
-          currentTakes={takes.proteins}
-          maxTakes={maxTakes.proteins}
-          onTake={() => incTakes("proteins")}
-          onUntake={() => decTakes("proteins")}
-        />
-        <MacroInput
-          macroTitle="Carbohidratos"
-          macroSubtitle="Pan, pasta, patata, arroz, legumbres"
-          marcoImage={require("../../assets/macro-carbs.png")}
-          currentTakes={takes.carbs}
-          maxTakes={maxTakes.carbs}
-          onTake={() => incTakes("carbs")}
-          onUntake={() => decTakes("carbs")}
-        />
-        <MacroInput
-          macroTitle="Grasas"
-          macroSubtitle="Aceite, yogurt, frutos secos"
-          marcoImage={require("../../assets/macro-fats.png")}
-          currentTakes={takes.fats}
-          maxTakes={maxTakes.fats}
-          onTake={() => incTakes("fats")}
-          onUntake={() => decTakes("fats")}
-        />
-        {fruitsEnabled ? (
-          <MacroInput
-            macroTitle="Frutas"
-            macroSubtitle=""
-            marcoImage={require("../../assets/macro-fruits.png")}
-            currentTakes={takes.fruits}
-            maxTakes={maxTakes.fruits}
-            onTake={() => incTakes("fruits")}
-            onUntake={() => decTakes("fruits")}
-          />
-        ) : null}
+        {macroInputs.map(({ title, subtitle, image, key }) => {
+          return (
+            <MacroInput
+              key={key}
+              macroTitle={title}
+              macroSubtitle={subtitle}
+              marcoImage={image}
+              currentTakes={takes[key]}
+              maxTakes={maxTakes[key]}
+              onTake={() => incTakes(key)}
+              onUntake={() => decTakes(key)}
+            />
+          );
+        })}
         <View style={{ height: 150 }} />
       </ScrollView>
     </>
