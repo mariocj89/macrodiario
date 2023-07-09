@@ -8,6 +8,7 @@ DEFAULT_TAKES = {
   carbs: 0,
   fats: 0,
   fruits: 0,
+  water: 0,
 };
 DEFAULT_MAX_TAKES = {
   vegetables: 7,
@@ -15,6 +16,7 @@ DEFAULT_MAX_TAKES = {
   carbs: 5,
   fats: 3,
   fruits: 0,
+  water: 0,
 };
 const defaultState = {
   date: DateStr.today(),

@@ -14,6 +14,7 @@ const DayInputScreen = ({ navigation }) => {
   const takes = dayData.takes;
   const maxTakes = dayData.maxTakes;
   const fruitsEnabled = maxTakes.fruits > 0;
+  const waterEnabled = maxTakes.water > 0;
 
   const incTakes = (macro) => {
     manager.setTakes({
@@ -60,6 +61,14 @@ const DayInputScreen = ({ navigation }) => {
       subtitle: "",
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
+    });
+  }
+  if (waterEnabled) {
+    macroInputs.push({
+      title: "Agua",
+      subtitle: "",
+      key: "water",
+      image: require("../../assets/macro-water.png"),
     });
   }
 

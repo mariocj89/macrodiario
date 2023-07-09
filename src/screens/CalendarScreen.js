@@ -72,13 +72,8 @@ const color = (takes, maxTakes) => {
 const makeMarkedDay = (dayData) => {
   const takes = dayData.takes;
   const maxTakes = dayData.maxTakes;
-  const dots = [
-    color(takes.vegetables, maxTakes.vegetables),
-    color(takes.proteins, maxTakes.proteins),
-    color(takes.carbs, maxTakes.carbs),
-    color(takes.fats, maxTakes.fats),
-    color(takes.fruits, maxTakes.fruits),
-  ];
+  const macros = ["vegetables", "proteins", "carbs", "fats", "fruits", "water"];
+  const dots = macros.map((macro) => color(takes[macro], maxTakes[macro]));
   return {
     dots: dots
       .filter((n) => n)

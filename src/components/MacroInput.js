@@ -48,7 +48,7 @@ const MacroInput = ({
     <ElevatedView style={styles.container} elevation={5}>
       <View style={styles.header}>
         <View style={styles.imageContainer}>
-          <Image source={marcoImage} />
+          <Image source={marcoImage} style={styles.image} />
         </View>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{macroTitle}</Text>
@@ -101,6 +101,10 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#d3fdd8",
     borderRadius: 15,
+  },
+  image: {
+    width: 40,
+    height: 40,
   },
   inputsContainer: {
     padding: 5,

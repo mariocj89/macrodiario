@@ -32,6 +32,11 @@ const ConfigScreen = () => {
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
     },
+    {
+      title: "Agua",
+      key: "water",
+      image: require("../../assets/macro-water.png"),
+    },
   ];
   return (
     <ScrollView style={styles.container}>
