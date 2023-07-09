@@ -1,11 +1,9 @@
-import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Text, useContext } from "react-native";
 import MaxInput from "../components/MaxInput";
-import useDayState from "../hooks/useDayState";
 import StateContext from "../context/stateProvider";
-import { useContext } from "react";
 
 const ConfigScreen = ({ route }) => {
-  const [state, manager] = useContext(StateContext)
+  const [state, manager] = useContext(StateContext);
   const maxTakes = state.dayData.maxTakes;
   return (
     <ScrollView style={styles.container}>

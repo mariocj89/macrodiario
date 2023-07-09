@@ -1,16 +1,13 @@
-import React, { useReducer } from "react";
+import {React, useContext} from "react";
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import DayPicker from "../components/DayPicker";
 import MacroInput from "../components/MacroInput";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Storage from "../storage";
 import DateStr from "../dateStr";
-import useDayState from "../hooks/useDayState";
 import StateContext from "../context/stateProvider";
-import { useContext } from "react";
 
-const DayInputScreen = ({ navigation}) => {
-  const [state, manager] = useContext(StateContext)
+const DayInputScreen = ({ navigation }) => {
+  const [state, manager] = useContext(StateContext);
   const date = state.date;
   const dayData = state.dayData;
   const isToday = date === DateStr.today();

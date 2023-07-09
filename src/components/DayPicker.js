@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateStr from "../dateStr";
 import { useNavigation } from "@react-navigation/native";
@@ -26,9 +26,7 @@ const DayPicker = ({ date, onDayChange }) => {
           size={30}
         />
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Calendar")}
-      >
+      <TouchableOpacity onPress={() => navigation.navigate("Calendar")}>
         <MaterialCommunityIcons
           style={styles.controlButton}
           name="calendar-month"

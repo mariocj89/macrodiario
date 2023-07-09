@@ -1,13 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateStr from "./dateStr";
 
-const dateToKey = (date) => {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDay() + 1).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
-
 const save = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(value));
@@ -55,10 +48,10 @@ const getMonthData = async (year, month) => {
     }
     const takes = await getDayTakes(DateStr.dateToStr(date));
     if (takes === null) {
-      continue
+      continue;
     }
     const maxTakes = await getMaxTakes(DateStr.dateToStr(date));
-    result[DateStr.dateToStr(date)] = {maxTakes, takes}
+    result[DateStr.dateToStr(date)] = { maxTakes, takes };
   }
   return result;
 };

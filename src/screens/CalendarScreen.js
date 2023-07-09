@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { StyleSheet } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import Storage from "../storage";
 import DateStr from "../dateStr";
 import StateContext from "../context/stateProvider";
-import { useContext } from "react";
 
 LocaleConfig.locales["es"] = {
   monthNames: [
@@ -68,7 +67,7 @@ const color = (takes, maxTakes) => {
   if (takes > maxTakes) {
     return "red";
   }
-  return "#e3df00";
+  return "#ffea00";
 };
 const makeMarkedDay = (dayData) => {
   const takes = dayData.takes;
@@ -97,7 +96,7 @@ const CalendarScreen = ({ navigation }) => {
     loadMonthData(
       new Date(state.date).getFullYear(),
       new Date(state.date).getMonth(),
-      setMarkedDays
+      setMarkedDays,
     );
   }, []);
   return (

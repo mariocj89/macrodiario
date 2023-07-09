@@ -29,11 +29,7 @@ const MaxInput = ({ macroImage, macroName, value, onUpdateValue }) => {
               updateValue(macroValue - 1);
             }}
           >
-            <MaterialCommunityIcons
-              name="minus"
-              size={45}
-              color="green"
-            />
+            <MaterialCommunityIcons name="minus" size={45} color="green" />
           </TouchableOpacity>
           <TextInput
             keyboardType="numeric"
@@ -54,11 +50,7 @@ const MaxInput = ({ macroImage, macroName, value, onUpdateValue }) => {
               updateValue(macroValue + 1);
             }}
           >
-            <MaterialCommunityIcons
-              name="plus"
-              size={45}
-              color="green"
-            />
+            <MaterialCommunityIcons name="plus" size={45} color="green" />
           </TouchableOpacity>
         </View>
       </View>
@@ -78,7 +70,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     justifyContent: "space-between",
-    flex:1,
+    flex: 1,
   },
   title: {
     fontWeight: "bold",
