@@ -1,42 +1,64 @@
 import DateStr from "../dateStr";
-import { useReducer } from "react";
+import { useState, useEffect } from "react";
 import Storage from "../storage";
 
-const reducer = (state, action) => {
-  console.log("Action: ", action, state);
-  const date = state.date;
-  var takes = state.dayData ? { ...state.dayData.takes } : null;
-  var maxTakes = state.dayData ? { ...state.dayData.maxTakes } : null;
-  switch (action.type) {
-    case "take":
-      takes[action.payload] += 1;
-      Storage.saveDayTakes(date, takes);
-      return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
-    case "untake":
-      takes[action.payload] -= 1;
-      Storage.saveDayTakes(date, takes);
-      return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
-    case "load_day_data":
-      return { ...state, dayData: action.payload };
-    case "set_max_takes":
-      maxTakes = { ...maxTakes, ...action.payload };
-      Storage.saveMaxTakes(date, maxTakes);
-      return { ...state, dayData: { takes: takes, maxTakes: maxTakes } };
-    case "set_day":
-      return { ...state, date: action.payload, dayData: null };
-    default:
-      console.warn("Unexpected action: ", action);
-      return state;
-  }
+DEFAULT_TAKES = {
+  vegetables: 0,
+  proteins: 0,
+  carbs: 0,
+  fats: 0,
+  fruits: 0,
+};
+DEFAULT_MAX_TAKES = {
+  vegetables: 7,
+  proteins: 6,
+  carbs: 5,
+  fats: 3,
+  fruits: 0,
 };
 const defaultState = {
   date: DateStr.today(),
-  dayData: null,
+  dayData: {
+    takes: DEFAULT_TAKES,
+    maxTakes: DEFAULT_MAX_TAKES,
+  },
+};
+const loadDayData = async (day) => {
+  const maxTakes = await Storage.getMaxTakes(day);
+  const takes = await Storage.getDayTakes(day);
+  return {
+    takes: { ...DEFAULT_TAKES, ...takes },
+    maxTakes: { ...DEFAULT_MAX_TAKES, ...maxTakes },
+  };
 };
 const useDayState = () => {
-  const [state, dispatch] = useReducer(reducer, defaultState);
-  return [state, dispatch];
+  const [state, setState] = useState(defaultState);
+  useEffect(() => {
+    loadDayData(state.date).then((dayData) => {
+      console.log("Initial day load for ", state.date, " with", dayData);
+      setState({ ...state, dayData });
+    });
+  }, []);
+  const stateManager = {
+    setDay: async (date) => {
+      const dayData = await loadDayData(date);
+      console.log("Updating day to", date, "with data:", dayData);
+      setState({ ...state, date, dayData });
+    },
+    setMaxTakes: (maxTakesDelta) => {
+      console.log("Updating", state.date, " maxTakes with", maxTakesDelta);
+      const maxTakes = { ...state.dayData.maxTakes, ...maxTakesDelta };
+      Storage.saveMaxTakes(state.date, maxTakes);
+      setState({ ...state, dayData: { ...state.dayData, maxTakes: maxTakes } });
+    },
+    setTakes: (takesDelta) => {
+      console.log("Updating", state.date, " takes with", takesDelta);
+      const takes = { ...state.dayData.takes, ...takesDelta };
+      Storage.saveDayTakes(state.date, takes);
+      setState({ ...state, dayData: { ...state.dayData, takes: takes } });
+    },
+  };
+  return [state, stateManager];
 };
-
 
 export default useDayState;

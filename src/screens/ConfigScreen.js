@@ -1,8 +1,12 @@
 import { StyleSheet, View, ScrollView, Text } from "react-native";
 import MaxInput from "../components/MaxInput";
+import useDayState from "../hooks/useDayState";
+import StateContext from "../context/stateProvider";
+import { useContext } from "react";
 
 const ConfigScreen = ({ route }) => {
-  const { maxTakes, dispatch } = route.params;
+  const [state, manager] = useContext(StateContext)
+  const maxTakes = state.dayData.maxTakes;
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>Raciones diarias:</Text>
@@ -11,11 +15,7 @@ const ConfigScreen = ({ route }) => {
         macroName="Verduras"
         value={maxTakes.vegetables}
         onUpdateValue={(newValue) => {
-          const maxTakesDelta = { vegetables: newValue };
-          dispatch({
-            type: "set_max_takes",
-            payload: maxTakesDelta,
-          });
+          manager.setMaxTakes({ vegetables: newValue });
         }}
       />
       <MaxInput
@@ -23,11 +23,7 @@ const ConfigScreen = ({ route }) => {
         macroName="Proteinas"
         value={maxTakes.proteins}
         onUpdateValue={(newValue) => {
-          const maxTakesDelta = { proteins: newValue };
-          dispatch({
-            type: "set_max_takes",
-            payload: maxTakesDelta,
-          });
+          manager.setMaxTakes({ proteins: newValue });
         }}
       />
       <MaxInput
@@ -35,11 +31,7 @@ const ConfigScreen = ({ route }) => {
         macroName={"Carbohidratos"}
         value={maxTakes.carbs}
         onUpdateValue={(newValue) => {
-          const maxTakesDelta = { carbs: newValue };
-          dispatch({
-            type: "set_max_takes",
-            payload: maxTakesDelta,
-          });
+          manager.setMaxTakes({ carbs: newValue });
         }}
       />
       <MaxInput
@@ -47,11 +39,7 @@ const ConfigScreen = ({ route }) => {
         macroName="Grasas"
         value={maxTakes.fats}
         onUpdateValue={(newValue) => {
-          const maxTakesDelta = { fats: newValue };
-          dispatch({
-            type: "set_max_takes",
-            payload: maxTakesDelta,
-          });
+          manager.setMaxTakes({ fats: newValue });
         }}
       />
       <MaxInput
@@ -59,11 +47,7 @@ const ConfigScreen = ({ route }) => {
         macroName="Fruta"
         value={maxTakes.fruits}
         onUpdateValue={(newValue) => {
-          const maxTakesDelta = { fruits: newValue };
-          dispatch({
-            type: "set_max_takes",
-            payload: maxTakesDelta,
-          });
+          manager.setMaxTakes({ fruits: newValue });
         }}
       />
       <View style={{ height: 150 }} />

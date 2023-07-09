@@ -3,7 +3,8 @@ import { StyleSheet } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import Storage from "../storage";
 import DateStr from "../dateStr";
-import useDayState from "../hooks/useDayState";
+import StateContext from "../context/stateProvider";
+import { useContext } from "react";
 
 LocaleConfig.locales["es"] = {
   monthNames: [
@@ -90,7 +91,7 @@ const makeMarkedDay = (dayData) => {
 };
 
 const CalendarScreen = ({ navigation }) => {
-  const [state, dispatch] = useDayState();
+  const [state, manager] = useContext(StateContext)
   const [markedDays, setMarkedDays] = useState({});
   useEffect(() => {
     loadMonthData(
@@ -106,7 +107,7 @@ const CalendarScreen = ({ navigation }) => {
         markedDates={markedDays}
         onDayPress={(date) => {
           const newDate = DateStr.dateToStr(new Date(date.dateString));
-          dispatch({ type: "set_day", payload: newDate });
+          manager.setDay(newDate);
           navigation.navigate("DayInput");
         }}
         onMonthChange={(date) => {
