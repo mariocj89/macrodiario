@@ -91,12 +91,12 @@ const makeMarkedDay = (dayData) => {
 };
 
 const CalendarScreen = ({ navigation }) => {
-  const [state, manager] = useContext(StateContext)
+  const [state, manager] = useContext(StateContext);
   const [markedDays, setMarkedDays] = useState({});
   useEffect(() => {
     loadMonthData(
-      new Date().getFullYear(),
-      new Date().getMonth(),
+      new Date(state.date).getFullYear(),
+      new Date(state.date).getMonth(),
       setMarkedDays
     );
   }, []);
@@ -105,6 +105,9 @@ const CalendarScreen = ({ navigation }) => {
       <Calendar
         markingType="multi-dot"
         markedDates={markedDays}
+        initialDate={state.date}
+        hideExtraDays={true}
+        theme={{ selectedDayBackgroundColor: "white" }}
         onDayPress={(date) => {
           const newDate = DateStr.dateToStr(new Date(date.dateString));
           manager.setDay(newDate);
