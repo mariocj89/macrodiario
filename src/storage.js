@@ -31,7 +31,9 @@ const getMaxTakes = async (date) => {
   if (maxTakes !== null) {
     return maxTakes;
   }
-  return get("maxTakes");
+  const newMaxTakes = await get("maxTakes");
+  saveMaxTakes(date, newMaxTakes);
+  return newMaxTakes;
 };
 
 const saveMaxTakes = async (date, maxTakes) => {
