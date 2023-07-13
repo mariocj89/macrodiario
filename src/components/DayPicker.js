@@ -10,7 +10,8 @@ const DayPicker = ({ date, onDayChange }) => {
   const day = jsDate.toLocaleDateString("es-ES", { day: "numeric" });
   const month = jsDate.toLocaleDateString("es-ES", { month: "short" });
   var dateStr = `${day} / ${month[0].toUpperCase() + month.slice(1)}`;
-  if (date == DateStr.today()) {
+  const isToday = date == DateStr.today();
+  if (isToday) {
     dateStr = "Hoy";
   } else if (date === DateStr.decDay(DateStr.today())) {
     dateStr = "Ayer";
@@ -33,15 +34,17 @@ const DayPicker = ({ date, onDayChange }) => {
           size={25}
         />
       </TouchableOpacity>
-      {dateStr === "Hoy" ? null : (
-        <TouchableOpacity onPress={() => onDayChange(DateStr.incDay(date))}>
-          <MaterialCommunityIcons
-            style={styles.controlButton}
-            name="chevron-right"
-            size={30}
-          />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity
+        onPress={() => onDayChange(DateStr.incDay(date))}
+        disabled={isToday}
+      >
+        <MaterialCommunityIcons
+          style={styles.controlButton}
+          name="chevron-right"
+          size={30}
+          color={isToday ? "grey" : "black"}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
