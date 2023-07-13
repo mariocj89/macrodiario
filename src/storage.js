@@ -48,7 +48,7 @@ const getDayTakes = async (date) => {
 
 
 const getDayTakesOrDefault = async (date) => {
-  const takes = await get(`takes/${date}`);
+  const takes = await getDayTakes(date);
   return {...DEFAULT_TAKES, ...takes}
 };
 
@@ -58,17 +58,25 @@ const getDefaultMaxTakes = async () => {
 };
 
 const getMaxTakes = async (date) => {
-  const maxTakes = await get(`maxTakes/${date}`);
-  if (maxTakes !== null) {
-    return {...DEFAULT_MAX_TAKES, ...maxTakes};
-  }
-  return getDefaultMaxTakes();
+  return get(`maxTakes/${date}`);
 };
 
 const saveMaxTakes = async (date, maxTakes) => {
   save("maxTakes", maxTakes); // for all future configs
   save(`maxTakes/${date}`, maxTakes);
 };
+
+// If unset, sets the maxTakes for a day according to
+// the configured global Max Takes
+const ensureMaxTakes = async (date) => {
+  const dayMaxTakes = await getMaxTakes(date);
+  if (dayMaxTakes !== null) {
+    return;
+  }
+  console.log("Setting maxTakes from default for", date);
+  const defaultMaxTakes = await getDefaultMaxTakes();
+  saveMaxTakes(date, defaultMaxTakes);
+}
 
 const getMonthData = async (year, month) => {
   const result = {};
@@ -82,6 +90,10 @@ const getMonthData = async (year, month) => {
       continue;
     }
     const maxTakes = await getMaxTakes(DateStr.dateToStr(date));
+    if (maxTakes === null) {  // This should never happen
+      console.error(DateStr.dateToStr(date), "has takes but not maxTakes set, ignoring")
+      continue;
+    }
     result[DateStr.dateToStr(date)] = { maxTakes, takes };
   }
   return result;
@@ -89,11 +101,11 @@ const getMonthData = async (year, month) => {
 
 const Storage = {
   saveDayTakes: saveDayTakes,
-  getDayTakes: getDayTakes,
   getDayTakesOrDefault: getDayTakesOrDefault,
-  getMaxTakes: getMaxTakes,
   saveMaxTakes: saveMaxTakes,
+  getMaxTakes: getMaxTakes,
   getMonthData: getMonthData,
+  ensureMaxTakes: ensureMaxTakes,
 };
 
 export default Storage;

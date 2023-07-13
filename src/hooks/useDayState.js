@@ -10,6 +10,8 @@ const loadDayData = async (day) => {
     maxTakes: maxTakes,
   };
 };
+
+
 const useDayState = () => {
   const [state, setState] = useState({ date: DateStr.today(), dayData: null });
   useEffect(() => {
@@ -20,6 +22,7 @@ const useDayState = () => {
   }, []);
   const stateManager = {
     setDay: async (date) => {
+      await Storage.ensureMaxTakes(date);
       const dayData = await loadDayData(date);
       console.log("Updating day to", date, "with data:", dayData);
       setState({ ...state, date, dayData });
