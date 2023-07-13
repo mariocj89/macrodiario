@@ -1,10 +1,11 @@
-import { StyleSheet } from "react-native";
+import { Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import DayInputScreen from "./src/screens/DayInputScreen";
 import ConfigScreen from "./src/screens/ConfigScreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
 import { StateProvider } from "./src/context/stateProvider";
+import HelpScreen from "./src/screens/HelpScreen";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -22,7 +23,25 @@ export default function App() {
             headerBackTitle: "Volver",
           }}
         >
-          <Stack.Screen name="DayInput" component={DayInputScreen} />
+          <Stack.Screen
+            name="Help"
+            component={HelpScreen}
+            options={({ navigation }) => ({
+              headerRight: () => (
+                <Button
+                  title="Saltar    "
+                  onPress={() => navigation.navigate("DayInput")}
+                />
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="DayInput"
+            component={DayInputScreen}
+            options={({ navigation, route }) => ({
+              headerLeft: () => null, // Remove back
+            })}
+          />
           <Stack.Screen
             name="Config"
             component={ConfigScreen}

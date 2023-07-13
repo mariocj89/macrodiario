@@ -97,7 +97,9 @@ const DayInputScreen = ({ navigation }) => {
               size={25}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Help")}
+          >
             <MaterialCommunityIcons
               style={styles.controlButton}
               name="help-circle-outline"
