@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateStr from "./dateStr";
 
-
 // Default objects that allows us to add new properties if necessary
 // in the future.
 DEFAULT_TAKES = {
@@ -46,15 +45,14 @@ const getDayTakes = async (date) => {
   return get(`takes/${date}`);
 };
 
-
 const getDayTakesOrDefault = async (date) => {
   const takes = await getDayTakes(date);
-  return {...DEFAULT_TAKES, ...takes}
+  return { ...DEFAULT_TAKES, ...takes };
 };
 
 const getDefaultMaxTakes = async () => {
   const maxTakes = await get("maxTakes");
-  return {...DEFAULT_MAX_TAKES, ...maxTakes};
+  return { ...DEFAULT_MAX_TAKES, ...maxTakes };
 };
 
 const getMaxTakes = async (date) => {
@@ -76,7 +74,7 @@ const ensureMaxTakes = async (date) => {
   console.log("Setting maxTakes from default for", date);
   const defaultMaxTakes = await getDefaultMaxTakes();
   saveMaxTakes(date, defaultMaxTakes);
-}
+};
 
 const getMonthData = async (year, month) => {
   const result = {};
@@ -90,13 +88,26 @@ const getMonthData = async (year, month) => {
       continue;
     }
     const maxTakes = await getMaxTakes(DateStr.dateToStr(date));
-    if (maxTakes === null) {  // This should never happen
-      console.error(DateStr.dateToStr(date), "has takes but not maxTakes set, ignoring")
+    if (maxTakes === null) {
+      // This should never happen
+      console.error(
+        DateStr.dateToStr(date),
+        "has takes but not maxTakes set, ignoring"
+      );
       continue;
     }
     result[DateStr.dateToStr(date)] = { maxTakes, takes };
   }
   return result;
+};
+
+const isFirstTimeStartup = async () => {
+  const startupSentinel = await get("startup-sentinel");
+  if (startupSentinel >= 1) {
+    return false;
+  }
+  save("startup-sentinel", 1);
+  return true;
 };
 
 const Storage = {
@@ -106,6 +117,7 @@ const Storage = {
   getMaxTakes: getMaxTakes,
   getMonthData: getMonthData,
   ensureMaxTakes: ensureMaxTakes,
+  isFirstTimeStartup: isFirstTimeStartup,
 };
 
 export default Storage;
