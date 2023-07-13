@@ -10,11 +10,11 @@ const DayInputScreen = ({ navigation }) => {
   const [state, manager] = useContext(StateContext);
   const date = state.date;
   const dayData = state.dayData;
-  const isToday = date === DateStr.today();
-  const takes = dayData.takes;
-  if (takes === null) {
+  if (dayData === null) {
     return;
   }
+  const isToday = date === DateStr.today();
+  const takes = dayData.takes;
   const maxTakes = dayData.maxTakes;
   const fruitsEnabled = maxTakes.fruits > 0;
   const waterEnabled = maxTakes.water > 0;

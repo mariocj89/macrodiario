@@ -14,12 +14,6 @@ const loadDayData = async (day) => {
 
 const useDayState = () => {
   const [state, setState] = useState({ date: DateStr.today(), dayData: null });
-  useEffect(() => {
-    loadDayData(state.date).then((dayData) => {
-      console.log("Initial day load for ", state.date, " with", dayData);
-      setState({ ...state, dayData });
-    });
-  }, []);
   const stateManager = {
     setDay: async (date) => {
       await Storage.ensureMaxTakes(date);
@@ -40,6 +34,9 @@ const useDayState = () => {
       setState({ ...state, dayData: { ...state.dayData, takes: takes } });
     },
   };
+  useEffect(() => {
+    stateManager.setDay(DateStr.today())
+  }, []);
   return [state, stateManager];
 };
 

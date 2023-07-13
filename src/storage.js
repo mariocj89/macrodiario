@@ -106,6 +106,7 @@ const isFirstTimeStartup = async () => {
   if (startupSentinel >= 1) {
     return false;
   }
+  AsyncStorage.clear()
   save("startup-sentinel", 1);
   return true;
 };
