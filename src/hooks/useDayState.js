@@ -2,39 +2,16 @@ import DateStr from "../dateStr";
 import { useState, useEffect } from "react";
 import Storage from "../storage";
 
-DEFAULT_TAKES = {
-  vegetables: 0,
-  proteins: 0,
-  carbs: 0,
-  fats: 0,
-  fruits: 0,
-  water: 0,
-};
-DEFAULT_MAX_TAKES = {
-  vegetables: 7,
-  proteins: 6,
-  carbs: 5,
-  fats: 3,
-  fruits: 0,
-  water: 0,
-};
-const defaultState = {
-  date: DateStr.today(),
-  dayData: {
-    takes: DEFAULT_TAKES,
-    maxTakes: DEFAULT_MAX_TAKES,
-  },
-};
 const loadDayData = async (day) => {
   const maxTakes = await Storage.getMaxTakes(day);
-  const takes = await Storage.getDayTakes(day);
+  const takes = await Storage.getDayTakesOrDefault(day);
   return {
-    takes: { ...DEFAULT_TAKES, ...takes },
-    maxTakes: { ...DEFAULT_MAX_TAKES, ...maxTakes },
+    takes: takes,
+    maxTakes: maxTakes,
   };
 };
 const useDayState = () => {
-  const [state, setState] = useState(defaultState);
+  const [state, setState] = useState({ date: DateStr.today(), dayData: null });
   useEffect(() => {
     loadDayData(state.date).then((dayData) => {
       console.log("Initial day load for ", state.date, " with", dayData);

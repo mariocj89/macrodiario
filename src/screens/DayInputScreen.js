@@ -12,6 +12,9 @@ const DayInputScreen = ({ navigation }) => {
   const dayData = state.dayData;
   const isToday = date === DateStr.today();
   const takes = dayData.takes;
+  if (takes === null) {
+    return;
+  }
   const maxTakes = dayData.maxTakes;
   const fruitsEnabled = maxTakes.fruits > 0;
   const waterEnabled = maxTakes.water > 0;

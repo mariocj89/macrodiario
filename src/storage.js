@@ -1,6 +1,26 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateStr from "./dateStr";
 
+
+// Default objects that allows us to add new properties if necessary
+// in the future.
+DEFAULT_TAKES = {
+  vegetables: 0,
+  proteins: 0,
+  carbs: 0,
+  fats: 0,
+  fruits: 0,
+  water: 0,
+};
+DEFAULT_MAX_TAKES = {
+  vegetables: 0,
+  proteins: 0,
+  carbs: 0,
+  fats: 0,
+  fruits: 0,
+  water: 0,
+};
+
 const save = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(value));
@@ -26,14 +46,23 @@ const getDayTakes = async (date) => {
   return get(`takes/${date}`);
 };
 
+
+const getDayTakesOrDefault = async (date) => {
+  const takes = await get(`takes/${date}`);
+  return {...DEFAULT_TAKES, ...takes}
+};
+
+const getDefaultMaxTakes = async () => {
+  const maxTakes = await get("maxTakes");
+  return {...DEFAULT_MAX_TAKES, ...maxTakes};
+};
+
 const getMaxTakes = async (date) => {
   const maxTakes = await get(`maxTakes/${date}`);
   if (maxTakes !== null) {
-    return maxTakes;
+    return {...DEFAULT_MAX_TAKES, ...maxTakes};
   }
-  const newMaxTakes = await get("maxTakes");
-  saveMaxTakes(date, newMaxTakes);
-  return newMaxTakes;
+  return getDefaultMaxTakes();
 };
 
 const saveMaxTakes = async (date, maxTakes) => {
@@ -61,6 +90,7 @@ const getMonthData = async (year, month) => {
 const Storage = {
   saveDayTakes: saveDayTakes,
   getDayTakes: getDayTakes,
+  getDayTakesOrDefault: getDayTakesOrDefault,
   getMaxTakes: getMaxTakes,
   saveMaxTakes: saveMaxTakes,
   getMonthData: getMonthData,
