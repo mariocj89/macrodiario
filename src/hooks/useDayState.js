@@ -16,6 +16,7 @@ const useDayState = () => {
   const [state, setState] = useState({ date: DateStr.today(), dayData: null });
   const stateManager = {
     setDay: async (date) => {
+      await Storage.isFirstTimeStartup();  // TODO: Move this to home screen.
       await Storage.ensureMaxTakes(date);
       const dayData = await loadDayData(date);
       console.log("Updating day to", date, "with data:", dayData);

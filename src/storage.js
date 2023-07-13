@@ -106,8 +106,15 @@ const isFirstTimeStartup = async () => {
   if (startupSentinel >= 1) {
     return false;
   }
-  AsyncStorage.clear()
-  save("startup-sentinel", 1);
+  console.info("Initial load of the app")
+  AsyncStorage.clear();
+  await save("startup-sentinel", 1);
+  await save("maxTakes", {
+    vegetables: 7,
+    proteins: 5,
+    carbs: 4,
+    fats: 3,
+  });
   return true;
 };
 
