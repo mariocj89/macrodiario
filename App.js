@@ -14,7 +14,11 @@ export default function App() {
         <Stack.Navigator
           screenOptions={{
             headerTitle: "Macro Diario",
-            headerStyle: { backgroundColor: "rgba(183,226,111,5)" },
+            headerStyle: {
+              backgroundColor: "rgba(183,226,111,5)",
+              borderBottomWidth: 1,
+              borderBottomColor: "black",
+            },
             headerBackTitle: "Volver",
           }}
         >
