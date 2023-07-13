@@ -13,6 +13,9 @@ import { useState } from "react";
 const MaxInput = ({ macroImage, macroName, value, onUpdateValue }) => {
   const [macroValue, setMacroValue] = useState(value);
   const updateValue = (newValue) => {
+    if (newValue < 0) {
+      return;
+    }
     setMacroValue(newValue);
     onUpdateValue(newValue);
   };
@@ -25,11 +28,16 @@ const MaxInput = ({ macroImage, macroName, value, onUpdateValue }) => {
         <Text style={styles.title}>{macroName}</Text>
         <View style={styles.numberContainer}>
           <TouchableOpacity
+            disabled={value === 0}
             onPress={() => {
               updateValue(macroValue - 1);
             }}
           >
-            <MaterialCommunityIcons name="minus" size={45} color="green" />
+            <MaterialCommunityIcons
+              name="minus"
+              size={45}
+              color={value !== 0 ? "green" : "grey"}
+            />
           </TouchableOpacity>
           <TextInput
             keyboardType="numeric"
