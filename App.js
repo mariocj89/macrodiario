@@ -26,13 +26,8 @@ export default function App() {
           <Stack.Screen
             name="Help"
             component={HelpScreen}
-            options={({ navigation }) => ({
-              headerRight: () => (
-                <Button
-                  title="Saltar    "
-                  onPress={() => navigation.navigate("DayInput")}
-                />
-              ),
+            options={() => ({
+              headerShown: false,
             })}
           />
           <Stack.Screen
