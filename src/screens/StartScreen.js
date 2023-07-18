@@ -11,6 +11,8 @@ const StartScreen = ({ navigation }) => {
         proteins: 7,
         carbs: 7,
         fats: 7,
+        fruits: 0,
+        water: 0,
       });
     } else {
       navigation.replace("DayInput");
