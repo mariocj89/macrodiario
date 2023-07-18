@@ -6,6 +6,7 @@ import ConfigScreen from "./src/screens/ConfigScreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
 import { StateProvider } from "./src/context/stateProvider";
 import HelpScreen from "./src/screens/HelpScreen";
+import StartScreen from "./src/screens/StartScreen";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -24,8 +25,8 @@ export default function App() {
           }}
         >
           <Stack.Screen
-            name="Help"
-            component={HelpScreen}
+            name="Start"
+            component={StartScreen}
             options={() => ({
               headerShown: false,
             })}
@@ -35,6 +36,13 @@ export default function App() {
             component={DayInputScreen}
             options={({ navigation, route }) => ({
               headerLeft: () => null, // Remove back
+            })}
+          />
+          <Stack.Screen
+            name="Help"
+            component={HelpScreen}
+            options={() => ({
+              headerShown: false,
             })}
           />
           <Stack.Screen

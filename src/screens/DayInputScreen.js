@@ -1,4 +1,4 @@
-import { React, useContext } from "react";
+import { React, useContext, useEffect } from "react";
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import DayPicker from "../components/DayPicker";
 import MacroInput from "../components/MacroInput";
@@ -8,6 +8,9 @@ import StateContext from "../context/stateProvider";
 
 const DayInputScreen = ({ navigation }) => {
   const [state, manager] = useContext(StateContext);
+  useEffect(() => {
+    manager.setDay(DateStr.today());
+  }, []);
   const date = state.date;
   const dayData = state.dayData;
   if (dayData === null) {
@@ -97,9 +100,7 @@ const DayInputScreen = ({ navigation }) => {
               size={25}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Help")}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate("Help")}>
             <MaterialCommunityIcons
               style={styles.controlButton}
               name="help-circle-outline"
