@@ -92,7 +92,7 @@ const getMonthData = async (year, month) => {
       // This should never happen
       console.error(
         DateStr.dateToStr(date),
-        "has takes but not maxTakes set, ignoring"
+        "has takes but not maxTakes set, ignoring",
       );
       continue;
     }
@@ -106,7 +106,7 @@ const isFirstTimeStartup = async () => {
   if (startupSentinel >= 1) {
     return false;
   }
-  console.info("Initial load of the app")
+  console.info("Initial load of the app");
   await save("startup-sentinel", 1);
   return true;
 };

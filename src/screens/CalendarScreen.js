@@ -133,12 +133,12 @@ const CalendarScreen = ({ navigation }) => {
     loadMonthData(
       new Date(state.date).getFullYear(),
       new Date(state.date).getMonth(),
-      setCalendarDayData
+      setCalendarDayData,
     );
     loadAggregatedData(
       new Date(state.date).getFullYear(),
       new Date(state.date).getMonth(),
-      setSummaryData
+      setSummaryData,
     );
   }, []);
   var pieData = [];
@@ -200,7 +200,9 @@ const CalendarScreen = ({ navigation }) => {
             borderBottomWidth: StyleSheet.hairlineWidth,
           }}
         />
-        <Text style={{ fontSize: 20, alignSelf:"center", marginTop: 15}}>Resumen</Text>
+        <Text style={{ fontSize: 20, alignSelf: "center", marginTop: 15 }}>
+          Objetivo / Actual
+        </Text>
         <PolarChart inputData={[maxTakes, takes]} />
         <View
           style={{

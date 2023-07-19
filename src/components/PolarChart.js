@@ -13,7 +13,7 @@ const getMaxima = (data) => {
   var highestValue = 0;
   for (item of data) {
     for (const [key, value] of Object.entries(item)) {
-        highestValue = Math.max(highestValue, value);
+      highestValue = Math.max(highestValue, value);
     }
   }
   const keys = Object.keys(data[0]);
@@ -53,7 +53,7 @@ const PolarChart = ({ inputData }) => {
             style={{
               axisLabel: { padding: 10 },
               axis: { stroke: "none" },
-              grid: { stroke: "grey", strokeWidth: 0.50, opacity: 1 },
+              grid: { stroke: "grey", strokeWidth: 0.5, opacity: 1 },
             }}
             tickLabelComponent={<VictoryLabel labelPlacement="vertical" />}
             labelPlacement="perpendicular"

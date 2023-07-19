@@ -149,7 +149,7 @@ const HelpScreen = ({ navigation }) => {
                 }}
                 onPress={() =>
                   Linking.openURL(
-                    "https://carloscasadocoach.com/como-ajustar-calorias-sin-estar-a-dieta/"
+                    "https://carloscasadocoach.com/como-ajustar-calorias-sin-estar-a-dieta/",
                   )
                 }
               >
