@@ -1,10 +1,11 @@
 import { useEffect, useState, useContext } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ScrollView, Dimensions } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import Storage from "../storage";
 import DateStr from "../dateStr";
 import StateContext from "../context/stateProvider";
 import PolarChart from "../components/PolarChart";
+import { VictoryPie } from "victory-native";
 
 LocaleConfig.locales["es"] = {
   monthNames: [
@@ -88,8 +89,8 @@ const makeMarkedDay = (dayData) => {
 const translation = {
   vegetables: "Verduras",
   proteins: "Proteinas",
-  carbs: "Carbohidratos",
   fats: "Grasas",
+  carbs: "Carbohidratos",
   fruits: "Fruta",
 };
 
@@ -124,9 +125,10 @@ const loadAggregatedData = async (year, month, action) => {
 };
 
 const CalendarScreen = ({ navigation }) => {
+  const width = Dimensions.get("window").width;
   const [state, manager] = useContext(StateContext);
   const [calendarDayData, setCalendarDayData] = useState({});
-  const [summaryData, setSummaryData] = useState([{}, {}]);
+  const [[maxTakes, takes], setSummaryData] = useState([{}, {}]);
   useEffect(() => {
     loadMonthData(
       new Date(state.date).getFullYear(),
@@ -139,7 +141,12 @@ const CalendarScreen = ({ navigation }) => {
       setSummaryData
     );
   }, []);
-
+  var pieData = [];
+  var pieColors = [];
+  for (const [macro, value] of Object.entries(takes)) {
+    pieColors.push(color(value, maxTakes[macro]));
+    pieData.push({ x: 1, y: value, label: macro });
+  }
   return (
     <>
       <ScrollView>
@@ -164,10 +171,43 @@ const CalendarScreen = ({ navigation }) => {
         />
         <View
           style={{
+            borderBottomColor: "black",
+            borderBottomWidth: StyleSheet.hairlineWidth,
+          }}
+        />
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ fontSize: 20 }}>Ingestas</Text>
+          <VictoryPie
+            cornerRadius={5}
+            padAngle={2}
+            style={{ padding: 10 }}
+            width={width - 10}
+            height={300}
+            innerRadius={2}
+            colorScale={pieColors}
+            data={pieData}
+          />
+        </View>
+        <View
+          style={{
+            borderBottomColor: "black",
+            borderBottomWidth: StyleSheet.hairlineWidth,
+          }}
+        />
+        <Text style={{ fontSize: 20, alignSelf:"center", marginTop: 15}}>Resumen</Text>
+        <PolarChart inputData={[maxTakes, takes]} />
+        <View
+          style={{
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-evenly",
-            paddingTop: 15,
+            marginTop: -60,
           }}
         >
           <View
@@ -206,8 +246,8 @@ const CalendarScreen = ({ navigation }) => {
             />
             <Text>Actual</Text>
           </View>
+          <View style={{ height: 150 }} />
         </View>
-        <PolarChart inputData={summaryData} />
       </ScrollView>
     </>
   );
