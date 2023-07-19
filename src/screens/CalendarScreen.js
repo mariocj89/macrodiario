@@ -94,6 +94,29 @@ const translation = {
   fruits: "Fruta",
 };
 
+const colorLegend = (color, text) => {
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <View
+        style={{
+          width: 25,
+          height: 25,
+          borderWidth: 1,
+          marginRight: 10,
+          backgroundColor: color,
+        }}
+      />
+      <Text>{text}</Text>
+    </View>
+  );
+};
+
 const loadAggregatedData = async (year, month, action) => {
   const monthData = await Storage.getMonthData(year, month);
   var maxTakes = {};
@@ -133,12 +156,12 @@ const CalendarScreen = ({ navigation }) => {
     loadMonthData(
       new Date(state.date).getFullYear(),
       new Date(state.date).getMonth(),
-      setCalendarDayData,
+      setCalendarDayData
     );
     loadAggregatedData(
       new Date(state.date).getFullYear(),
       new Date(state.date).getMonth(),
-      setSummaryData,
+      setSummaryData
     );
   }, []);
   var pieData = [];
@@ -196,6 +219,19 @@ const CalendarScreen = ({ navigation }) => {
         </View>
         <View
           style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            marginTop: -60,
+          }}
+        >
+          {colorLegend("yellow", "Por debajo")}
+          {colorLegend("green", "Justo")}
+          {colorLegend("red", "Por encima")}
+          <View style={{ height: 150 }} />
+        </View>
+        <View
+          style={{
             borderBottomColor: "black",
             borderBottomWidth: StyleSheet.hairlineWidth,
           }}
@@ -212,42 +248,8 @@ const CalendarScreen = ({ navigation }) => {
             marginTop: -60,
           }}
         >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <View
-              style={{
-                width: 25,
-                height: 25,
-                borderWidth: 1,
-                marginRight: 10,
-                backgroundColor: "green",
-              }}
-            />
-            <Text>Objetivo</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <View
-              style={{
-                width: 25,
-                height: 25,
-                borderWidth: 1,
-                marginRight: 10,
-                backgroundColor: "blue",
-              }}
-            />
-            <Text>Actual</Text>
-          </View>
+          {colorLegend("green", "Objetivo")}
+          {colorLegend("blue", "Actual")}
           <View style={{ height: 150 }} />
         </View>
       </ScrollView>
