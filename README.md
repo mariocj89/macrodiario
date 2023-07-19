@@ -3,3 +3,14 @@
 # Macro Diario
 
 Una app para saber mejor como comes.
+
+## Run locally
+
+`npm start`
+
+## Submit to store
+
+1. Bump version in `package.json` and `app.json`.
+1. Build: `eas build --platform all`
+1. Upload: `eas submit --platform all`
+1. Cut release in Google play and Apple store.
