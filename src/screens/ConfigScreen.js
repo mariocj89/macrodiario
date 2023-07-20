@@ -1,7 +1,19 @@
 import { React, useContext } from "react";
-import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Text, Alert } from "react-native";
 import MaxInput from "../components/MaxInput";
 import StateContext from "../context/stateProvider";
+import { Button } from "react-native";
+import Storage from "../storage";
+
+const confirmDeleteAllData = () => {
+  Alert.alert("Borrar todos los datos", "Estas seguro de que quieres borrar todos los datos de la App?", [
+    {
+      text: "Cancelar",
+      style: "cancel",
+    },
+    { text: "Borrar", onPress: Storage.deleteAllData},
+  ]);
+};
 
 const ConfigScreen = () => {
   const [state, manager] = useContext(StateContext);
@@ -54,6 +66,14 @@ const ConfigScreen = () => {
           />
         );
       })}
+      <View
+        style={{
+          marginVertical: 30,
+          borderBottomColor: "black",
+          borderBottomWidth: StyleSheet.hairlineWidth,
+        }}
+      />
+      <Button title="Borrar todos los datos" color="red" onPress={confirmDeleteAllData}/>
       <View style={{ height: 150 }} />
     </ScrollView>
   );

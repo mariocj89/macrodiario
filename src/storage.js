@@ -119,6 +119,10 @@ const isFirstTimeStartup = async () => {
   return true;
 };
 
+const deleteAllData = async () => {
+  AsyncStorage.clear();
+};
+
 const Storage = {
   saveDayTakes: saveDayTakes,
   getDayTakesOrDefault: getDayTakesOrDefault,
@@ -127,6 +131,7 @@ const Storage = {
   getMonthData: getMonthData,
   ensureMaxTakes: ensureMaxTakes,
   isFirstTimeStartup: isFirstTimeStartup,
+  deleteAllData: deleteAllData,
 };
 
 export default Storage;
