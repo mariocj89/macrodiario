@@ -1,62 +1,19 @@
 import { useEffect, useState, useContext } from "react";
 import { StyleSheet, View, Text, ScrollView, Dimensions } from "react-native";
-import { Calendar, LocaleConfig } from "react-native-calendars";
 import Storage from "../storage";
 import DateStr from "../dateStr";
 import StateContext from "../context/stateProvider";
 import PolarChart from "../components/PolarChart";
 import { VictoryPie } from "victory-native";
+import MacroCalendar from "../components/MacroCalendar";
 
-LocaleConfig.locales["es"] = {
-  monthNames: [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ],
-  monthNamesShort: [
-    "Ene",
-    "Feb",
-    "Mar",
-    "Abr",
-    "May",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ],
-  dayNames: [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miercoles",
-    "Jueves",
-    "Viernes",
-    "Sabado",
-  ],
-  dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
-  today: "Hoy",
-};
-LocaleConfig.defaultLocale = "es";
 
-const loadMonthData = async (year, month, action) => {
-  const monthData = await Storage.getMonthData(year, month);
-  var result = {};
-  for (const [date, dayData] of Object.entries(monthData)) {
-    result[date] = makeMarkedDay(dayData);
-  }
-  action(result);
+const translation = {
+  vegetables: "Verduras",
+  proteins: "Proteinas",
+  fats: "Grasas",
+  carbs: "Carbohidratos",
+  fruits: "Fruta",
 };
 
 const color = (takes, maxTakes) => {
@@ -70,28 +27,6 @@ const color = (takes, maxTakes) => {
     return "red";
   }
   return "#ffea00";
-};
-const makeMarkedDay = (dayData) => {
-  const takes = dayData.takes;
-  const maxTakes = dayData.maxTakes;
-  const macros = ["vegetables", "proteins", "carbs", "fats", "fruits", "water"];
-  const dots = macros.map((macro) => color(takes[macro], maxTakes[macro]));
-  return {
-    dots: dots
-      .filter((n) => n)
-      .map((color, idx) => {
-        return { key: idx, color };
-      }),
-    disabled: false,
-  };
-};
-
-const translation = {
-  vegetables: "Verduras",
-  proteins: "Proteinas",
-  fats: "Grasas",
-  carbs: "Carbohidratos",
-  fruits: "Fruta",
 };
 
 const colorLegend = (color, text) => {
@@ -148,6 +83,12 @@ const loadAggregatedData = async (year, month, action) => {
 };
 
 const CalendarScreen = ({ navigation }) => {
+  const [monthData, setMonthData] = useState({});
+  const loadMonthData = async (year, month) => {
+    const result = await Storage.getMonthData(year, month);
+    setMonthData(result);
+  };
+
   const width = Dimensions.get("window").width;
   const [state, manager] = useContext(StateContext);
   const [calendarDayData, setCalendarDayData] = useState({});
@@ -156,7 +97,6 @@ const CalendarScreen = ({ navigation }) => {
     loadMonthData(
       new Date(state.date).getFullYear(),
       new Date(state.date).getMonth(),
-      setCalendarDayData
     );
     loadAggregatedData(
       new Date(state.date).getFullYear(),
@@ -173,24 +113,18 @@ const CalendarScreen = ({ navigation }) => {
   return (
     <>
       <ScrollView>
-        <Calendar
-          markingType="multi-dot"
-          markedDates={calendarDayData}
-          initialDate={state.date}
-          hideExtraDays={true}
-          theme={{ selectedDayBackgroundColor: "white" }}
+        <MacroCalendar
+          date={state.date}
+          monthData={monthData}
+          onMonthChange={(date) => {
+            loadMonthData(date.year, date.month - 1, loadMonthData);
+            loadAggregatedData(date.year, date.month - 1, setSummaryData);
+          }}
           onDayPress={(date) => {
             const newDate = DateStr.dateToStr(new Date(date.dateString));
             manager.setDay(newDate);
             navigation.navigate("DayInput");
           }}
-          onMonthChange={(date) => {
-            loadMonthData(date.year, date.month - 1, setCalendarDayData);
-            loadAggregatedData(date.year, date.month - 1, setSummaryData);
-          }}
-          disabledByDefault
-          disableAllTouchEventsForDisabledDays
-          enableSwipeMonths
         />
         <View
           style={{
