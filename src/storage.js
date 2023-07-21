@@ -120,7 +120,7 @@ const isFirstTimeStartup = async () => {
 };
 
 const deleteAllData = async () => {
-  AsyncStorage.clear();
+  await AsyncStorage.clear();
 };
 
 const Storage = {

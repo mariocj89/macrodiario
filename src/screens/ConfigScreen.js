@@ -4,22 +4,30 @@ import MaxInput from "../components/MaxInput";
 import StateContext from "../context/stateProvider";
 import { Button } from "react-native";
 import Storage from "../storage";
-
-const confirmDeleteAllData = () => {
-  Alert.alert(
-    "Borrar todos los datos",
-    "Estas seguro de que quieres borrar todos los datos de la App?",
-    [
-      {
-        text: "Cancelar",
-        style: "cancel",
-      },
-      { text: "Borrar", onPress: Storage.deleteAllData },
-    ],
-  );
-};
+import { useNavigation } from "@react-navigation/native";
 
 const ConfigScreen = () => {
+  const navigation = useNavigation();
+  const confirmDeleteAllData = () => {
+    Alert.alert(
+      "Borrar todos los datos",
+      "Estas seguro de que quieres borrar todos los datos de la App?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Borrar",
+          onPress: () => {
+            Storage.deleteAllData();
+            navigation.navigate("Start");
+          },
+        },
+      ]
+    );
+  };
+
   const [state, manager] = useContext(StateContext);
   const maxTakes = state.dayData.maxTakes;
   const macroConfigInputs = [
