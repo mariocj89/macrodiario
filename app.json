@@ -2,14 +2,14 @@
   "expo": {
     "name": "macrodiario",
     "slug": "macrodiario",
-    "version": "1.10.0",
+    "version": "1.10.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#b7e26f"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,12 +24,12 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#abe45b"
+        "backgroundColor": "#b7e26f"
       },
       "package": "com.macrodiario2"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
