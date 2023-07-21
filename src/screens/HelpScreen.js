@@ -59,17 +59,12 @@ const HelpScreen = ({ navigation }) => {
               source={require("../../assets/info-intro.png")}
             />
             <Text style={{ fontSize: 15 }}>
-              El método de la mano es la forma mas sencilla y eficaz para comer
+              El método de la mano es la forma más sencilla y eficaz para comer
               variado, sano y sin preocuparte por las calorías.
             </Text>
             <Text style={{ fontSize: 15 }}>
               En este metodo contamos de forma aproximada las raciones de macro
               alimentos que ingerimos al día.
-            </Text>
-            <Text style={{ fontSize: 15 }}>
-              No se trata de tener que coger la comida con la propia mano antes
-              de cocinarla o ponerla en el plato, si no de tener una medida
-              estándar que nos permita controlar la cantidad de comida a ojo.
             </Text>
             {nextButton()}
           </View>,

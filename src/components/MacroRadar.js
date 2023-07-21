@@ -84,7 +84,7 @@ const MacroRadar = ({ takes, maxTakes }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-evenly",
-          marginTop: -60,
+          marginTop: -10,
         }}
       >
         <ColorLegend color="green" text="Objetivo" />
