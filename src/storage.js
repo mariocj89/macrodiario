@@ -100,7 +100,7 @@ const getMonthData = async (year, month) => {
       // This should never happen
       console.error(
         DateStr.dateToStr(date),
-        "has takes but not maxTakes set, ignoring"
+        "has takes but not maxTakes set, ignoring",
       );
       continue;
     }

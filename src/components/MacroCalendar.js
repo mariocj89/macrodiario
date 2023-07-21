@@ -1,6 +1,7 @@
 import React from "react";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import { StyleSheet } from "react-native";
+import MacroUtils from "../macroUtils";
 
 LocaleConfig.locales["es"] = {
   monthNames: [
@@ -45,24 +46,13 @@ LocaleConfig.locales["es"] = {
 };
 LocaleConfig.defaultLocale = "es";
 
-const dotColor = (takes, maxTakes) => {
-  if (maxTakes === 0) {
-    return null;
-  }
-  if (takes == maxTakes) {
-    return "green";
-  }
-  if (takes > maxTakes) {
-    return "red";
-  }
-  return "#ffea00";
-};
-
 const makeMarkedDay = (dayData) => {
   const takes = dayData.takes;
   const maxTakes = dayData.maxTakes;
   const macros = ["vegetables", "proteins", "carbs", "fats", "fruits", "water"];
-  const dots = macros.map((macro) => dotColor(takes[macro], maxTakes[macro]));
+  const dots = macros.map((macro) =>
+    MacroUtils.macroColor(takes[macro], maxTakes[macro]),
+  );
   return {
     dots: dots
       .filter((n) => n)

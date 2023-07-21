@@ -6,13 +6,17 @@ import { Button } from "react-native";
 import Storage from "../storage";
 
 const confirmDeleteAllData = () => {
-  Alert.alert("Borrar todos los datos", "Estas seguro de que quieres borrar todos los datos de la App?", [
-    {
-      text: "Cancelar",
-      style: "cancel",
-    },
-    { text: "Borrar", onPress: Storage.deleteAllData},
-  ]);
+  Alert.alert(
+    "Borrar todos los datos",
+    "Estas seguro de que quieres borrar todos los datos de la App?",
+    [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      { text: "Borrar", onPress: Storage.deleteAllData },
+    ],
+  );
 };
 
 const ConfigScreen = () => {
@@ -73,7 +77,11 @@ const ConfigScreen = () => {
           borderBottomWidth: StyleSheet.hairlineWidth,
         }}
       />
-      <Button title="Borrar todos los datos" color="red" onPress={confirmDeleteAllData}/>
+      <Button
+        title="Borrar todos los datos"
+        color="red"
+        onPress={confirmDeleteAllData}
+      />
       <View style={{ height: 150 }} />
     </ScrollView>
   );
