@@ -49,7 +49,6 @@ const DayPicker = ({ date, onDayChange }) => {
   );
 };
 
-const ICON_HEIGHT = 20;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
