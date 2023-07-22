@@ -81,13 +81,11 @@ const DayInputScreen = ({ navigation }) => {
   return (
     <>
       <View style={styles.controlHeader}>
-        <View>
-          <DayPicker
-            style={styles.dayPicker}
-            date={date}
-            onDayChange={manager.setDay}
-          />
-        </View>
+        <DayPicker
+          style={styles.dayPicker}
+          date={date}
+          onDayChange={manager.setDay}
+        />
         <View style={styles.controlHeader}>
           <TouchableOpacity
             disabled={!isToday}
