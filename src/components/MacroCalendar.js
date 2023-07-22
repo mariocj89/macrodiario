@@ -76,6 +76,7 @@ const MacroCalendar = ({ date, monthData, onMonthChange, onDayPress }) => {
       hideExtraDays={true}
       theme={{ selectedDayBackgroundColor: "white" }}
       onDayPress={onDayPress}
+      firstDay={1}
       onMonthChange={onMonthChange}
       disabledByDefault
       disableAllTouchEventsForDisabledDays
