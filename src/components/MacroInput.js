@@ -96,7 +96,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
   },
-  subtitle: {},
+  subtitle: {
+    flexWrap: "wrap"
+  },
   imageContainer: {
     padding: 10,
     backgroundColor: "#d3fdd8",

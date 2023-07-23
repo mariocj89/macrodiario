@@ -7,16 +7,16 @@ const generateIcons = (dayData) => {
     return "";
   }
   const icons = [
-    { image: require("../../assets/macro-vegetables-outline2.png"), macro: "vegetables" },
-    { image: require("../../assets/macro-proteins-outline2.png"), macro: "proteins" },
-    { image: require("../../assets/macro-carbs-outline2.png"), macro: "carbs" },
-    { image: require("../../assets/macro-fats-outline2.png"), macro: "fats" },
+    { image: require("../../assets/macro-vegetables-outline.png"), macro: "vegetables" },
+    { image: require("../../assets/macro-proteins-outline.png"), macro: "proteins" },
+    { image: require("../../assets/macro-carbs-outline.png"), macro: "carbs" },
+    { image: require("../../assets/macro-fats-outline.png"), macro: "fats" },
   ];
   if (dayData.fruits !== null) {
-    icons.push({ image: require("../../assets/macro-fruits-outline2.png"), macro: "fruits" });
+    icons.push({ image: require("../../assets/macro-fruits-outline.png"), macro: "fruits" });
   }
   if (dayData.water !== null) {
-    icons.push({ image: require("../../assets/macro-water-outline2.png"), macro: "water" });
+    icons.push({ image: require("../../assets/macro-water-outline.png"), macro: "water" });
   }
 
   return (
@@ -74,7 +74,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 10,
-    height: 10
+    height: 10,
+    marginHorizontal: 1,
+    marginBottom: 1,
   }
 });
 

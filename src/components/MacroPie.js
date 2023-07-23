@@ -39,7 +39,7 @@ const MacroPie = ({ takes, maxTakes }) => {
           justifyContent: "space-evenly",
         }}
       >
-        <ColorLegend color="yellow" text="Por debajo" />
+        <ColorLegend color="#cccc00" text="Por debajo" />
         <ColorLegend color="green" text="Justo" />
         <ColorLegend color="red" text="Por encima" />
       </View>

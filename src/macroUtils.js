@@ -8,7 +8,7 @@ const macroColor = (takes, maxTakes) => {
   if (takes > maxTakes) {
     return "red";
   }
-  return "#ffea00";
+  return "#cccc00";
 };
 
 const translations = {
