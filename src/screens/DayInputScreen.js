@@ -41,24 +41,28 @@ const DayInputScreen = ({ navigation }) => {
       subtitle: "",
       key: "vegetables",
       image: require("../../assets/macro-vegetables.png"),
+      portionImage: require("../../assets/info-fist.png"),
     },
     {
       title: "Proteinas",
       subtitle: "Carne, pescado y huevos",
       key: "proteins",
       image: require("../../assets/macro-proteins.png"),
+      portionImage: require("../../assets/info-protein.png"),
     },
     {
       title: "Carbohidratos",
-      subtitle: "Pan, pasta, patata, arroz, legumbres",
+      subtitle: "Pan, pasta, patata, arroz",
       key: "carbs",
       image: require("../../assets/macro-carbs.png"),
+      portionImage: require("../../assets/info-carbs.png"),
     },
     {
       title: "Grasas",
-      subtitle: "Aceite, yougurt, aguacate, frutos secos",
+      subtitle: "Aceite, aguacate, frutos secos",
       key: "fats",
       image: require("../../assets/macro-fats.png"),
+      portionImage: require("../../assets/info-fats.png"),
     },
   ];
   if (fruitsEnabled) {
@@ -67,6 +71,7 @@ const DayInputScreen = ({ navigation }) => {
       subtitle: "",
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
+      portionImage: require("../../assets/info-fist.png"),
     });
   }
   if (waterEnabled) {
@@ -108,13 +113,14 @@ const DayInputScreen = ({ navigation }) => {
         </View>
       </View>
       <ScrollView style={styles.macroContainers}>
-        {macroInputs.map(({ title, subtitle, image, key }) => {
+        {macroInputs.map(({ title, subtitle, image, key, portionImage }) => {
           return (
             <MacroInput
               key={key}
               macroTitle={title}
               macroSubtitle={subtitle}
               marcoImage={image}
+              portionImage={portionImage}
               currentTakes={takes[key]}
               maxTakes={maxTakes[key]}
               onTake={() => incTakes(key)}

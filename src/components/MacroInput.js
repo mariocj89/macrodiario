@@ -5,6 +5,7 @@ import ElevatedView from "react-native-elevated-view";
 
 const MacroInput = ({
   marcoImage,
+  portionImage,
   macroTitle,
   macroSubtitle,
   currentTakes,
@@ -50,9 +51,20 @@ const MacroInput = ({
         <View style={styles.imageContainer}>
           <Image source={marcoImage} style={styles.image} />
         </View>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{macroTitle}</Text>
-          <Text style={styles.subtitle}>{macroSubtitle}</Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginRight: 5,
+          }}
+        >
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{macroTitle}</Text>
+            <Text style={styles.subtitle}>{macroSubtitle}</Text>
+          </View>
+          <Image source={portionImage} style={styles.portionImage} />
         </View>
       </View>
       <View style={styles.inputsContainer}>
@@ -79,8 +91,10 @@ const styles = StyleSheet.create({
   header: {
     overflow: "hidden",
     flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#f0fbf2",
     borderRadius: 15,
+    width: "100%",
   },
   inputIcon: {
     margin: 5,
@@ -91,13 +105,14 @@ const styles = StyleSheet.create({
     padding: 5,
     flexDirection: "column",
     paddingLeft: 10,
+    width: "80%"
   },
   title: {
     fontWeight: "bold",
     fontSize: 15,
   },
   subtitle: {
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   imageContainer: {
     padding: 10,
@@ -107,6 +122,11 @@ const styles = StyleSheet.create({
   image: {
     width: 40,
     height: 40,
+  },
+  portionImage: {
+    width: 40,
+    height: 40,
+    marginLeft: 5,
   },
   inputsContainer: {
     padding: 5,
