@@ -1,7 +1,7 @@
 import React from "react";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import { StyleSheet } from "react-native";
 import MacroUtils from "../macroUtils";
+import CalendarMacroDay from "./CalendarMacroDay";
 
 LocaleConfig.locales["es"] = {
   monthNames: [
@@ -46,45 +46,38 @@ LocaleConfig.locales["es"] = {
 };
 LocaleConfig.defaultLocale = "es";
 
-const makeMarkedDay = (dayData) => {
+const makeColors = (dayData) => {
+  const macros = {};
   const takes = dayData.takes;
   const maxTakes = dayData.maxTakes;
-  const macros = ["vegetables", "proteins", "carbs", "fats", "fruits", "water"];
-  const dots = macros.map((macro) =>
-    MacroUtils.macroColor(takes[macro], maxTakes[macro]),
-  );
-  return {
-    dots: dots
-      .filter((n) => n)
-      .map((color, idx) => {
-        return { key: idx, color };
-      }),
-    disabled: false,
-  };
+  for (const [macro, value] of Object.entries(takes)) {
+    macros[macro] = MacroUtils.macroColor(value, maxTakes[macro]);
+  }
+  return macros;
 };
 
 const MacroCalendar = ({ date, monthData, onMonthChange, onDayPress }) => {
   const calendarDayData = {};
   for (const [date, dayData] of Object.entries(monthData)) {
-    calendarDayData[date] = makeMarkedDay(dayData);
+    calendarDayData[date] = makeColors(dayData);
   }
   return (
     <Calendar
-      markingType="multi-dot"
-      markedDates={calendarDayData}
       initialDate={date}
       hideExtraDays={true}
-      theme={{ selectedDayBackgroundColor: "white" }}
-      onDayPress={onDayPress}
       firstDay={1}
       onMonthChange={onMonthChange}
-      disabledByDefault
-      disableAllTouchEventsForDisabledDays
-      enableSwipeMonths
+      dayComponent={({ date }) => {
+        return (
+          <CalendarMacroDay
+            date={date}
+            dayData={calendarDayData[date.dateString]}
+            onDayPress={onDayPress}
+          />
+        );
+      }}
     />
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default MacroCalendar;
