@@ -1,35 +1,29 @@
 import React from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import DateStr from "../dateStr"
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const generateIcons = (dayData) => {
   if (dayData === undefined) {
     return "";
   }
   const icons = [
-    { iconName: "leaf", macro: "vegetables" },
-    { iconName: "food-steak", macro: "proteins" },
-    { iconName: "baguette", macro: "carbs" },
-    { iconName: "peanut", macro: "fats" },
+    { image: require("../../assets/macro-vegetables-outline2.png"), macro: "vegetables" },
+    { image: require("../../assets/macro-proteins-outline2.png"), macro: "proteins" },
+    { image: require("../../assets/macro-carbs-outline2.png"), macro: "carbs" },
+    { image: require("../../assets/macro-fats-outline2.png"), macro: "fats" },
   ];
   if (dayData.fruits !== null) {
-    icons.push({ iconName: "food-apple", macro: "fruits" });
+    icons.push({ image: require("../../assets/macro-fruits-outline2.png"), macro: "fruits" });
   }
   if (dayData.water !== null) {
-    icons.push({ iconName: "water", macro: "water" });
+    icons.push({ image: require("../../assets/macro-water-outline2.png"), macro: "water" });
   }
 
   return (
     <View style={styles.iconsContainer}>
-      {icons.map(({ iconName, macro }) => {
+      {icons.map(({ image, macro }) => {
         return (
-          <MaterialCommunityIcons
-            key={macro}
-            size={ICON_SIZE}
-            name={iconName}
-            color={dayData[macro]}
-          />
+          <Image key={macro} style={{...styles.icon, tintColor: dayData[macro]}} source={image}/>
         );
       })}
     </View>
@@ -68,7 +62,6 @@ const CalendarMacroDay = ({ date, dayData, onDayPress }) => {
   );
 };
 
-ICON_SIZE = 10;
 const styles = StyleSheet.create({
   dayText: {
     fontSize: 15,
@@ -79,6 +72,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
   },
+  icon: {
+    width: 10,
+    height: 10
+  }
 });
 
 export default CalendarMacroDay;
