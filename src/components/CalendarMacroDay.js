@@ -80,4 +80,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CalendarMacroDay;
+export default React.memo(CalendarMacroDay);
