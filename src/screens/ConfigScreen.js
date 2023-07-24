@@ -1,6 +1,7 @@
 import { React, useContext } from "react";
 import { StyleSheet, View, ScrollView, Text, Alert } from "react-native";
 import MaxInput from "../components/MaxInput";
+import ToggleInput from "../components/ToggleInput";
 import StateContext from "../context/stateProvider";
 import { Button } from "react-native";
 import Storage from "../storage";
@@ -30,6 +31,7 @@ const ConfigScreen = () => {
 
   const [state, manager] = useContext(StateContext);
   const maxTakes = state.dayData.maxTakes;
+  const objectives = state.dayData.objectivesConfig;
   const macroConfigInputs = [
     {
       title: "Verduras",
@@ -62,6 +64,20 @@ const ConfigScreen = () => {
       image: require("../../assets/macro-water.png"),
     },
   ];
+  const extraObjectivesInputs = [
+    {
+      image: require("../../assets/objective-strength.png"),
+      key: "strength",
+    },
+    {
+      image: require("../../assets/objective-cardio.png"),
+      key: "cardio",
+    },
+    {
+      image: require("../../assets/objective-meditate.png"),
+      key: "meditate",
+    },
+  ];
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>Raciones diarias:</Text>
@@ -78,6 +94,27 @@ const ConfigScreen = () => {
           />
         );
       })}
+      <View
+        style={{
+          marginVertical: 30,
+          borderBottomColor: "black",
+          borderBottomWidth: StyleSheet.hairlineWidth,
+        }}
+      />
+      <Text style={styles.header}>Objetivos Semanales:</Text>
+      <View style={{ }}>
+        {extraObjectivesInputs.map(({ key, image }) => {
+          return (
+            <MaxInput
+              style={{ marginHorizontal: 5 }}
+              key={key}
+              macroImage={image}
+              value={objectives[key] ?? 0}
+              onUpdateValue={(newValue)=>{manager.setObjectiveConfig({[key]: newValue})}}
+            />
+          );
+        })}
+      </View>
       <View
         style={{
           marginVertical: 30,

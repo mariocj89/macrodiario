@@ -1,29 +1,63 @@
 import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
-import DateStr from "../dateStr"
+import DateStr from "../dateStr";
 
 const generateIcons = (dayData) => {
   if (dayData === undefined) {
     return "";
   }
   const icons = [
-    { image: require("../../assets/macro-vegetables-outline.png"), macro: "vegetables" },
-    { image: require("../../assets/macro-proteins-outline.png"), macro: "proteins" },
+    {
+      image: require("../../assets/macro-vegetables-outline.png"),
+      macro: "vegetables",
+    },
+    {
+      image: require("../../assets/macro-proteins-outline.png"),
+      macro: "proteins",
+    },
     { image: require("../../assets/macro-carbs-outline.png"), macro: "carbs" },
     { image: require("../../assets/macro-fats-outline.png"), macro: "fats" },
   ];
-  if (dayData.fruits !== null) {
-    icons.push({ image: require("../../assets/macro-fruits-outline.png"), macro: "fruits" });
+  if (dayData.fruits != null) {
+    icons.push({
+      image: require("../../assets/macro-fruits-outline.png"),
+      macro: "fruits",
+    });
   }
-  if (dayData.water !== null) {
-    icons.push({ image: require("../../assets/macro-water-outline.png"), macro: "water" });
+  if (dayData.water != null) {
+    icons.push({
+      image: require("../../assets/macro-water-outline.png"),
+      macro: "water",
+    });
+  }
+  if (dayData.strength != null) {
+    icons.push({
+      image: require("../../assets/objective-strength-outline.png"),
+      macro: "strength",
+    });
+  }
+  if (dayData.cardio != null) {
+    icons.push({
+      image: require("../../assets/objective-cardio-outline.png"),
+      macro: "cardio",
+    });
+  }
+  if (dayData.meditate != null) {
+    icons.push({
+      image: require("../../assets/objective-meditate-outline.png"),
+      macro: "meditate",
+    });
   }
 
   return (
     <View style={styles.iconsContainer}>
       {icons.map(({ image, macro }) => {
         return (
-          <Image key={macro} style={{...styles.icon, tintColor: dayData[macro]}} source={image}/>
+          <Image
+            key={macro}
+            style={{ ...styles.icon, tintColor: dayData[macro] }}
+            source={image}
+          />
         );
       })}
     </View>
@@ -77,7 +111,7 @@ const styles = StyleSheet.create({
     height: 10,
     marginHorizontal: 1,
     marginBottom: 1,
-  }
+  },
 });
 
 export default React.memo(CalendarMacroDay);

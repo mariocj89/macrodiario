@@ -19,6 +19,16 @@ DEFAULT_MAX_TAKES = {
   fruits: 0,
   water: 0,
 };
+DEFAULT_OBJ_CONFIG = {
+  cardio: 0,
+  strength: 0,
+  meditation: 0,
+};
+DEFAULT_OBJ = {
+  cardio: false,
+  strength: false,
+  meditate: false,
+};
 
 const save = async (key, value) => {
   try {
@@ -84,6 +94,31 @@ const ensureMaxTakes = async (date) => {
   await saveMaxTakes(date, defaultMaxTakes);
 };
 
+const getObjectivesConfig = async () => {
+  const config = await get("objectivesConfig");
+  return config ?? DEFAULT_OBJ_CONFIG;
+};
+
+const saveObjectivesConfig = async (objectivesConfig) => {
+  await save("objectivesConfig", objectivesConfig);
+};
+
+const saveObjectives = async (date, objectives) => {
+  await save(`objectives/${date}`, objectives);
+};
+
+const getObjectives = async (date) => {
+  const objectives = await get(`objectives/${date}`);
+  if (objectives == null) {
+    return null;
+  }
+  return { ...DEFAULT_OBJ, ...objectives };
+};
+const getObjectivesOrDefault = async (date) => {
+  const obj = await getObjectives(date);
+  return obj ?? DEFAULT_OBJ;
+};
+
 const getMonthData = async (year, month) => {
   const result = {};
   for (let day = 1; day < 32; day++) {
@@ -100,22 +135,26 @@ const getMonthData = async (year, month) => {
       // This should never happen
       console.error(
         DateStr.dateToStr(date),
-        "has takes but not maxTakes set, ignoring",
+        "has takes but not maxTakes set, ignoring"
       );
       continue;
     }
-    result[DateStr.dateToStr(date)] = { maxTakes, takes };
+    const objectives = await getObjectives(DateStr.dateToStr(date));
+    result[DateStr.dateToStr(date)] = { maxTakes, takes, objectives };
   }
   return result;
 };
 
 const isFirstTimeStartup = async () => {
   const startupSentinel = await get("startup-sentinel");
+  await save("startup-sentinel", 2);
+  if (startupSentinel < 2) {
+    saveObjectivesConfig(DEFAULT_OBJ_CONFIG);
+  }
   if (startupSentinel >= 1) {
     return false;
   }
   console.info("Initial load of the app");
-  await save("startup-sentinel", 1);
   return true;
 };
 
@@ -124,14 +163,18 @@ const deleteAllData = async () => {
 };
 
 const Storage = {
-  saveDayTakes: saveDayTakes,
-  getDayTakesOrDefault: getDayTakesOrDefault,
-  saveMaxTakes: saveMaxTakes,
-  getMaxTakes: getMaxTakes,
-  getMonthData: getMonthData,
-  ensureMaxTakes: ensureMaxTakes,
-  isFirstTimeStartup: isFirstTimeStartup,
-  deleteAllData: deleteAllData,
+  saveDayTakes,
+  getDayTakesOrDefault,
+  saveMaxTakes,
+  getMaxTakes,
+  getMonthData,
+  ensureMaxTakes,
+  isFirstTimeStartup,
+  deleteAllData,
+  getObjectivesOrDefault,
+  saveObjectives,
+  getObjectivesConfig,
+  saveObjectivesConfig,
 };
 
 export default Storage;

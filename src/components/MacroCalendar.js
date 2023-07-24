@@ -47,13 +47,17 @@ LocaleConfig.locales["es"] = {
 LocaleConfig.defaultLocale = "es";
 
 const makeColors = (dayData) => {
-  const macros = {};
-  const takes = dayData.takes;
-  const maxTakes = dayData.maxTakes;
+  const dayColors = {};
+  const {takes, maxTakes, objectives} = dayData;
   for (const [macro, value] of Object.entries(takes)) {
-    macros[macro] = MacroUtils.macroColor(value, maxTakes[macro]);
+    dayColors[macro] = MacroUtils.macroColor(value, maxTakes[macro]);
   }
-  return macros;
+  for (const [objective, value] of Object.entries(objectives ?? {})) {
+    if (value) {
+      dayColors[objective] = "blue";
+    }
+  }
+  return dayColors;
 };
 
 const MacroCalendar = ({ date, monthData, onMonthChange, onDayPress }) => {

@@ -5,6 +5,7 @@ import MacroInput from "../components/MacroInput";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateStr from "../dateStr";
 import StateContext from "../context/stateProvider";
+import ObjectivesInput from "../components/ObjectivesInput";
 
 const DayInputScreen = ({ navigation }) => {
   const [state, manager] = useContext(StateContext);
@@ -17,8 +18,7 @@ const DayInputScreen = ({ navigation }) => {
     return;
   }
   const isToday = date === DateStr.today();
-  const takes = dayData.takes;
-  const maxTakes = dayData.maxTakes;
+  const { takes, maxTakes, objectives, objectivesConfig } = dayData;
   const fruitsEnabled = maxTakes.fruits > 0;
   const waterEnabled = maxTakes.water > 0;
 
@@ -128,6 +128,11 @@ const DayInputScreen = ({ navigation }) => {
             />
           );
         })}
+        <ObjectivesInput
+          objectives={objectives}
+          objectivesConfig={objectivesConfig}
+          onObjectiveToggle={manager.toggleObjective}
+        />
         <View style={{ height: 150 }} />
       </ScrollView>
     </>
