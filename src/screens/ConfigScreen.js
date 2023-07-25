@@ -1,7 +1,6 @@
 import { React, useContext } from "react";
 import { StyleSheet, View, ScrollView, Text, Alert } from "react-native";
 import MaxInput from "../components/MaxInput";
-import ToggleInput from "../components/ToggleInput";
 import StateContext from "../context/stateProvider";
 import { Button } from "react-native";
 import Storage from "../storage";
@@ -20,8 +19,8 @@ const ConfigScreen = () => {
         },
         {
           text: "Borrar",
-          onPress: () => {
-            Storage.deleteAllData();
+          onPress: async () => {
+            await Storage.deleteAllData();
             navigation.navigate("Start");
           },
         },

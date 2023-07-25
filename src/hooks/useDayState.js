@@ -59,21 +59,21 @@ const useDayState = () => {
       );
       setState({ ...state, date, dayData, weekData });
     },
-    setMaxTakes: (maxTakesDelta) => {
+    setMaxTakes: async (maxTakesDelta) => {
       validStateCheck();
       console.log("Updating", state.date, " maxTakes with", maxTakesDelta);
       const maxTakes = { ...state.dayData.maxTakes, ...maxTakesDelta };
-      Storage.saveMaxTakes(state.date, maxTakes);
+      await Storage.saveMaxTakes(state.date, maxTakes);
       setState({ ...state, dayData: { ...state.dayData, maxTakes: maxTakes } });
     },
-    setTakes: (takesDelta) => {
+    setTakes: async (takesDelta) => {
       validStateCheck();
       console.log("Updating", state.date, " takes with", takesDelta);
       const takes = { ...state.dayData.takes, ...takesDelta };
-      Storage.saveDayTakes(state.date, takes);
+      await Storage.saveDayTakes(state.date, takes);
       setState({ ...state, dayData: { ...state.dayData, takes: takes } });
     },
-    toggleObjective: (objective) => {
+    toggleObjective: async (objective) => {
       validStateCheck();
       console.log("Updating", state.date, " objective ", objective);
       const pastValue = state.dayData.objectives[objective] ?? false;
@@ -81,7 +81,7 @@ const useDayState = () => {
         ...state.dayData.objectives,
         ...{ [objective]: !pastValue },
       };
-      Storage.saveObjectives(state.date, objectives);
+      await Storage.saveObjectives(state.date, objectives);
       setState({
         ...state,
         dayData: { ...state.dayData, objectives: objectives },
@@ -91,7 +91,7 @@ const useDayState = () => {
         },
       });
     },
-    setObjectiveConfig: (configDelta) => {
+    setObjectiveConfig: async (configDelta) => {
       validStateCheck();
       console.log(
         "Updating",
@@ -100,7 +100,7 @@ const useDayState = () => {
         configDelta,
       );
       const config = { ...state.dayData.objectivesConfig, ...configDelta };
-      Storage.saveObjectivesConfig(config);
+      await Storage.saveObjectivesConfig(config);
       setState({
         ...state,
         dayData: { ...state.dayData, objectivesConfig: config },

@@ -6,14 +6,6 @@ const StartScreen = ({ navigation }) => {
     const isFirstLoad = await Storage.isFirstTimeStartup();
     if (isFirstLoad) {
       navigation.replace("Help");
-      Storage.saveMaxTakes(DateStr.today(), {
-        vegetables: 7,
-        proteins: 7,
-        carbs: 7,
-        fats: 7,
-        fruits: 0,
-        water: 0,
-      });
     } else {
       navigation.replace("DayInput");
     }

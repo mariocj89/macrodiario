@@ -2,73 +2,36 @@ import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import DateStr from "../dateStr";
 
+const macroToImage = {
+  vegetables: require("../../assets/macro-vegetables-outline.png"),
+  proteins: require("../../assets/macro-proteins-outline.png"),
+  carbs: require("../../assets/macro-carbs-outline.png"),
+  fats: require("../../assets/macro-fats-outline.png"),
+  fruits: require("../../assets/macro-fruits-outline.png"),
+  water: require("../../assets/macro-water-outline.png"),
+  strength: require("../../assets/objective-strength-outline.png"),
+  cardio: require("../../assets/objective-cardio-outline.png"),
+  meditate: require("../../assets/objective-meditate-outline.png"),
+  alcohol: require("../../assets/objective-alcohol-outline.png"),
+  burger: require("../../assets/objective-burger-outline.png"),
+};
+
 const generateIcons = (dayData) => {
-  if (dayData === undefined) {
+  if (dayData == null) {
     return "";
   }
-  const icons = [
-    {
-      image: require("../../assets/macro-vegetables-outline.png"),
-      macro: "vegetables",
-    },
-    {
-      image: require("../../assets/macro-proteins-outline.png"),
-      macro: "proteins",
-    },
-    { image: require("../../assets/macro-carbs-outline.png"), macro: "carbs" },
-    { image: require("../../assets/macro-fats-outline.png"), macro: "fats" },
-  ];
-  if (dayData.fruits != null) {
-    icons.push({
-      image: require("../../assets/macro-fruits-outline.png"),
-      macro: "fruits",
-    });
-  }
-  if (dayData.water != null) {
-    icons.push({
-      image: require("../../assets/macro-water-outline.png"),
-      macro: "water",
-    });
-  }
-  if (dayData.strength != null) {
-    icons.push({
-      image: require("../../assets/objective-strength-outline.png"),
-      macro: "strength",
-    });
-  }
-  if (dayData.cardio != null) {
-    icons.push({
-      image: require("../../assets/objective-cardio-outline.png"),
-      macro: "cardio",
-    });
-  }
-  if (dayData.meditate != null) {
-    icons.push({
-      image: require("../../assets/objective-meditate-outline.png"),
-      macro: "meditate",
-    });
-  }
-  if (dayData.alcohol != null) {
-    icons.push({
-      image: require("../../assets/objective-alcohol-outline.png"),
-      macro: "alcohol",
-    });
-  }
-  if (dayData.burger != null) {
-    icons.push({
-      image: require("../../assets/objective-burger-outline.png"),
-      macro: "burger",
-    });
-  }
-
   return (
     <View style={styles.iconsContainer}>
-      {icons.map(({ image, macro }) => {
+      {Object.entries(dayData).map(([key, color]) => {
+        if (color == null) {
+          return;
+        }
+        console.log(key, color);
         return (
           <Image
-            key={macro}
-            style={{ ...styles.icon, tintColor: dayData[macro] }}
-            source={image}
+            key={key}
+            style={{ ...styles.icon, tintColor: color }}
+            source={macroToImage[key]}
           />
         );
       })}

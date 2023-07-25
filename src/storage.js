@@ -19,6 +19,13 @@ DEFAULT_MAX_TAKES = {
   fruits: 0,
   water: 0,
 };
+INITIAL_MAX_TAKES = {
+  ...DEFAULT_MAX_TAKES,
+  vegetables: 8,
+  proteins: 6,
+  carbs: 4,
+  fats: 4,
+}
 DEFAULT_OBJ_CONFIG = {
   cardio: 0,
   strength: 0,
@@ -131,18 +138,7 @@ const getMonthData = async (year, month) => {
       continue;
     }
     const takes = await getDayTakes(DateStr.dateToStr(date));
-    if (takes === null) {
-      continue;
-    }
     const maxTakes = await getMaxTakes(DateStr.dateToStr(date));
-    if (maxTakes === null) {
-      // This should never happen
-      console.error(
-        DateStr.dateToStr(date),
-        "has takes but not maxTakes set, ignoring",
-      );
-      continue;
-    }
     const objectives = await getObjectives(DateStr.dateToStr(date));
     result[DateStr.dateToStr(date)] = { maxTakes, takes, objectives };
   }
@@ -150,16 +146,18 @@ const getMonthData = async (year, month) => {
 };
 
 const isFirstTimeStartup = async () => {
-  const startupSentinel = await get("startup-sentinel");
+  var firstLoad = false;
+  const startupSentinel = (await get("startup-sentinel")) ?? 0;
   await save("startup-sentinel", 2);
   if (startupSentinel < 2) {
     saveObjectivesConfig(DEFAULT_OBJ_CONFIG);
   }
-  if (startupSentinel >= 1) {
-    return false;
+  if (startupSentinel < 1) {
+    console.info("Initial load of the app");
+    await saveMaxTakes(DateStr.today(), INITIAL_MAX_TAKES);
+    firstLoad = true;
   }
-  console.info("Initial load of the app");
-  return true;
+  return firstLoad;
 };
 
 const deleteAllData = async () => {

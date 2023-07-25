@@ -13,6 +13,9 @@ const aggregateMonthData = (monthData) => {
   var maxTakes = {};
   var takes = {};
   for (const [date, dayData] of Object.entries(monthData)) {
+    if (dayData.maxTakes === null || dayData.takes === null) {
+      continue;
+    }
     for (const [macroKey, macro] of Object.entries(MacroUtils.translations)) {
       const value = dayData.maxTakes[macroKey];
       if (value === 0) {
