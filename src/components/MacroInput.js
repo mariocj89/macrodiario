@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     padding: 5,
     flexDirection: "column",
     paddingLeft: 10,
-    width: "80%"
+    width: "80%",
   },
   title: {
     fontWeight: "bold",

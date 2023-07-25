@@ -48,7 +48,7 @@ LocaleConfig.defaultLocale = "es";
 
 const makeColors = (dayData) => {
   const dayColors = {};
-  const {takes, maxTakes, objectives} = dayData;
+  const { takes, maxTakes, objectives } = dayData;
   for (const [macro, value] of Object.entries(takes)) {
     dayColors[macro] = MacroUtils.macroColor(value, maxTakes[macro]);
   }

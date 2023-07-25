@@ -48,6 +48,18 @@ const generateIcons = (dayData) => {
       macro: "meditate",
     });
   }
+  if (dayData.alcohol != null) {
+    icons.push({
+      image: require("../../assets/objective-alcohol-outline.png"),
+      macro: "alcohol",
+    });
+  }
+  if (dayData.burger != null) {
+    icons.push({
+      image: require("../../assets/objective-burger-outline.png"),
+      macro: "burger",
+    });
+  }
 
   return (
     <View style={styles.iconsContainer}>

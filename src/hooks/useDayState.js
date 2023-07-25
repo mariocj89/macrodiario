@@ -55,7 +55,7 @@ const useDayState = () => {
         "with day data:",
         dayData,
         "week data:",
-        weekData
+        weekData,
       );
       setState({ ...state, date, dayData, weekData });
     },
@@ -97,7 +97,7 @@ const useDayState = () => {
         "Updating",
         state.date,
         " objectives config with",
-        configDelta
+        configDelta,
       );
       const config = { ...state.dayData.objectivesConfig, ...configDelta };
       Storage.saveObjectivesConfig(config);

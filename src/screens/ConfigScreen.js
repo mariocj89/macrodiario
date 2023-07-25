@@ -25,7 +25,7 @@ const ConfigScreen = () => {
             navigation.navigate("Start");
           },
         },
-      ]
+      ],
     );
   };
 
@@ -77,6 +77,14 @@ const ConfigScreen = () => {
       image: require("../../assets/objective-meditate.png"),
       key: "meditate",
     },
+    {
+      image: require("../../assets/objective-alcohol.png"),
+      key: "alcohol",
+    },
+    {
+      image: require("../../assets/objective-burger.png"),
+      key: "burger",
+    },
   ];
   return (
     <ScrollView style={styles.container}>
@@ -102,7 +110,7 @@ const ConfigScreen = () => {
         }}
       />
       <Text style={styles.header}>Objetivos Semanales:</Text>
-      <View style={{ }}>
+      <View style={{}}>
         {extraObjectivesInputs.map(({ key, image }) => {
           return (
             <MaxInput
@@ -110,7 +118,9 @@ const ConfigScreen = () => {
               key={key}
               macroImage={image}
               value={objectives[key] ?? 0}
-              onUpdateValue={(newValue)=>{manager.setObjectiveConfig({[key]: newValue})}}
+              onUpdateValue={(newValue) => {
+                manager.setObjectiveConfig({ [key]: newValue });
+              }}
             />
           );
         })}

@@ -27,6 +27,18 @@ const ObjectivesInput = () => {
       image: require("../../assets/objective-meditate.png"),
     });
   }
+  if (objectivesConfig.alcohol > 0) {
+    objectivesInputs.push({
+      key: "alcohol",
+      image: require("../../assets/objective-alcohol.png"),
+    });
+  }
+  if (objectivesConfig.burger > 0) {
+    objectivesInputs.push({
+      key: "burger",
+      image: require("../../assets/objective-burger.png"),
+    });
+  }
   if (objectivesInputs.length == 0) {
     return;
   }

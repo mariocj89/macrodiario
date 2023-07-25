@@ -1,9 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Image,
-  Switch
-} from "react-native";
+import { StyleSheet, View, Image, Switch } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import { useState } from "react";
 
@@ -21,10 +16,7 @@ const ToggleInput = ({ image, value, onValueChange }) => {
       <View style={styles.iconContainer}>
         <Image style={styles.macroIcon} source={image} />
       </View>
-      <Switch 
-        value={value}
-        onValueChange={onValueChange}
-      />
+      <Switch value={value} onValueChange={onValueChange} />
     </ElevatedView>
   );
 };

@@ -22,12 +22,16 @@ DEFAULT_MAX_TAKES = {
 DEFAULT_OBJ_CONFIG = {
   cardio: 0,
   strength: 0,
-  meditation: 0,
+  meditate: 0,
+  alcohol: 0,
+  burger: 0,
 };
 DEFAULT_OBJ = {
   cardio: false,
   strength: false,
   meditate: false,
+  alcohol: false,
+  burger: false,
 };
 
 const save = async (key, value) => {
@@ -135,7 +139,7 @@ const getMonthData = async (year, month) => {
       // This should never happen
       console.error(
         DateStr.dateToStr(date),
-        "has takes but not maxTakes set, ignoring"
+        "has takes but not maxTakes set, ignoring",
       );
       continue;
     }
