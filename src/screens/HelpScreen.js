@@ -125,7 +125,10 @@ const HelpScreen = ({ navigation }) => {
             {nextButton()}
           </View>,
           <View style={{ ...style.containerStyle }}>
-            <Text style={{ fontSize: 150 }}>🔎</Text>
+            <Image
+              style={{ width: 150, height: 150 }}
+              source={require("../../assets/loupe.png")}
+            />
             <Text style={{ fontSize: 15 }}>
               ¡Recuerda no perderte en los detalles! Lo importante no es ser
               exacto, céntrate en ser constante.
@@ -154,7 +157,10 @@ const HelpScreen = ({ navigation }) => {
             {nextButton()}
           </View>,
           <View style={{ ...style.containerStyle }}>
-            <Text style={{ fontSize: 150 }}>🎉</Text>
+            <Image
+              style={{ width: 150, height: 150 }}
+              source={require("../../assets/ready.png")}
+            />
             <Text style={{ fontSize: 15 }}>
               ¡Todo listo, empezemos a trabajar para conseguir el cuerpo que
               quieres!
