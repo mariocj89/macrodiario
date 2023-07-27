@@ -26,7 +26,6 @@ const generateIcons = (dayData) => {
         if (color == null) {
           return;
         }
-        console.log(key, color);
         return (
           <Image
             key={key}

@@ -1,8 +1,13 @@
 const macroColor = (takes, maxTakes) => {
+  const validDeviation = 0.15;
   if (maxTakes === 0) {
     return null;
   }
-  if (takes == maxTakes) {
+  if (takes === 0) {
+    return "#cccc00";
+  }
+  const deviation = Math.abs(1 - Math.abs(maxTakes / takes));
+  if (deviation < validDeviation) {
     return "green";
   }
   if (takes > maxTakes) {
