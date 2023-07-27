@@ -88,7 +88,7 @@ const MacroRadar = ({ takes, maxTakes }) => {
         }}
       >
         <ColorLegend color="green" text="Objetivo" />
-        <ColorLegend color="blue" text="Actual" />
+        <ColorLegend color="blue" text="Real" />
       </View>
     </View>
   );

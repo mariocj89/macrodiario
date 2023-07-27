@@ -162,8 +162,8 @@ const HelpScreen = ({ navigation }) => {
               source={require("../../assets/ready.png")}
             />
             <Text style={{ fontSize: 15 }}>
-              ¡Todo listo, empezemos a trabajar para conseguir el cuerpo que
-              quieres!
+              ¡Todo listo, empezemos a trabajar para conseguir hábitos
+              saludables!
             </Text>
             {nextButton("¡Listo!", () => {
               navigation.replace("DayInput");
