@@ -25,15 +25,17 @@ INITIAL_MAX_TAKES = {
   proteins: 6,
   carbs: 4,
   fats: 4,
-}
+};
 DEFAULT_OBJ_CONFIG = {
   cardio: 0,
   strength: 0,
   meditate: 0,
   alcohol: 0,
   burger: 0,
+  cheat: false,
 };
 DEFAULT_OBJ = {
+  cheat: false,
   cardio: false,
   strength: false,
   meditate: false,
@@ -68,6 +70,9 @@ const getDayTakes = async (date) => {
     return null;
   }
   return { ...DEFAULT_TAKES, ...dayTakes };
+};
+const removeDayTakes = async (date) => {
+  await AsyncStorage.removeItem(`takes/${date}`);
 };
 
 const getDayTakesOrDefault = async (date) => {
@@ -167,6 +172,7 @@ const deleteAllData = async () => {
 const Storage = {
   saveDayTakes,
   getDayTakesOrDefault,
+  removeDayTakes,
   saveMaxTakes,
   getMaxTakes,
   getMonthData,

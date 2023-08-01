@@ -1,5 +1,12 @@
 import { React, useContext, useEffect } from "react";
-import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import DayPicker from "../components/DayPicker";
 import MacroInput from "../components/MacroInput";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -20,8 +27,27 @@ const DayInputScreen = ({ navigation }) => {
   const isToday = date === DateStr.today();
   const { takes, maxTakes, objectives, objectivesConfig } = dayData;
   const fruitsEnabled = maxTakes.fruits > 0;
+  const isCheatDay = objectives.cheat ?? false;
   const waterEnabled = maxTakes.water > 0;
 
+  const markCheatDay = () => {
+    Alert.alert(
+      !isCheatDay ? "Marcar como Dia Trampa" : "Quitar dia trampa",
+      "¿Quieres volver a contar las tomas del dia de hoy?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Si",
+          onPress: async () => {
+            await manager.setCheatDay();
+          },
+        },
+      ],
+    );
+  };
   const incTakes = (macro) => {
     manager.setTakes({
       [macro]: takes[macro] + 1,
@@ -82,6 +108,9 @@ const DayInputScreen = ({ navigation }) => {
       image: require("../../assets/macro-water.png"),
     });
   }
+  if (isCheatDay) {
+    macroInputs.length = 0;
+  }
 
   return (
     <>
@@ -92,6 +121,18 @@ const DayInputScreen = ({ navigation }) => {
           onDayChange={manager.setDay}
         />
         <View style={styles.controlHeader}>
+          {objectivesConfig.cheat ? (
+            <TouchableOpacity onPress={markCheatDay}>
+              <Image
+                source={
+                  isCheatDay
+                    ? require("../../assets/cheat.png")
+                    : require("../../assets/cheat-outline.png")
+                }
+                style={{ width: 25, height: 25 }}
+              />
+            </TouchableOpacity>
+          ) : null}
           <TouchableOpacity
             disabled={!isToday}
             onPress={() => navigation.navigate("Config")}

@@ -61,8 +61,7 @@ const HelpScreen = ({ navigation }) => {
             <Text style={{ fontSize: 15 }}>
               El método de la mano es la forma más sencilla y eficaz para comer
               variado, sano y sin preocuparte por las calorías.
-            </Text>
-            <Text style={{ fontSize: 15 }}>
+              {"\n\n"}
               En este metodo contamos de forma aproximada las raciones de macro
               alimentos que ingerimos al día.
             </Text>

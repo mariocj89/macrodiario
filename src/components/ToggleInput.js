@@ -1,22 +1,19 @@
-import { StyleSheet, View, Image, Switch } from "react-native";
+import { StyleSheet, View, Image, Switch, Text } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import { useState } from "react";
 
-const ToggleInput = ({ image, value, onValueChange }) => {
-  const [macroValue, setMacroValue] = useState(value);
-  const updateValue = (newValue) => {
-    if (newValue < 0) {
-      return;
-    }
-    setMacroValue(newValue);
-    onUpdateValue(newValue);
-  };
+const ToggleInput = ({ image, value, onValueChange, text }) => {
   return (
     <ElevatedView style={styles.macroConfigContainer} elevation={5}>
       <View style={styles.iconContainer}>
         <Image style={styles.macroIcon} source={image} />
       </View>
-      <Switch value={value} onValueChange={onValueChange} />
+      <View style={styles.inputContainer}>
+        <Text style={styles.title}>{text}</Text>
+        <View style={styles.numberContainer}>
+          <Switch value={value} onValueChange={onValueChange} />
+        </View>
+      </View>
     </ElevatedView>
   );
 };
@@ -34,6 +31,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     justifyContent: "space-between",
     flex: 1,
+    marginRight: 10,
   },
   title: {
     fontWeight: "bold",

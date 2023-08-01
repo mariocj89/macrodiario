@@ -14,18 +14,16 @@ const macroToImage = {
   meditate: require("../../assets/objective-meditate-outline.png"),
   alcohol: require("../../assets/objective-alcohol-outline.png"),
   burger: require("../../assets/objective-burger-outline.png"),
+  cheat: require("../../assets/failure.png"),
 };
 
 const generateIcons = (dayData) => {
-  if (dayData == null) {
+  if (dayData === undefined) {
     return "";
   }
   return (
     <View style={styles.iconsContainer}>
       {Object.entries(dayData).map(([key, color]) => {
-        if (color == null) {
-          return;
-        }
         return (
           <Image
             key={key}

@@ -5,6 +5,7 @@ import StateContext from "../context/stateProvider";
 import { Button } from "react-native";
 import Storage from "../storage";
 import { useNavigation } from "@react-navigation/native";
+import ToggleInput from "../components/ToggleInput";
 
 const ConfigScreen = () => {
   const navigation = useNavigation();
@@ -123,6 +124,25 @@ const ConfigScreen = () => {
             />
           );
         })}
+      </View>
+      <View
+        style={{
+          marginVertical: 30,
+          borderBottomColor: "black",
+          borderBottomWidth: StyleSheet.hairlineWidth,
+        }}
+      />
+      <Text style={styles.header}>Otras opciones:</Text>
+      <View style={{}}>
+        <ToggleInput
+          style={{ marginHorizontal: 5 }}
+          image={require("../../assets/cheat.png")}
+          value={objectives.cheat}
+          text="Dia trampa"
+          onValueChange={(newValue) => {
+            manager.setObjectiveConfig({ cheat: newValue });
+          }}
+        />
       </View>
       <View
         style={{

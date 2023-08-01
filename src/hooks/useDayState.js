@@ -106,6 +106,12 @@ const useDayState = () => {
         dayData: { ...state.dayData, objectivesConfig: config },
       });
     },
+    setCheatDay: async () => {
+      console.log("Marking", state.date, " as a cheat day");
+      await stateManager.toggleObjective("cheat");
+      await Storage.removeDayTakes(state.date);
+      await stateManager.setDay(state.date);
+    },
   };
   return [state, stateManager];
 };

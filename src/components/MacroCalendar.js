@@ -47,19 +47,29 @@ LocaleConfig.locales["es"] = {
 LocaleConfig.defaultLocale = "es";
 
 const orangeIcons = new Set(["burger", "alcohol"]);
+const uncoloredIcons = new Set(["cheat"]);
 
 const makeColors = (dayData) => {
   const dayColors = {};
   const { takes, maxTakes, objectives } = dayData;
   if (takes !== null && maxTakes !== null) {
     for (const [macro, value] of Object.entries(takes)) {
+      if (maxTakes[macro] === 0) {
+        continue;
+      }
       dayColors[macro] = MacroUtils.macroColor(value, maxTakes[macro]);
     }
   }
   if (objectives !== null) {
     for (const [objective, value] of Object.entries(objectives ?? {})) {
       if (value) {
-        dayColors[objective] = orangeIcons.has(objective) ? "orange" : "blue";
+        if (uncoloredIcons.has(objective)) {
+          dayColors[objective] = null;
+        } else if (orangeIcons.has(objective)) {
+          dayColors[objective] = "orange";
+        } else {
+          dayColors[objective] = "blue";
+        }
       }
     }
   }
