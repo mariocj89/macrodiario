@@ -46,6 +46,8 @@ LocaleConfig.locales["es"] = {
 };
 LocaleConfig.defaultLocale = "es";
 
+const orangeIcons = new Set(["burger", "alcohol"]);
+
 const makeColors = (dayData) => {
   const dayColors = {};
   const { takes, maxTakes, objectives } = dayData;
@@ -55,12 +57,12 @@ const makeColors = (dayData) => {
     }
   }
   if (objectives !== null) {
-  for (const [objective, value] of Object.entries(objectives ?? {})) {
-    if (value) {
-      dayColors[objective] = "blue";
+    for (const [objective, value] of Object.entries(objectives ?? {})) {
+      if (value) {
+        dayColors[objective] = orangeIcons.has(objective) ? "orange" : "blue";
+      }
     }
   }
-}
   return dayColors;
 };
 
