@@ -71,7 +71,7 @@ const DayInputScreen = ({ navigation }) => {
     },
     {
       title: "Proteinas",
-      subtitle: "Carne, pescado y huevos",
+      subtitle: "Carne, pescado, huevos, tofu",
       key: "proteins",
       image: require("../../assets/macro-proteins.png"),
       portionImage: require("../../assets/info-protein.png"),
