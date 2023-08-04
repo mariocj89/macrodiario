@@ -45,7 +45,7 @@ const DayInputScreen = ({ navigation }) => {
             await manager.setCheatDay();
           },
         },
-      ],
+      ]
     );
   };
   const incTakes = (macro) => {
@@ -153,7 +153,7 @@ const DayInputScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={styles.macroContainers}>
+      <ScrollView style={styles.macroContainers} showsVerticalScrollIndicator={false}>
         {macroInputs.map(({ title, subtitle, image, key, portionImage }) => {
           return (
             <MacroInput

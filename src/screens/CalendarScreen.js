@@ -58,7 +58,7 @@ const CalendarScreen = ({ navigation }) => {
   const [monthTakes, monthMaxTakes] = aggregateMonthData(monthData);
   return (
     <>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <MacroCalendar
           date={state.date}
           monthData={monthData}

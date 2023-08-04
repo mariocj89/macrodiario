@@ -87,7 +87,7 @@ const ConfigScreen = () => {
     },
   ];
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Text style={styles.header}>Raciones diarias:</Text>
       {macroConfigInputs.map(({ title, key, image }) => {
         return (
