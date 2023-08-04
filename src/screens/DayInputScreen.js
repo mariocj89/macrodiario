@@ -32,8 +32,10 @@ const DayInputScreen = ({ navigation }) => {
 
   const markCheatDay = () => {
     Alert.alert(
-      !isCheatDay ? "Marcar como Dia Trampa" : "Quitar dia trampa",
-      "¿Quieres volver a contar las tomas del dia de hoy?",
+      !isCheatDay ? "Marcar fallo" : "Quitar fallo",
+      !isCheatDay
+        ? "¿Quieres marcar el dia como fallido para que no cuente en las estadísticas?"
+        : "¿Quieres volver a contar las tomas del dia de hoy?",
       [
         {
           text: "Cancelar",
@@ -124,12 +126,12 @@ const DayInputScreen = ({ navigation }) => {
           {objectivesConfig.cheat ? (
             <TouchableOpacity onPress={markCheatDay}>
               <Image
+                style={styles.controlButton}
                 source={
                   isCheatDay
                     ? require("../../assets/cheat.png")
                     : require("../../assets/cheat-outline.png")
                 }
-                style={{ width: 25, height: 25 }}
               />
             </TouchableOpacity>
           ) : null}
@@ -182,6 +184,8 @@ const DayInputScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   controlButton: {
+    width: 25,
+    height: 25,
     marginHorizontal: 5,
   },
   controlButtons: {

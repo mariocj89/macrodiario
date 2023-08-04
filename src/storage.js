@@ -32,7 +32,7 @@ DEFAULT_OBJ_CONFIG = {
   meditate: 0,
   alcohol: 0,
   burger: 0,
-  cheat: false,
+  cheat: true,
 };
 DEFAULT_OBJ = {
   cheat: false,

@@ -138,7 +138,7 @@ const ConfigScreen = () => {
           style={{ marginHorizontal: 5 }}
           image={require("../../assets/cheat.png")}
           value={objectives.cheat}
-          text="Dia trampa"
+          text="Permitir dias fallo"
           onValueChange={(newValue) => {
             manager.setObjectiveConfig({ cheat: newValue });
           }}
