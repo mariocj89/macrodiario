@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { Text, StyleSheet, View, ScrollView } from "react-native";
 import Storage from "../storage";
 import DateStr from "../dateStr";
 import StateContext from "../context/stateProvider";
@@ -51,7 +51,7 @@ const CalendarScreen = ({ navigation }) => {
   useEffect(() => {
     loadMonthData(
       new Date(state.date).getFullYear(),
-      new Date(state.date).getMonth(),
+      new Date(state.date).getMonth()
     );
   }, []);
 
@@ -77,6 +77,15 @@ const CalendarScreen = ({ navigation }) => {
             borderBottomWidth: StyleSheet.hairlineWidth,
           }}
         />
+        <Text style={{ fontSize: 25, alignSelf: "center", marginVertical: 15 }}>
+          Estadísticas mensuales
+        </Text>
+        <View
+          style={{
+            borderBottomColor: "black",
+            borderBottomWidth: StyleSheet.hairlineWidth,
+          }}
+        />
         <ErrorBoundary>
           <MacroPie takes={monthTakes} maxTakes={monthMaxTakes} />
         </ErrorBoundary>
@@ -95,7 +104,5 @@ const CalendarScreen = ({ navigation }) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default CalendarScreen;
