@@ -57,43 +57,51 @@ const ConfigScreen = () => {
       title: "Fruta",
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
+      help: "Activa para llevar el conteo de raciones de frutas y verduras por separado."
     },
     {
       title: "Agua",
       key: "water",
       image: require("../../assets/macro-water.png"),
+      help: "Rastrea tu ingesta diaria de agua y mantén una hidratación óptima.",
     },
   ];
   const extraObjectivesInputs = [
     {
       image: require("../../assets/objective-strength.png"),
       key: "strength",
+      help: "Registra tus días de ejercicio de fuerza y actividades en el gimnasio semanal.",
     },
     {
       image: require("../../assets/objective-cardio.png"),
       key: "cardio",
+      help: "Registra tus días de cardio y deporte semanal.",
     },
     {
       image: require("../../assets/objective-meditate.png"),
       key: "meditate",
+      help: "Registra tus días de meditacion, relajacion o mindfulness semanal.",
     },
     {
       image: require("../../assets/objective-alcohol.png"),
       key: "alcohol",
+      help: "Registra los días en que tomates alcohol durante la semana.",
     },
     {
       image: require("../../assets/objective-burger.png"),
       key: "burger",
+      help: "Registra los días que comistes ultra procesados durante la semana.",
     },
   ];
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Text style={styles.header}>Raciones diarias:</Text>
-      {macroConfigInputs.map(({ title, key, image }) => {
+      {macroConfigInputs.map(({ title, key, image, help }) => {
         return (
           <MaxInput
             macroImage={image}
             key={key}
+            helpText={help}
             macroName={title}
             value={maxTakes[key]}
             onUpdateValue={(newValue) => {
@@ -111,11 +119,12 @@ const ConfigScreen = () => {
       />
       <Text style={styles.header}>Objetivos Semanales:</Text>
       <View style={{}}>
-        {extraObjectivesInputs.map(({ key, image }) => {
+        {extraObjectivesInputs.map(({ key, image, help }) => {
           return (
             <MaxInput
               style={{ marginHorizontal: 5 }}
               key={key}
+              helpText={help}
               macroImage={image}
               value={objectives[key] ?? 0}
               onUpdateValue={(newValue) => {
