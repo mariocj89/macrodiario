@@ -1,4 +1,4 @@
-import { React, useContext, useEffect } from "react";
+import { React, useContext, useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  AppState,
 } from "react-native";
 import DayPicker from "../components/DayPicker";
 import MacroInput from "../components/MacroInput";
@@ -16,8 +17,25 @@ import ObjectivesInput from "../components/ObjectivesInput";
 
 const DayInputScreen = ({ navigation }) => {
   const [state, manager] = useContext(StateContext);
+  const appState = useRef(AppState.currentState);
   useEffect(() => {
     manager.setDay(DateStr.today());
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === "active"
+      ) {
+        console.log("App back to foreground, refreshing day:", state.date);
+        if (state.date) {
+          manager.setDay(state.date);
+        }
+      }
+
+      appState.current = nextAppState;
+    });
+    return () => {
+      subscription.remove();
+    };
   }, []);
   const date = state.date;
   const dayData = state.dayData;
@@ -155,7 +173,10 @@ const DayInputScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={styles.macroContainers} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.macroContainers}
+        showsVerticalScrollIndicator={false}
+      >
         {macroInputs.map(({ title, subtitle, image, key, portionImage }) => {
           return (
             <MacroInput
