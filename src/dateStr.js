@@ -21,11 +21,25 @@ const decDay = (inDate) => {
   return dateToStr(date);
 };
 
+const humanize = (date) => {
+  const isToday = date == today();
+  if (isToday) {
+    return "Hoy";
+  } else if (date === DateStr.decDay(today())) {
+    return "Ayer";
+  }
+  var jsDate = new Date(date);
+  const day = jsDate.toLocaleDateString("es-ES", { day: "numeric" });
+  const month = jsDate.toLocaleDateString("es-ES", { month: "short" });
+  return `${day} / ${month[0].toUpperCase() + month.slice(1)}`;
+};
+
 const DateStr = {
-  today: today,
-  incDay: incDay,
-  decDay: decDay,
-  dateToStr: dateToStr,
+  today,
+  incDay,
+  decDay,
+  dateToStr,
+  humanize,
 };
 
 export default DateStr;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import DateStr from "../dateStr";
@@ -6,16 +6,15 @@ import { useNavigation } from "@react-navigation/native";
 
 const DayPicker = ({ date, onDayChange }) => {
   const navigation = useNavigation();
-  var jsDate = new Date(date);
-  const day = jsDate.toLocaleDateString("es-ES", { day: "numeric" });
-  const month = jsDate.toLocaleDateString("es-ES", { month: "short" });
-  var dateStr = `${day} / ${month[0].toUpperCase() + month.slice(1)}`;
-  const isToday = date == DateStr.today();
-  if (isToday) {
-    dateStr = "Hoy";
-  } else if (date === DateStr.decDay(DateStr.today())) {
-    dateStr = "Ayer";
-  }
+  const [dateStr, setDateStr] = useState(DateStr.humanize(date));
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDateStr(DateStr.humanize(date));
+    }, 60 * 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  });
 
   return (
     <View style={styles.container}>
