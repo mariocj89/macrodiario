@@ -70,25 +70,30 @@ const ConfigScreen = () => {
     {
       image: require("../../assets/objective-strength.png"),
       key: "strength",
+      title: "Fuerza/Gym",
       help: "Registra tus días de ejercicio de fuerza y actividades en el gimnasio semanal.",
     },
     {
       image: require("../../assets/objective-cardio.png"),
       key: "cardio",
+      title: "Cardio",
       help: "Registra tus días de cardio y deporte semanal.",
     },
     {
       image: require("../../assets/objective-meditate.png"),
       key: "meditate",
+      title: "Meditación/Relax",
       help: "Registra tus días de meditacion, relajacion o mindfulness semanal.",
     },
     {
       image: require("../../assets/objective-alcohol.png"),
+      title: "Alcohol",
       key: "alcohol",
       help: "Registra los días en que tomates alcohol durante la semana.",
     },
     {
       image: require("../../assets/objective-burger.png"),
+      title: "Ultra procesados",
       key: "burger",
       help: "Registra los días que comistes ultra procesados durante la semana.",
     },
@@ -119,12 +124,13 @@ const ConfigScreen = () => {
       />
       <Text style={styles.header}>Objetivos Semanales:</Text>
       <View style={{}}>
-        {extraObjectivesInputs.map(({ key, image, help }) => {
+        {extraObjectivesInputs.map(({ key, title, image, help }) => {
           return (
             <MaxInput
               style={{ marginHorizontal: 5 }}
               key={key}
               helpText={help}
+              macroName={title}
               macroImage={image}
               value={objectives[key] ?? 0}
               onUpdateValue={(newValue) => {
