@@ -76,7 +76,7 @@ const HelpScreen = ({ navigation }) => {
               El tamaño de tu puño cerrado determina 1 ración de vegetales.
             </Text>
             <Text style={{ fontSize: 15 }}>
-              Cualquier verdura, hortaliza o fruta.
+              Cualquier verdura u hortaliza.
             </Text>
             {nextButton()}
           </View>,

@@ -21,10 +21,10 @@ DEFAULT_MAX_TAKES = {
 };
 INITIAL_MAX_TAKES = {
   ...DEFAULT_MAX_TAKES,
-  vegetables: 8,
+  vegetables: 6,
   proteins: 6,
-  carbs: 4,
-  fats: 4,
+  carbs: 6,
+  fats: 6,
 };
 DEFAULT_OBJ_CONFIG = {
   cardio: 0,

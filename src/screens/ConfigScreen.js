@@ -57,7 +57,7 @@ const ConfigScreen = () => {
       title: "Fruta",
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
-      help: "Activa para llevar el conteo de raciones de frutas y verduras por separado."
+      help: "Activa para llevar el conteo de raciones de fruta por separado."
     },
     {
       title: "Agua",
