@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const DayPicker = ({ date, onDayChange }) => {
   const navigation = useNavigation();
+  const isToday = date == DateStr.today();
   const [dateStr, setDateStr] = useState(DateStr.humanize(date));
   useEffect(() => {
     const intervalId = setInterval(() => {

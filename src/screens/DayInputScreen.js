@@ -64,7 +64,7 @@ const DayInputScreen = ({ navigation }) => {
   const macroInputs = [
     {
       title: "Verduras y Hortalizas",
-      subtitle: "Lechuga, cebolla, tomate, zanahoria",
+      subtitle: "Lechuga, cebolla, tomate",
       key: "vegetables",
       image: require("../../assets/macro-vegetables.png"),
       portionImage: require("../../assets/info-fist.png"),
