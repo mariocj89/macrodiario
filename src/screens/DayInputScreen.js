@@ -34,7 +34,7 @@ const DayInputScreen = ({ navigation }) => {
     Alert.alert(
       !isCheatDay ? "Marcar fallo" : "Quitar fallo",
       !isCheatDay
-        ? "¿Quieres marcar el dia como fallido para que no cuente en las estadísticas?"
+        ? "¿Quieres marcar el dia como fallido y que no cuente en las estadísticas?"
         : "¿Quieres volver a contar las tomas del dia de hoy?",
       [
         {
@@ -109,7 +109,7 @@ const DayInputScreen = ({ navigation }) => {
     });
   }
   if (isCheatDay) {
-    macroInputs.length = 0;
+    //macroInputs.length = 0;
   }
 
   return (
@@ -160,6 +160,7 @@ const DayInputScreen = ({ navigation }) => {
         {macroInputs.map(({ title, subtitle, image, key, portionImage }) => {
           return (
             <MacroInput
+              isCheatDay={isCheatDay}
               key={key}
               macroTitle={title}
               macroSubtitle={subtitle}

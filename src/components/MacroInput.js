@@ -12,6 +12,7 @@ const MacroInput = ({
   maxTakes,
   onTake,
   onUntake,
+  isCheatDay,
 }) => {
   const pendingTakes = maxTakes - currentTakes;
   const overTakes = currentTakes - maxTakes;
@@ -46,7 +47,10 @@ const MacroInput = ({
     });
   }
   return (
-    <ElevatedView style={styles.container} elevation={5}>
+    <ElevatedView
+      style={{ ...styles.container, opacity: isCheatDay ? 0.5 : null }}
+      elevation={5}
+    >
       <View style={styles.header}>
         <View style={styles.imageContainer}>
           <Image source={marcoImage} style={styles.image} />
@@ -67,13 +71,15 @@ const MacroInput = ({
           <Image source={portionImage} style={styles.portionImage} />
         </View>
       </View>
-      <View style={styles.inputsContainer}>
-        {inputsConfig.map((item) => (
-          <TouchableOpacity key={item.id} onPress={item.onPress}>
-            <Image style={styles.inputIcon} source={item.image} />
-          </TouchableOpacity>
-        ))}
-      </View>
+      {isCheatDay ? null : (
+        <View style={styles.inputsContainer}>
+          {inputsConfig.map((item) => (
+            <TouchableOpacity key={item.id} onPress={item.onPress}>
+              <Image style={styles.inputIcon} source={item.image} />
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </ElevatedView>
   );
 };
