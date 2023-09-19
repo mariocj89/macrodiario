@@ -9,15 +9,24 @@ import {
 } from "react-native";
 import { StyleSheet } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import { Video, ResizeMode } from "expo-av";
 
 const HelpScreen = ({ navigation }) => {
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
-  const ref = React.useRef(null);
+  const carousel = React.useRef(null);
+  const videoMethod = React.useRef(null);
 
+  const carouselProgressChange = (offsetProgress, absoluteProgress) => {
+    if (absoluteProgress == 1) {
+      videoMethod.current.playAsync()
+    } else {
+      videoMethod.current.pauseAsync()
+    }
+  };
   const nextButton = (text, onClick) => {
     const defaultNext = () => {
-      ref.current?.next();
+      carousel.current?.next();
     };
     return (
       <View>
@@ -43,10 +52,11 @@ const HelpScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <Carousel
-        ref={ref}
+        ref={carousel}
         loop={false}
         width={width}
         height={height}
+        onProgressChange={carouselProgressChange}
         data={[
           <View style={style.containerStyle}>
             <Image source={require("../../assets/intro-image.png")} />
@@ -54,105 +64,29 @@ const HelpScreen = ({ navigation }) => {
             {nextButton("Empecemos")}
           </View>,
           <View style={{ ...style.containerStyle }}>
+            <Video
+              ref={videoMethod}
+              style={{
+                width: 350,
+                height: "70%",
+                borderWidth: 10,
+                borderRadius: 10,
+              }}
+              source={require("../../assets/metodo-mano.mp4")}
+              useNativeControls
+              resizeMode={ResizeMode.COVER}
+            />
+            {nextButton()}
+          </View>,
+          <View style={{ ...style.containerStyle }}>
             <Image
               style={{ width: 350, height: 350 }}
               source={require("../../assets/info-intro.png")}
             />
             <Text style={{ fontSize: 15 }}>
-              El método de la mano es la forma más sencilla y eficaz para comer
-              variado, sano y sin preocuparte por las calorías.
-              {"\n\n"}
-              En este metodo contamos de forma aproximada las raciones de macro
-              alimentos que ingerimos al día.
+              Recuerda que el volumen de los alimentos es aproximado, no te
+              vuelvas loco con los detalles.
             </Text>
-            {nextButton()}
-          </View>,
-          <View style={{ ...style.containerStyle }}>
-            <Image
-              style={{ width: 350, height: 350 }}
-              source={require("../../assets/info-fist.png")}
-            />
-            <Text style={{ fontSize: 15 }}>
-              El tamaño de tu puño cerrado determina 1 ración de vegetales.
-            </Text>
-            <Text style={{ fontSize: 15 }}>
-              Cualquier verdura u hortaliza.
-            </Text>
-            {nextButton()}
-          </View>,
-          <View style={{ ...style.containerStyle }}>
-            <Image
-              style={{ width: 350, height: 350 }}
-              source={require("../../assets/info-protein.png")}
-            />
-            <Text style={{ fontSize: 15 }}>
-              Tu palma de la mano (en anchura y grosor) constituye 1 ración de
-              proteína.
-            </Text>
-            <Text style={{ fontSize: 15 }}>
-              Carne, pescado, huevos, marisco, legumbres, tofu, proteina de
-              suero.
-            </Text>
-            {nextButton()}
-          </View>,
-          <View style={{ ...style.containerStyle }}>
-            <Image
-              style={{ width: 350, height: 350 }}
-              source={require("../../assets/info-carbs.png")}
-            />
-            <Text style={{ fontSize: 15 }}>
-              La garra, o tu mano en forma de cuenco representa 1 ración de
-              carbohidrato.
-            </Text>
-            <Text style={{ fontSize: 15 }}>
-              Patata, Boniato, arroz, quinoa, legumbres, cereales.
-            </Text>
-            {nextButton()}
-          </View>,
-          <View style={{ ...style.containerStyle }}>
-            <Image
-              style={{ width: 350, height: 350 }}
-              source={require("../../assets/info-fats.png")}
-            />
-            <Text style={{ fontSize: 15 }}>
-              Tu pulgar representa 1 ración de grasas.
-            </Text>
-            <Text style={{ fontSize: 15 }}>
-              Aceite de oliva, aguacate, aceitunas, aceite de coco, mantequilla,
-              cacao, frutos secos.
-            </Text>
-            {nextButton()}
-          </View>,
-          <View style={{ ...style.containerStyle }}>
-            <Image
-              style={{ width: 150, height: 150 }}
-              source={require("../../assets/loupe.png")}
-            />
-            <Text style={{ fontSize: 15 }}>
-              ¡Recuerda no perderte en los detalles! Lo importante no es ser
-              exacto, céntrate en ser constante.
-            </Text>
-            <View>
-              <Text style={{ fontSize: 15 }}>
-                Si aun así quieres más detalles, visita esta guía sobre el
-                metodo de la mano:
-              </Text>
-              <Text
-                style={{
-                  fontSize: 15,
-                  alignSelf: "center",
-                  color: "blue",
-                  paddingTop: 5,
-                }}
-                onPress={() =>
-                  Linking.openURL(
-                    "https://carloscasadocoach.com/como-ajustar-calorias-sin-estar-a-dieta/",
-                  )
-                }
-              >
-                Cómo ajustar calorías sin estar a dieta
-              </Text>
-            </View>
             {nextButton()}
           </View>,
           <View style={{ ...style.containerStyle }}>
