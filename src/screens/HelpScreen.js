@@ -16,12 +16,18 @@ const HelpScreen = ({ navigation }) => {
   const height = Dimensions.get("window").height;
   const carousel = React.useRef(null);
   const videoMethod = React.useRef(null);
+  const videoGuide = React.useRef(null);
 
   const carouselProgressChange = (offsetProgress, absoluteProgress) => {
     if (absoluteProgress == 1) {
-      videoMethod.current.playAsync()
+      videoMethod.current.playAsync();
     } else {
-      videoMethod.current.pauseAsync()
+      videoMethod.current.pauseAsync();
+    }
+    if (absoluteProgress == 2) {
+      videoGuide.current.playAsync();
+    } else {
+      videoGuide.current.pauseAsync();
     }
   };
   const nextButton = (text, onClick) => {
@@ -79,14 +85,51 @@ const HelpScreen = ({ navigation }) => {
             {nextButton()}
           </View>,
           <View style={{ ...style.containerStyle }}>
+            <Video
+              ref={videoGuide}
+              style={{
+                width: 350,
+                height: "70%",
+                borderWidth: 10,
+                borderRadius: 10,
+              }}
+              source={require("../../assets/app-guide.mp4")}
+              useNativeControls
+              resizeMode={ResizeMode.COVER}
+            />
+            {nextButton()}
+          </View>,
+          <View style={{ ...style.containerStyle }}>
             <Image
               style={{ width: 350, height: 350 }}
               source={require("../../assets/info-intro.png")}
             />
-            <Text style={{ fontSize: 15 }}>
-              Recuerda que el volumen de los alimentos es aproximado, no te
-              vuelvas loco con los detalles.
-            </Text>
+            <View>
+              <Text style={{ fontSize: 15 }}>
+                Recuerda que el volumen de los alimentos es aproximado, no te
+                vuelvas loco con los detalles.
+              </Text>
+              <Text></Text>
+              <Text>
+                Para más informacion, visita esta guía sobre el método de la
+                mano:
+              </Text>
+              <Text
+                style={{
+                  fontSize: 15,
+                  alignSelf: "center",
+                  color: "blue",
+                  paddingTop: 5,
+                }}
+                onPress={() =>
+                  Linking.openURL(
+                    "https://carloscasadocoach.com/como-ajustar-calorias-sin-estar-a-dieta/"
+                  )
+                }
+              >
+                Cómo ajustar calorías sin estar a dieta
+              </Text>
+            </View>
             {nextButton()}
           </View>,
           <View style={{ ...style.containerStyle }}>

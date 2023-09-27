@@ -16,12 +16,16 @@ const DayPicker = ({ date, onDayChange }) => {
       clearInterval(intervalId);
     };
   });
+  const updateDay = (day) => {
+    onDayChange(day);
+    setDateStr(DateStr.humanize(day));
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.dayText}>{dateStr}</Text>
       <View style={styles.controlsContainer}>
-        <TouchableOpacity onPress={() => onDayChange(DateStr.decDay(date))}>
+        <TouchableOpacity onPress={() => updateDay(DateStr.decDay(date))}>
           <MaterialCommunityIcons
             style={styles.controlButton}
             name="chevron-left"
@@ -36,7 +40,7 @@ const DayPicker = ({ date, onDayChange }) => {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => onDayChange(DateStr.incDay(date))}
+          onPress={() => updateDay(DateStr.incDay(date))}
           disabled={isToday}
         >
           <MaterialCommunityIcons
