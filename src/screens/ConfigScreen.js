@@ -39,7 +39,7 @@ const ConfigScreen = () => {
       image: require("../../assets/macro-vegetables.png"),
     },
     {
-      title: "Proteinas",
+      title: "Proteínas",
       key: "proteins",
       image: require("../../assets/macro-proteins.png"),
     },
@@ -153,7 +153,7 @@ const ConfigScreen = () => {
           style={{ marginHorizontal: 5 }}
           image={require("../../assets/cheat.png")}
           value={objectives.cheat}
-          text="Permitir dias fallo"
+          text="Permitir días fallo"
           onValueChange={(newValue) => {
             manager.setObjectiveConfig({ cheat: newValue });
           }}

@@ -18,7 +18,7 @@ const macroColor = (takes, maxTakes) => {
 
 const translations = {
   vegetables: "Verduras",
-  proteins: "Proteinas",
+  proteins: "Proteínas",
   fats: "Grasas",
   carbs: "Carbohidratos",
   fruits: "Fruta",
