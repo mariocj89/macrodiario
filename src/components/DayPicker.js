@@ -23,7 +23,6 @@ const DayPicker = ({ date, onDayChange }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.dayText}>{dateStr}</Text>
       <View style={styles.controlsContainer}>
         <TouchableOpacity onPress={() => updateDay(DateStr.decDay(date))}>
           <MaterialCommunityIcons
@@ -33,11 +32,7 @@ const DayPicker = ({ date, onDayChange }) => {
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Calendar")}>
-          <MaterialCommunityIcons
-            style={styles.controlButton}
-            name="calendar-month"
-            size={25}
-          />
+          <Text style={styles.dayText}>{dateStr}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => updateDay(DateStr.incDay(date))}
@@ -71,6 +66,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     paddingLeft: 10,
+    paddingRight: 10,
   },
   controlButton: {},
 });

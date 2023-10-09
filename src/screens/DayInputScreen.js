@@ -78,7 +78,9 @@ const DayInputScreen = ({ navigation }) => {
     },
     {
       title: "Carbohidratos",
-      subtitle: fruitsEnabled? "Fruta, pan, pasta, patata": "Pan, pasta, patata, arroz",
+      subtitle: fruitsEnabled
+        ? "Fruta, pan, pasta, patata"
+        : "Pan, pasta, patata, arroz",
       key: "carbs",
       image: require("../../assets/macro-carbs.png"),
       portionImage: require("../../assets/info-carbs.png"),
@@ -133,6 +135,13 @@ const DayInputScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
           ) : null}
+          <TouchableOpacity onPress={() => navigation.navigate("Calendar")}>
+            <MaterialCommunityIcons
+              style={styles.controlButton}
+              name="chart-bar"
+              size={25}
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             disabled={!isToday}
             onPress={() => navigation.navigate("Config")}
