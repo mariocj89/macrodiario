@@ -135,6 +135,20 @@ const getObjectivesOrDefault = async (date) => {
   return obj ?? DEFAULT_OBJ;
 };
 
+const getWeekData = async (date) => {
+  var weekDay = new Date(date); // Monday
+  weekDay.setDate(weekDay.getDate() - weekDay.getDay() + 1);
+  const result = {};
+  for (var i = 0; i < 7; i++) {
+    const takes = await getDayTakes(DateStr.dateToStr(weekDay));
+    const maxTakes = await getMaxTakes(DateStr.dateToStr(weekDay));
+    const objectives = await getObjectives(DateStr.dateToStr(weekDay));
+    result[DateStr.dateToStr(weekDay)] = { maxTakes, takes, objectives };
+    weekDay.setDate(weekDay.getDate() + 1);
+  }
+  return result;
+};
+
 const getMonthData = async (year, month) => {
   const result = {};
   for (let day = 1; day < 32; day++) {
@@ -176,6 +190,7 @@ const Storage = {
   saveMaxTakes,
   getMaxTakes,
   getMonthData,
+  getWeekData,
   ensureMaxTakes,
   isFirstTimeStartup,
   deleteAllData,

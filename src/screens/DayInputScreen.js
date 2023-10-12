@@ -110,9 +110,6 @@ const DayInputScreen = ({ navigation }) => {
       image: require("../../assets/macro-water.png"),
     });
   }
-  if (isCheatDay) {
-    //macroInputs.length = 0;
-  }
 
   return (
     <>

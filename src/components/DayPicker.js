@@ -11,7 +11,7 @@ const DayPicker = ({ date, onDayChange }) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setDateStr(DateStr.humanize(date));
-    }, 60 * 1000);
+    }, 1000);
     return () => {
       clearInterval(intervalId);
     };

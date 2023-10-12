@@ -1,7 +1,15 @@
 import React from "react";
-import { Calendar, LocaleConfig } from "react-native-calendars";
+import {
+  Calendar,
+  LocaleConfig,
+  WeekCalendar,
+  CalendarProvider,
+} from "react-native-calendars";
+import CalendarHeader from "react-native-calendars/src/calendar/header";
 import MacroUtils from "../macroUtils";
 import CalendarMacroDay from "./CalendarMacroDay";
+import { Text, View } from "react-native";
+import DateStr from "../dateStr";
 
 LocaleConfig.locales["es"] = {
   monthNames: [
@@ -76,15 +84,17 @@ const makeColors = (dayData) => {
   return dayColors;
 };
 
-const MacroCalendar = ({ date, monthData, onMonthChange, onDayPress }) => {
+const MonthMacroCalendar = ({ date, monthData, onMonthChange, onDayPress }) => {
   const calendarDayData = {};
   for (const [date, dayData] of Object.entries(monthData)) {
     calendarDayData[date] = makeColors(dayData);
   }
   return (
     <Calendar
+      enableSwipeMonths
       initialDate={date}
       hideExtraDays={true}
+      pastScrollRange={0}
       firstDay={1}
       onMonthChange={onMonthChange}
       dayComponent={({ date }) => {
@@ -98,6 +108,37 @@ const MacroCalendar = ({ date, monthData, onMonthChange, onDayPress }) => {
       }}
     />
   );
+};
+
+const WeekMacroCalendar = ({ date, weekData, onWeekChange, onDayPress }) => {
+  const calendarDayData = {};
+  for (const [date, dayData] of Object.entries(weekData)) {
+    calendarDayData[date] = makeColors(dayData);
+  }
+  const calendarDayComponent = ({ date }) => {
+    return (
+      <CalendarMacroDay
+        date={date}
+        dayData={calendarDayData[date.dateString]}
+        onDayPress={onDayPress}
+      />
+    );
+  };
+  return (
+    <CalendarProvider date={date} >
+      <WeekCalendar
+        firstDay={1}
+        dayComponent={calendarDayComponent}
+        scrollEnabled={false}
+        staticHeader={true}
+      />
+    </CalendarProvider>
+  );
+};
+
+const MacroCalendar = {
+  MonthMacroCalendar,
+  WeekMacroCalendar,
 };
 
 export default MacroCalendar;
