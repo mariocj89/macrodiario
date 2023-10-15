@@ -45,36 +45,26 @@ const aggregateData = (data) => {
 const CalendarScreen = ({ navigation }) => {
   const [range, setRange] = useState("month");
   const [state, manager] = useContext(StateContext);
-  const [[calendarData, statisticsData], setData] = useState([{},{}]);
+  const [macroData, setData] = useState({});
+  const [selectedDay, setSelectedDay] = useState(state.date);
   const loadMonthData = async (year, month) => {
     console.log(`Updating month data to: ${year}-${month}`);
     const result = await Storage.getMonthData(year, month);
-    setData([result, result]);
+    setData(result);
   };
   const loadWeekData = async (date) => {
     console.log(`Updating week data to week of: ${date}`);
     const weekData = await Storage.getWeekData(date);
-    var result = {};
-    // We are not able to detect a week change... so we load a whole year.
-    for (let delta = -6; delta < 6; delta++) {
-      var d = new Date(state.date);
-      d.setMonth(d.getMonth() + delta);
-      const monthResult = await Storage.getMonthData(
-        d.getFullYear(),
-        d.getMonth()
-      );
-      result = { ...result, ...monthResult };
-    }
-    setData([result, weekData]);
+    setData(weekData);
   };
   const initialLoad = (range) => {
     if (range === "week") {
-      loadWeekData(state.date);
+      loadWeekData(selectedDay);
     }
     if (range === "month") {
       loadMonthData(
-        new Date(state.date).getFullYear(),
-        new Date(state.date).getMonth()
+        new Date(selectedDay).getFullYear(),
+        new Date(selectedDay).getMonth()
       );
     }
   };
@@ -82,7 +72,7 @@ const CalendarScreen = ({ navigation }) => {
     initialLoad(range);
   }, []);
 
-  const [takes, maxTakes] = aggregateData(statisticsData);
+  const [takes, maxTakes] = aggregateData(macroData);
   return (
     <>
       <SwitchSelector
@@ -101,8 +91,8 @@ const CalendarScreen = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         {range === "month" ? (
           <MacroCalendar.MonthMacroCalendar
-            date={state.date}
-            monthData={calendarData}
+            date={selectedDay}
+            monthData={macroData}
             onMonthChange={(date) => {
               loadMonthData(date.year, date.month - 1, loadMonthData);
             }}
@@ -114,11 +104,11 @@ const CalendarScreen = ({ navigation }) => {
           />
         ) : (
           <MacroCalendar.WeekMacroCalendar
-            date={state.date}
-            weekData={calendarData}
+            date={selectedDay}
+            weekData={macroData}
             onWeekChange={(date) => {
-              // TODO: This is unused :(
               loadWeekData(date);
+              setSelectedDay(date);
             }}
             onDayPress={(date) => {
               console.log("Pressed day: ", date)

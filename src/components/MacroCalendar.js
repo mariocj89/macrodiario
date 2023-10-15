@@ -5,10 +5,10 @@ import {
   WeekCalendar,
   CalendarProvider,
 } from "react-native-calendars";
-import CalendarHeader from "react-native-calendars/src/calendar/header";
+import Week from "react-native-calendars/src/expandableCalendar/week";
 import MacroUtils from "../macroUtils";
 import CalendarMacroDay from "./CalendarMacroDay";
-import { Text, View } from "react-native";
+import { TouchableOpacity, View, Image, Text } from "react-native";
 import DateStr from "../dateStr";
 
 LocaleConfig.locales["es"] = {
@@ -97,17 +97,16 @@ const MonthMacroCalendar = ({ date, monthData, onMonthChange, onDayPress }) => {
       pastScrollRange={0}
       firstDay={1}
       onMonthChange={onMonthChange}
-      dayComponent={({ date }) => {
-        return (
-          <CalendarMacroDay
-            date={date}
-            dayData={calendarDayData[date.dateString]}
-            onDayPress={onDayPress}
-          />
-        );
-      }}
+      dayComponent={CalendarMacroDay}
+      markedDates={calendarDayData}
     />
   );
+};
+
+const addDays = (date, days) => {
+  var d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
 };
 
 const WeekMacroCalendar = ({ date, weekData, onWeekChange, onDayPress }) => {
@@ -115,24 +114,64 @@ const WeekMacroCalendar = ({ date, weekData, onWeekChange, onDayPress }) => {
   for (const [date, dayData] of Object.entries(weekData)) {
     calendarDayData[date] = makeColors(dayData);
   }
-  const calendarDayComponent = ({ date }) => {
-    return (
-      <CalendarMacroDay
-        date={date}
-        dayData={calendarDayData[date.dateString]}
-        onDayPress={onDayPress}
-      />
-    );
-  };
+  const weekNo = DateStr.getWeekNumber(date);
+  var title = `Semana ${weekNo}`;
+  if (weekNo == DateStr.getWeekNumber(DateStr.today())) {
+    var title = "Semana actual";
+  }
   return (
-    <CalendarProvider date={date} >
-      <WeekCalendar
+    <View
+      style={{
+        backgroundColor: "white",
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: "white",
+          justifyContent: "space-between",
+        }}
+      >
+        <TouchableOpacity
+          style={{ padding: 20 }}
+          onPress={() => {
+            onWeekChange(addDays(date, -7));
+          }}
+        >
+          <Image
+            source={require("../../assets/left-arrow.png")}
+            style={{ tintColor: "#4ab5cf", width: 15, height: 15 }}
+          />
+        </TouchableOpacity>
+        <Text style={{ fontSize: 15 }}>{title}</Text>
+        <TouchableOpacity
+          style={{ padding: 20 }}
+          onPress={() => {
+            onWeekChange(addDays(date, 7));
+          }}
+        >
+          <Image
+            source={require("../../assets/right-arrow.png")}
+            style={{ tintColor: "#4ab5cf", width: 15, height: 15 }}
+          />
+        </TouchableOpacity>
+      </View>
+      <Week
+        allowShadow={false}
+        current={date}
+        markedDates={calendarDayData}
+        style={{
+          alignContent: "center",
+        }}
+        scrollViewProps={{ scrollEnabled: false }}
         firstDay={1}
-        dayComponent={calendarDayComponent}
+        dayComponent={CalendarMacroDay}
         scrollEnabled={false}
         staticHeader={true}
+        onDayPress={onDayPress}
       />
-    </CalendarProvider>
+    </View>
   );
 };
 

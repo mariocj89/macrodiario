@@ -137,7 +137,11 @@ const getObjectivesOrDefault = async (date) => {
 
 const getWeekData = async (date) => {
   var weekDay = new Date(date); // Monday
-  weekDay.setDate(weekDay.getDate() - weekDay.getDay() + 1);
+  if (weekDay.getDay() == 0) {  // Sunday needs special handling
+    weekDay.setDate(weekDay.getDate() - 7 + 1);
+  } else {
+    weekDay.setDate(weekDay.getDate() - weekDay.getDay() + 1);
+  }
   const result = {};
   for (var i = 0; i < 7; i++) {
     const takes = await getDayTakes(DateStr.dateToStr(weekDay));

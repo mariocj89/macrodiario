@@ -35,7 +35,7 @@ const generateIcons = (dayData) => {
     </View>
   );
 };
-const CalendarMacroDay = ({ date, dayData, onDayPress }) => {
+const CalendarMacroDay = ({ date, marking, onPress }) => {
   const dateStr = date.dateString;
   var fontColor = "black";
   const today = DateStr.today();
@@ -49,9 +49,7 @@ const CalendarMacroDay = ({ date, dayData, onDayPress }) => {
   return (
     <TouchableOpacity
       key={dateStr}
-      onPress={() => {
-        onDayPress(date);
-      }}
+      onPress={()=>{onPress(date)}}
       disabled={date.timestamp > todayMs}
     >
       <View
@@ -62,7 +60,7 @@ const CalendarMacroDay = ({ date, dayData, onDayPress }) => {
         }}
       >
         <Text style={{ ...styles.dayText, color: fontColor }}>{date.day}</Text>
-        {generateIcons(dayData)}
+        {generateIcons(marking)}
       </View>
     </TouchableOpacity>
   );
