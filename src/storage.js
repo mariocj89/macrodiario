@@ -42,6 +42,9 @@ DEFAULT_OBJ = {
   alcohol: false,
   burger: false,
 };
+DEFAULT_GLOBALS = {
+  reminders: false,
+};
 
 const save = async (key, value) => {
   try {
@@ -137,7 +140,8 @@ const getObjectivesOrDefault = async (date) => {
 
 const getWeekData = async (date) => {
   var weekDay = new Date(date); // Monday
-  if (weekDay.getDay() == 0) {  // Sunday needs special handling
+  if (weekDay.getDay() == 0) {
+    // Sunday needs special handling
     weekDay.setDate(weekDay.getDate() - 7 + 1);
   } else {
     weekDay.setDate(weekDay.getDate() - weekDay.getDay() + 1);
@@ -183,6 +187,14 @@ const isFirstTimeStartup = async () => {
   return firstLoad;
 };
 
+const setGlobalValues = async (value) => {
+  await save("global-values", value);
+};
+const getGlobalValues = async () => {
+  const values = await get("global-values");
+  return { ...DEFAULT_GLOBALS, ...values };
+};
+
 const deleteAllData = async () => {
   await AsyncStorage.clear();
 };
@@ -190,6 +202,7 @@ const deleteAllData = async () => {
 const Storage = {
   saveDayTakes,
   getDayTakesOrDefault,
+  getDayTakes,
   removeDayTakes,
   saveMaxTakes,
   getMaxTakes,
@@ -202,6 +215,8 @@ const Storage = {
   saveObjectives,
   getObjectivesConfig,
   saveObjectivesConfig,
+  getGlobalValues,
+  setGlobalValues,
 };
 
 export default Storage;

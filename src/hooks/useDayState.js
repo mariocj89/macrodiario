@@ -38,6 +38,7 @@ const useDayState = () => {
     date: null,
     dayData: null,
     weekData: null,
+    globalValues: null,
   });
   const validStateCheck = () => {
     if (state.date === null) {
@@ -49,6 +50,7 @@ const useDayState = () => {
       await Storage.ensureMaxTakes(date);
       const dayData = await loadDayData(date);
       const weekData = await loadWeekData(date);
+      const globalValues = await Storage.getGlobalValues();
       console.log(
         "Updating day to",
         date,
@@ -56,8 +58,10 @@ const useDayState = () => {
         dayData,
         "week data:",
         weekData,
+        "global values:",
+        globalValues
       );
-      setState({ ...state, date, dayData, weekData });
+      setState({ ...state, date, dayData, weekData, globalValues });
     },
     setMaxTakes: async (maxTakesDelta) => {
       validStateCheck();
@@ -97,13 +101,22 @@ const useDayState = () => {
         "Updating",
         state.date,
         " objectives config with",
-        configDelta,
+        configDelta
       );
       const config = { ...state.dayData.objectivesConfig, ...configDelta };
       await Storage.saveObjectivesConfig(config);
       setState({
         ...state,
         dayData: { ...state.dayData, objectivesConfig: config },
+      });
+    },
+    setGlobalValues: async (valuesDelta) => {
+      console.log("Updating global values with", valuesDelta);
+      const values = { ...state.globalValues, ...valuesDelta };
+      await Storage.setGlobalValues(values);
+      setState({
+        ...state,
+        globalValues: values,
       });
     },
     setCheatDay: async () => {

@@ -6,6 +6,41 @@ import { Button } from "react-native";
 import Storage from "../storage";
 import { useNavigation } from "@react-navigation/native";
 import ToggleInput from "../components/ToggleInput";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    const takes = Storage.getDayTakes();
+    if (takes) {
+      console.log("Notifications wont be shown, user already has input data");
+      return {
+        shouldShowAlert: false,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+      };
+    }
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    };
+  },
+});
+
+const scheduleNotifications = async () => {
+  Notifications.cancelAllScheduledNotificationsAsync();
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Macro Diario",
+      body: "¡No olvides anotar las tomas de hoy!",
+    },
+    trigger: {
+      hour: 14,
+      minute: 0,
+      repeats: true,
+    },
+  });
+};
 
 const ConfigScreen = () => {
   const navigation = useNavigation();
@@ -25,13 +60,14 @@ const ConfigScreen = () => {
             navigation.navigate("Start");
           },
         },
-      ],
+      ]
     );
   };
 
   const [state, manager] = useContext(StateContext);
   const maxTakes = state.dayData.maxTakes;
   const objectives = state.dayData.objectivesConfig;
+  const globalValues = state.globalValues;
   const macroConfigInputs = [
     {
       title: "Verduras",
@@ -57,7 +93,7 @@ const ConfigScreen = () => {
       title: "Fruta",
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
-      help: "Activa para llevar el conteo de raciones de fruta por separado."
+      help: "Activa para llevar el conteo de raciones de fruta por separado.",
     },
     {
       title: "Agua",
@@ -98,6 +134,32 @@ const ConfigScreen = () => {
       help: "Registra los días que comistes ultra procesados durante la semana.",
     },
   ];
+  const enableNotifications = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permiso de notifiaciones rechazado");
+      Alert.alert(
+        "Activacion manual necesaria",
+        "Para permitir que Macro Diario te envie notifications, primero has de darle permiso en los ajustes de tu dispositivo.",
+        [
+          {
+            text: "OK",
+          },
+        ]
+      );
+      manager.setObjectiveConfig({ reminders: false });
+      return;
+    }
+    console.log("Permiso de notificaciones obtenido");
+    scheduleNotifications();
+  };
+  if (globalValues.reminders === true) {
+    console.log("Enabling scheduled notifications");
+    enableNotifications();
+  } else {
+    console.log("Disabling all notifiacations");
+    Notifications.cancelAllScheduledNotificationsAsync();
+  }
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Text style={styles.header}>Raciones diarias:</Text>
@@ -153,9 +215,22 @@ const ConfigScreen = () => {
           style={{ marginHorizontal: 5 }}
           image={require("../../assets/cheat.png")}
           value={objectives.cheat}
+          helpText={"Permite marcar un dia como fallo y que no cuente para las estadisticas mensuales."}
           text="Permitir días fallo"
           onValueChange={(newValue) => {
             manager.setObjectiveConfig({ cheat: newValue });
+          }}
+        />
+      </View>
+      <View style={{}}>
+        <ToggleInput
+          style={{ marginHorizontal: 5 }}
+          image={require("../../assets/notification.png")}
+          value={globalValues.reminders}
+          helpText={"Activa un recordatorio al medio dia por si se te olvida introducir las tomas."}
+          text="Activar recordatorios"
+          onValueChange={(newValue) => {
+            manager.setGlobalValues({ reminders: newValue });
           }}
         />
       </View>
