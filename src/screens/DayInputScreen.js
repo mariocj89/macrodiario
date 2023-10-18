@@ -67,7 +67,7 @@ const DayInputScreen = ({ navigation }) => {
       subtitle: "Lechuga, cebolla, tomate",
       key: "vegetables",
       image: require("../../assets/macro-vegetables.png"),
-      portionImage: require("../../assets/info-fist.png"),
+      portionImage: require("../../assets/info-vegs.png"),
     },
     {
       title: "Proteínas",
@@ -99,7 +99,7 @@ const DayInputScreen = ({ navigation }) => {
       subtitle: "",
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
-      portionImage: require("../../assets/info-fist.png"),
+      portionImage: require("../../assets/info-carbs.png"),
     });
   }
   if (waterEnabled) {
