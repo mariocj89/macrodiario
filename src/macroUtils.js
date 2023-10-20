@@ -22,6 +22,7 @@ const translations = {
   fats: "Grasas",
   carbs: "Carbohidratos",
   fruits: "Fruta",
+  dairy: "Lácteos",
 };
 
 const MacroUtils = {

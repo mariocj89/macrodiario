@@ -27,6 +27,7 @@ const DayInputScreen = ({ navigation }) => {
   const isToday = date === DateStr.today();
   const { takes, maxTakes, objectives, objectivesConfig } = dayData;
   const fruitsEnabled = maxTakes.fruits > 0;
+  const dairyEnabled = maxTakes.dairy > 0;
   const isCheatDay = objectives.cheat ?? false;
   const waterEnabled = maxTakes.water > 0;
 
@@ -99,6 +100,15 @@ const DayInputScreen = ({ navigation }) => {
       subtitle: "",
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
+      portionImage: require("../../assets/info-carbs.png"),
+    });
+  }
+  if (dairyEnabled) {
+    macroInputs.push({
+      title: "Lácteos",
+      subtitle: "",
+      key: "dairy",
+      image: require("../../assets/macro-dairy.png"),
       portionImage: require("../../assets/info-carbs.png"),
     });
   }

@@ -9,6 +9,7 @@ DEFAULT_TAKES = {
   carbs: 0,
   fats: 0,
   fruits: 0,
+  dairy: 0,
   water: 0,
 };
 DEFAULT_MAX_TAKES = {
@@ -17,6 +18,7 @@ DEFAULT_MAX_TAKES = {
   carbs: 0,
   fats: 0,
   fruits: 0,
+  dairy: 0,
   water: 0,
 };
 INITIAL_MAX_TAKES = {

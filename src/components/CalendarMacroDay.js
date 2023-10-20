@@ -8,6 +8,7 @@ const macroToImage = {
   carbs: require("../../assets/macro-carbs-outline.png"),
   fats: require("../../assets/macro-fats-outline.png"),
   fruits: require("../../assets/macro-fruits-outline.png"),
+  dairy: require("../../assets/macro-dairy-outline.png"),
   water: require("../../assets/macro-water-outline.png"),
   strength: require("../../assets/objective-strength-outline.png"),
   cardio: require("../../assets/objective-cardio-outline.png"),

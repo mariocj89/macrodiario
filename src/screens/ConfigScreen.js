@@ -96,6 +96,12 @@ const ConfigScreen = () => {
       help: "Activa para llevar el conteo de raciones de fruta por separado.",
     },
     {
+      title: "Lácteos",
+      key: "dairy",
+      image: require("../../assets/macro-dairy.png"),
+      help: "Activa para llevar el conteo de lácteos por separado.",
+    },
+    {
       title: "Agua",
       key: "water",
       image: require("../../assets/macro-water.png"),
