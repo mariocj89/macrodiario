@@ -7,10 +7,11 @@ import Storage from "../storage";
 import { useNavigation } from "@react-navigation/native";
 import ToggleInput from "../components/ToggleInput";
 import * as Notifications from "expo-notifications";
+import DateStr from "../dateStr";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
-    const takes = Storage.getDayTakes();
+    const takes = Storage.getDayTakes(DateStr.today());
     if (takes) {
       console.log("Notifications wont be shown, user already has input data");
       return {
