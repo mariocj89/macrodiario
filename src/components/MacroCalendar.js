@@ -98,6 +98,7 @@ const MonthMacroCalendar = ({ date, monthData, onMonthChange, onDayPress }) => {
       firstDay={1}
       onMonthChange={onMonthChange}
       dayComponent={CalendarMacroDay}
+      onDayPress={onDayPress}
       markedDates={calendarDayData}
     />
   );
