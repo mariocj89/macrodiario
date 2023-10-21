@@ -9,6 +9,9 @@ const MacroPie = ({ takes, maxTakes }) => {
   var pieData = [];
   var pieColors = [];
   for (const [macro, value] of Object.entries(takes)) {
+    if (value === 0) {
+      continue;
+    }
     pieColors.push(MacroUtils.macroColor(value, maxTakes[macro]));
     pieData.push({ x: 1, y: value, label: macro });
   }
