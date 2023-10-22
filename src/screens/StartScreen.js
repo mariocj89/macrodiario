@@ -8,14 +8,14 @@ const StartScreen = ({ navigation }) => {
     const isFirstLoad = await Storage.isFirstTimeStartup();
     const globalValues = await Storage.getGlobalValues();
     if (!globalValues.language) {
-      globalValues.language = Localization.language.startsWith("es")
+      globalValues.language = Localization.locale.startsWith("es")
         ? "es"
         : "en";
       await Storage.setGlobalValues(globalValues);
     }
     i18n.changeLanguage(globalValues.language);
     LocaleConfig.defaultLocale = globalValues.language;
-    if (isFirstLoad) {
+    if (isFirstLoad && globalValues.language == "es") {  // TODO: Change once help is in english
       navigation.replace("Help");
     } else {
       navigation.replace("DayInput");

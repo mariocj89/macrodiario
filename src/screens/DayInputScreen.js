@@ -37,7 +37,9 @@ const DayInputScreen = ({ navigation }) => {
     Alert.alert(
       !isCheatDay ? t("Marcar fallo") : t("Quitar fallo"),
       !isCheatDay
-        ? t("¿Quieres marcar el dia como fallido y que no cuente en las estadísticas?")
+        ? t(
+            "¿Quieres marcar el dia como fallido y que no cuente en las estadísticas?"
+          )
         : t("¿Quieres volver a contar las tomas del dia de hoy?"),
       [
         {
@@ -162,13 +164,15 @@ const DayInputScreen = ({ navigation }) => {
               size={25}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Help")}>
-            <MaterialCommunityIcons
-              style={styles.controlButton}
-              name="help-circle-outline"
-              size={25}
-            />
-          </TouchableOpacity>
+          {state.globalValues.language == "es" ? (
+            <TouchableOpacity onPress={() => navigation.navigate("Help")}>
+              <MaterialCommunityIcons
+                style={styles.controlButton}
+                name="help-circle-outline"
+                size={25}
+              />
+            </TouchableOpacity>
+          ) : null}
         </View>
       </View>
       <ScrollView
