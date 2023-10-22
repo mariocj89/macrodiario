@@ -1,9 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import React from "react";
 import {
   Calendar,
   LocaleConfig,
-  WeekCalendar,
-  CalendarProvider,
 } from "react-native-calendars";
 import Week from "react-native-calendars/src/expandableCalendar/week";
 import MacroUtils from "../macroUtils";
@@ -52,7 +51,47 @@ LocaleConfig.locales["es"] = {
   dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
   today: "Hoy",
 };
-LocaleConfig.defaultLocale = "es";
+LocaleConfig.locales["en"] = {
+  monthNames: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+  monthNamesShort: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Agu",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+  dayNames: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+  dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  today: "Today",
+};
 
 const orangeIcons = new Set(["burger", "alcohol"]);
 const uncoloredIcons = new Set(["cheat"]);
@@ -111,14 +150,15 @@ const addDays = (date, days) => {
 };
 
 const WeekMacroCalendar = ({ date, weekData, onWeekChange, onDayPress }) => {
+  const { t } = useTranslation();
   const calendarDayData = {};
   for (const [date, dayData] of Object.entries(weekData)) {
     calendarDayData[date] = makeColors(dayData);
   }
   const weekNo = DateStr.getWeekNumber(date);
-  var title = `Semana ${weekNo}`;
+  var title = t("Semana ") +  weekNo.toString();
   if (weekNo == DateStr.getWeekNumber(DateStr.today())) {
-    var title = "Semana actual";
+    var title = t("Semana actual");
   }
   return (
     <View

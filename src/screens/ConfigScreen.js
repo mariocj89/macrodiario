@@ -8,6 +8,9 @@ import { useNavigation } from "@react-navigation/native";
 import ToggleInput from "../components/ToggleInput";
 import * as Notifications from "expo-notifications";
 import DateStr from "../dateStr";
+import PickerInput from "../components/PickerInput";
+import i18n from "../../i18n";
+import { useTranslation } from "react-i18next";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -33,7 +36,7 @@ const scheduleNotifications = async () => {
   await Notifications.scheduleNotificationAsync({
     content: {
       title: "Macro Diario",
-      body: "¡No olvides anotar las tomas de hoy!",
+      body: i18n.t("¡No olvides anotar las tomas de hoy!"),
     },
     trigger: {
       hour: 14,
@@ -44,18 +47,19 @@ const scheduleNotifications = async () => {
 };
 
 const ConfigScreen = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const confirmDeleteAllData = () => {
     Alert.alert(
-      "Borrar todos los datos",
-      "Estas seguro de que quieres borrar todos los datos de la App?",
+      i18n.t("Borrar todos los datos"),
+      i18n.t("Estas seguro de que quieres borrar todos los datos de la App?"),
       [
         {
-          text: "Cancelar",
+          text: t("Cancelar"),
           style: "cancel",
         },
         {
-          text: "Borrar",
+          text: t("Borrar"),
           onPress: async () => {
             await Storage.deleteAllData();
             navigation.navigate("Start");
@@ -71,74 +75,84 @@ const ConfigScreen = () => {
   const globalValues = state.globalValues;
   const macroConfigInputs = [
     {
-      title: "Verduras",
+      title: t("Verduras"),
       key: "vegetables",
       image: require("../../assets/macro-vegetables.png"),
     },
     {
-      title: "Proteínas",
+      title: t("Proteínas"),
       key: "proteins",
       image: require("../../assets/macro-proteins.png"),
     },
     {
-      title: "Carbohidratos",
+      title: t("Carbohidratos"),
       key: "carbs",
       image: require("../../assets/macro-carbs.png"),
     },
     {
-      title: "Grasas",
+      title: t("Grasas"),
       key: "fats",
       image: require("../../assets/macro-fats.png"),
     },
     {
-      title: "Fruta",
+      title: t("Fruta"),
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
-      help: "Activa para llevar el conteo de raciones de fruta por separado.",
+      help: t(
+        "Activa para llevar el conteo de raciones de fruta por separado."
+      ),
     },
     {
-      title: "Lácteos",
+      title: t("Lácteos"),
       key: "dairy",
       image: require("../../assets/macro-dairy.png"),
-      help: "Activa para llevar el conteo de lácteos por separado.",
+      help: t("Activa para llevar el conteo de lácteos por separado."),
     },
     {
-      title: "Agua",
+      title: t("Agua"),
       key: "water",
       image: require("../../assets/macro-water.png"),
-      help: "Rastrea tu ingesta diaria de agua y mantén una hidratación óptima.",
+      help: t(
+        "Rastrea tu ingesta diaria de agua y mantén una hidratación óptima."
+      ),
     },
   ];
   const extraObjectivesInputs = [
     {
       image: require("../../assets/objective-strength.png"),
       key: "strength",
-      title: "Fuerza/Gym",
-      help: "Registra tus días de ejercicio de fuerza y actividades en el gimnasio semanal.",
+      title: t("Fuerza/Gym"),
+      help: t(
+        "Registra tus días de ejercicio de fuerza y actividades en el gimnasio semanal."
+      ),
     },
     {
       image: require("../../assets/objective-cardio.png"),
       key: "cardio",
-      title: "Cardio",
-      help: "Registra tus días de cardio y deporte semanal.",
+      title: t("Cardio"),
+      help: t("Registra tus días de cardio y deporte semanal."),
     },
     {
       image: require("../../assets/objective-meditate.png"),
       key: "meditate",
-      title: "Meditación/Relax",
-      help: "Registra tus días de meditacion, relajacion o mindfulness semanal.",
+      title: t("Meditación/Relax"),
+      help: t(
+        "Registra tus días de meditacion, relajacion o mindfulness semanal."
+      ),
     },
     {
       image: require("../../assets/objective-alcohol.png"),
-      title: "Alcohol",
+      title: t("Alcohol"),
       key: "alcohol",
-      help: "Registra los días en que tomates alcohol durante la semana.",
+      help: t("Registra los días en que tomastes alcohol durante la semana."),
     },
     {
       image: require("../../assets/objective-burger.png"),
-      title: "Ultra procesados",
+      title: t("Ultra procesados"),
       key: "burger",
-      help: "Registra los días que comistes ultra procesados durante la semana.",
+      help: t(
+        "Registra los días que comistes ultra procesados durante la semana."
+      ),
     },
   ];
   const enableNotifications = async () => {
@@ -146,8 +160,10 @@ const ConfigScreen = () => {
     if (status !== "granted") {
       console.log("Permiso de notifiaciones rechazado");
       Alert.alert(
-        "Activacion manual necesaria",
-        "Para permitir que Macro Diario te envie notifications, primero has de darle permiso en los ajustes de tu dispositivo.",
+        t("Activacion manual necesaria"),
+        t(
+          "Para permitir que Macro Diario te envie notifications, primero has de darle permiso en los ajustes de tu dispositivo."
+        ),
         [
           {
             text: "OK",
@@ -169,7 +185,7 @@ const ConfigScreen = () => {
   }
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <Text style={styles.header}>Raciones diarias:</Text>
+      <Text style={styles.header}>{t("Raciones diarias")}:</Text>
       {macroConfigInputs.map(({ title, key, image, help }) => {
         return (
           <MaxInput
@@ -191,7 +207,7 @@ const ConfigScreen = () => {
           borderBottomWidth: StyleSheet.hairlineWidth,
         }}
       />
-      <Text style={styles.header}>Objetivos Semanales:</Text>
+      <Text style={styles.header}>{t("Objetivos Semanales")}:</Text>
       <View style={{}}>
         {extraObjectivesInputs.map(({ key, title, image, help }) => {
           return (
@@ -216,14 +232,16 @@ const ConfigScreen = () => {
           borderBottomWidth: StyleSheet.hairlineWidth,
         }}
       />
-      <Text style={styles.header}>Otras opciones:</Text>
+      <Text style={styles.header}>{t("Otras opciones")}:</Text>
       <View style={{}}>
         <ToggleInput
           style={{ marginHorizontal: 5 }}
           image={require("../../assets/cheat.png")}
           value={objectives.cheat}
-          helpText={"Permite marcar un dia como fallo y que no cuente para las estadisticas mensuales."}
-          text="Permitir días fallo"
+          helpText={t(
+            "Permite marcar un dia como fallo y que no cuente para las estadisticas mensuales."
+          )}
+          text={t("Permitir días fallo")}
           onValueChange={(newValue) => {
             manager.setObjectiveConfig({ cheat: newValue });
           }}
@@ -234,11 +252,30 @@ const ConfigScreen = () => {
           style={{ marginHorizontal: 5 }}
           image={require("../../assets/notification.png")}
           value={globalValues.reminders}
-          helpText={"Activa un recordatorio al medio dia por si se te olvida introducir las tomas."}
-          text="Activar recordatorios"
+          helpText={t(
+            "Activa un recordatorio al medio dia por si se te olvida introducir las tomas."
+          )}
+          text={t("Activar recordatorios")}
           onValueChange={(newValue) => {
             manager.setGlobalValues({ reminders: newValue });
           }}
+        />
+      </View>
+      <View style={{}}>
+        <PickerInput
+          style={{ marginHorizontal: 5 }}
+          image={require("../../assets/languages.png")}
+          value={globalValues.language ?? "es"}
+          helpText={t("Elige el idioma de la applicación.")}
+          text={t("Idioma")}
+          onValueChange={(newValue) => {
+            i18n.changeLanguage(newValue);
+            manager.setGlobalValues({ language: newValue });
+          }}
+          options={[
+            { label: t("Español"), value: "es" },
+            { label: t("Inglés"), value: "en" },
+          ]}
         />
       </View>
       <View
@@ -249,7 +286,7 @@ const ConfigScreen = () => {
         }}
       />
       <Button
-        title="Borrar todos los datos"
+        title={t("Borrar todos los datos")}
         color="red"
         onPress={confirmDeleteAllData}
       />

@@ -3,8 +3,10 @@ import { StyleSheet, Dimensions, View, Text } from "react-native";
 import { VictoryPie } from "victory-native";
 import ColorLegend from "./ColorLegend";
 import MacroUtils from "../macroUtils";
+import { useTranslation } from "react-i18next";
 
 const MacroPie = ({ takes, maxTakes }) => {
+  const { t } = useTranslation();
   const width = Dimensions.get("window").width;
   var pieData = [];
   var pieColors = [];
@@ -23,7 +25,7 @@ const MacroPie = ({ takes, maxTakes }) => {
         marginTop: 15,
       }}
     >
-      <Text style={{ fontSize: 20 }}>Ingestas</Text>
+      <Text style={{ fontSize: 20 }}>{t("Ingestas")}</Text>
       <VictoryPie
         cornerRadius={5}
         padAngle={2}
@@ -42,9 +44,9 @@ const MacroPie = ({ takes, maxTakes }) => {
           justifyContent: "space-evenly",
         }}
       >
-        <ColorLegend color="#cccc00" text="Por debajo" />
-        <ColorLegend color="green" text="Justo" />
-        <ColorLegend color="red" text="Por encima" />
+        <ColorLegend color="#cccc00" text={t("Por debajo")} />
+        <ColorLegend color="green" text={t("Justo")} />
+        <ColorLegend color="red" text={t("Por encima")} />
       </View>
     </View>
   );

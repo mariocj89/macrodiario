@@ -10,8 +10,10 @@ import {
 import { StyleSheet } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { Video, ResizeMode } from "expo-av";
+import { useTranslation } from "react-i18next";
 
 const HelpScreen = ({ navigation }) => {
+  const { t } = useTranslation();
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
   const carousel = React.useRef(null);
@@ -49,7 +51,7 @@ const HelpScreen = ({ navigation }) => {
           onPress={onClick ?? defaultNext}
         >
           <Text style={{ color: "white", fontSize: 15 }}>
-            {text ?? "Siguiente"}
+            {text ?? t("Siguiente")}
           </Text>
         </TouchableOpacity>
       </View>
@@ -67,7 +69,7 @@ const HelpScreen = ({ navigation }) => {
           <View style={style.containerStyle}>
             <Image source={require("../../assets/intro-image.png")} />
             <Text style={{ fontSize: 25 }}>¡Bienvenido a Macro Diario!</Text>
-            {nextButton("Empecemos")}
+            {nextButton(t("Empecemos"))}
           </View>,
           <View style={{ ...style.containerStyle }}>
             <Video
@@ -141,7 +143,7 @@ const HelpScreen = ({ navigation }) => {
               ¡Todo listo, empezemos a trabajar para conseguir hábitos
               saludables!
             </Text>
-            {nextButton("¡Listo!", () => {
+            {nextButton(t("¡Listo!"), () => {
               navigation.replace("DayInput");
             })}
           </View>,

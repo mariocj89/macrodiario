@@ -9,6 +9,7 @@ import {
 } from "victory-native";
 import { View, Text } from "react-native";
 import ColorLegend from "./ColorLegend";
+import { useTranslation } from "react-i18next";
 
 const getMaxima = (data) => {
   var result = {};
@@ -35,12 +36,13 @@ const processData = (data) => {
   return data.map((datum) => makeDataArray(datum));
 };
 const MacroRadar = ({ takes, maxTakes }) => {
+  const { t } = useTranslation();
   const data = processData([maxTakes, takes]);
   const maxima = getMaxima([maxTakes, takes]);
   return (
     <View>
       <Text style={{ fontSize: 20, alignSelf: "center" }}>
-        Objetivo / Actual
+        {t("Objetivo / Actual")}
       </Text>
       <VictoryChart polar theme={VictoryTheme.material} domain={{ y: [0, 1] }}>
         <VictoryGroup
@@ -87,8 +89,8 @@ const MacroRadar = ({ takes, maxTakes }) => {
           marginTop: -10,
         }}
       >
-        <ColorLegend color="green" text="Objetivo" />
-        <ColorLegend color="blue" text="Real" />
+        <ColorLegend color="green" text={t("Objetivo")} />
+        <ColorLegend color="blue" text={t("Real")} />
       </View>
     </View>
   );

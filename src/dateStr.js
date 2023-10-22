@@ -1,3 +1,6 @@
+import i18n from "../i18n";
+import * as Localization from 'expo-localization';
+
 const dateToStr = (date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -24,13 +27,13 @@ const decDay = (inDate) => {
 const humanize = (date) => {
   const isToday = date == today();
   if (isToday) {
-    return "Hoy";
+    return i18n.t("Hoy");
   } else if (date === DateStr.decDay(today())) {
-    return "Ayer";
+    return i18n.t("Ayer");
   }
   var jsDate = new Date(date);
-  const day = jsDate.toLocaleDateString("es-ES", { day: "numeric" });
-  const month = jsDate.toLocaleDateString("es-ES", { month: "short" });
+  const day = jsDate.toLocaleDateString(Localization.locale, { day: "numeric" });
+  const month = jsDate.toLocaleDateString(Localization.locale, { month: "short" });
   return `${day} / ${month[0].toUpperCase() + month.slice(1)}`;
 };
 

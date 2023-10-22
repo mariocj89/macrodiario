@@ -10,6 +10,7 @@ import {
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ElevatedView from "react-native-elevated-view";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const MaxInput = ({
   macroImage,
@@ -18,6 +19,7 @@ const MaxInput = ({
   onUpdateValue,
   helpText,
 }) => {
+  const { t } = useTranslation();
   const [macroValue, setMacroValue] = useState(value);
   const updateValue = (newValue) => {
     if (newValue < 0) {
@@ -27,7 +29,7 @@ const MaxInput = ({
     onUpdateValue(newValue);
   };
   const onHelp = () => {
-    Alert.alert("Ayuda", helpText, [
+    Alert.alert(t("Ayuda"), helpText, [
       {
         text: "OK",
       },

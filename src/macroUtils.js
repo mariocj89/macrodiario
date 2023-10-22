@@ -1,3 +1,5 @@
+import i18n from "../i18n";
+
 const macroColor = (takes, maxTakes) => {
   const validDeviation = 0.15;
   if (maxTakes === 0) {
@@ -17,12 +19,12 @@ const macroColor = (takes, maxTakes) => {
 };
 
 const translations = {
-  vegetables: "Verduras",
-  proteins: "Proteínas",
-  fats: "Grasas",
-  carbs: "Carbohidratos",
-  fruits: "Fruta",
-  dairy: "Lácteos",
+  vegetables: i18n.t("Verduras"),
+  proteins: i18n.t("Proteínas"),
+  fats: i18n.t("Grasas"),
+  carbs: i18n.t("Carbohidratos"),
+  fruits: i18n.t("Fruta"),
+  dairy: i18n.t("Lácteos"),
 };
 
 const MacroUtils = {

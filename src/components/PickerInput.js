@@ -2,19 +2,26 @@ import {
   StyleSheet,
   View,
   Image,
-  Switch,
   Text,
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ElevatedView from "react-native-elevated-view";
-import { useTranslation } from "react-i18next";
+import RNPickerSelect from "react-native-picker-select";
 
-const ToggleInput = ({ image, value, onValueChange, text, helpText }) => {
-  const { t } = useTranslation();
+const PickerInput = ({
+  image,
+  value,
+  onValueChange,
+  text,
+  helpText,
+  options,
+}) => {
+  const [selectedValue, setSelectedValue] = useState(value);
   const onHelp = () => {
-    Alert.alert(t("Ayuda"), helpText, [
+    Alert.alert("Ayuda", helpText, [
       {
         text: "OK",
       },
@@ -40,7 +47,15 @@ const ToggleInput = ({ image, value, onValueChange, text, helpText }) => {
         </View>
         <View style={styles.inputContainer}>
           <View style={styles.numberContainer}>
-            <Switch value={value} onValueChange={onValueChange} />
+            <RNPickerSelect
+              placeholder={{}}
+              value={selectedValue}
+              onValueChange={(newValue) => {setSelectedValue(newValue)}}
+              onClose={() => {
+                onValueChange(selectedValue)
+              }}
+              items={options}
+            />
           </View>
         </View>
       </View>
@@ -65,7 +80,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     justifyContent: "center",
-    alignSelf: "flex-end",
+    alignSelf: "center",
     flex: 1,
   },
   title: {
@@ -76,7 +91,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: "flex-end",
+    alignSelf: "center",
   },
   macroNumber: {
     minWidth: 40,
@@ -103,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ToggleInput;
+export default PickerInput;

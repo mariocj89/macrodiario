@@ -1,4 +1,5 @@
 import { React, useContext, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import {
   StyleSheet,
   View,
@@ -15,6 +16,7 @@ import StateContext from "../context/stateProvider";
 import ObjectivesInput from "../components/ObjectivesInput";
 
 const DayInputScreen = ({ navigation }) => {
+  const { t } = useTranslation();
   const [state, manager] = useContext(StateContext);
   useEffect(() => {
     manager.setDay(DateStr.today());
@@ -33,17 +35,17 @@ const DayInputScreen = ({ navigation }) => {
 
   const markCheatDay = () => {
     Alert.alert(
-      !isCheatDay ? "Marcar fallo" : "Quitar fallo",
+      !isCheatDay ? t("Marcar fallo") : t("Quitar fallo"),
       !isCheatDay
-        ? "¿Quieres marcar el dia como fallido y que no cuente en las estadísticas?"
-        : "¿Quieres volver a contar las tomas del dia de hoy?",
+        ? t("¿Quieres marcar el dia como fallido y que no cuente en las estadísticas?")
+        : t("¿Quieres volver a contar las tomas del dia de hoy?"),
       [
         {
-          text: "Cancelar",
+          text: t("Cancelar"),
           style: "cancel",
         },
         {
-          text: "Si",
+          text: t("Si"),
           onPress: async () => {
             await manager.setCheatDay();
           },
@@ -64,31 +66,31 @@ const DayInputScreen = ({ navigation }) => {
 
   const macroInputs = [
     {
-      title: "Verduras y Hortalizas",
-      subtitle: "Lechuga, cebolla, tomate",
+      title: t("Verduras y Hortalizas"),
+      subtitle: t("Lechuga, cebolla, tomate"),
       key: "vegetables",
       image: require("../../assets/macro-vegetables.png"),
       portionImage: require("../../assets/info-vegs.png"),
     },
     {
-      title: "Proteínas",
-      subtitle: "Carne, pescado, huevos, tofu",
+      title: t("Proteínas"),
+      subtitle: t("Carne, pescado, huevos, tofu"),
       key: "proteins",
       image: require("../../assets/macro-proteins.png"),
       portionImage: require("../../assets/info-protein.png"),
     },
     {
-      title: "Carbohidratos",
+      title: t("Carbohidratos"),
       subtitle: fruitsEnabled
-        ? "Fruta, pan, pasta, patata"
-        : "Pan, pasta, patata, arroz",
+        ? t("Fruta, pan, pasta, patata")
+        : t("Pan, pasta, patata, arroz"),
       key: "carbs",
       image: require("../../assets/macro-carbs.png"),
       portionImage: require("../../assets/info-carbs.png"),
     },
     {
-      title: "Grasas",
-      subtitle: "Aceite, aguacate, frutos secos",
+      title: t("Grasas"),
+      subtitle: t("Aceite, aguacate, frutos secos"),
       key: "fats",
       image: require("../../assets/macro-fats.png"),
       portionImage: require("../../assets/info-fats.png"),
@@ -96,7 +98,7 @@ const DayInputScreen = ({ navigation }) => {
   ];
   if (fruitsEnabled) {
     macroInputs.push({
-      title: "Frutas",
+      title: t("Frutas"),
       subtitle: "",
       key: "fruits",
       image: require("../../assets/macro-fruits.png"),
@@ -105,7 +107,7 @@ const DayInputScreen = ({ navigation }) => {
   }
   if (dairyEnabled) {
     macroInputs.push({
-      title: "Lácteos",
+      title: t("Lácteos"),
       subtitle: "",
       key: "dairy",
       image: require("../../assets/macro-dairy.png"),
@@ -114,7 +116,7 @@ const DayInputScreen = ({ navigation }) => {
   }
   if (waterEnabled) {
     macroInputs.push({
-      title: "Agua",
+      title: t("Agua"),
       subtitle: "",
       key: "water",
       image: require("../../assets/macro-water.png"),

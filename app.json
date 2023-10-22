@@ -36,6 +36,9 @@
         "projectId": "aedb2798-dae1-4090-b99e-e14caf6bac80"
       }
     },
-    "owner": "etcaterva"
+    "owner": "etcaterva",
+    "plugins": [
+      "expo-localization"
+    ]
   }
 }
