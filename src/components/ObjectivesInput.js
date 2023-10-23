@@ -3,8 +3,10 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import { useContext } from "react";
 import StateContext from "../context/stateProvider";
+import { useTranslation } from 'react-i18next';
 
 const ObjectivesInput = () => {
+  const { t } = useTranslation();
   const [state, manager] = useContext(StateContext);
   const { objectives, objectivesConfig } = state.dayData;
   const weekData = state.weekData;
@@ -61,7 +63,7 @@ const ObjectivesInput = () => {
           }}
         >
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Objetivos Semanales</Text>
+            <Text style={styles.title}>{t("Objetivos Semanales")}</Text>
           </View>
         </View>
       </View>

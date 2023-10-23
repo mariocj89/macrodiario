@@ -273,8 +273,8 @@ const ConfigScreen = () => {
             manager.setGlobalValues({ language: newValue });
           }}
           options={[
-            { label: t("Español"), value: "es" },
-            { label: t("Inglés"), value: "en" },
+            { label: "Español", value: "es" },
+            { label: "English", value: "en" },
           ]}
         />
       </View>
