@@ -11,6 +11,7 @@ import DateStr from "../dateStr";
 import PickerInput from "../components/PickerInput";
 import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
+import NotInAndroid from "../components/NotInAndroid";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -261,23 +262,25 @@ const ConfigScreen = () => {
           }}
         />
       </View>
-      <View style={{}}>
-        <PickerInput
-          style={{ marginHorizontal: 5 }}
-          image={require("../../assets/languages.png")}
-          value={globalValues.language ?? "es"}
-          helpText={t("Elige el idioma de la applicación.")}
-          text={t("Idioma")}
-          onValueChange={(newValue) => {
-            i18n.changeLanguage(newValue);
-            manager.setGlobalValues({ language: newValue });
-          }}
-          options={[
-            { label: "Español", value: "es" },
-            { label: "English", value: "en" },
-          ]}
-        />
-      </View>
+      <NotInAndroid>
+        <View style={{}}>
+          <PickerInput
+            style={{ marginHorizontal: 5 }}
+            image={require("../../assets/languages.png")}
+            value={globalValues.language ?? "es"}
+            helpText={t("Elige el idioma de la applicación.")}
+            text={t("Idioma")}
+            onValueChange={(newValue) => {
+              i18n.changeLanguage(newValue);
+              manager.setGlobalValues({ language: newValue });
+            }}
+            options={[
+              { label: "Español", value: "es" },
+              { label: "English", value: "en" },
+            ]}
+          />
+        </View>
+      </NotInAndroid>
       <View
         style={{
           marginVertical: 30,

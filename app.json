@@ -2,7 +2,7 @@
   "expo": {
     "name": "Macro Diario",
     "slug": "macrodiario",
-    "version": "1.27.0",
+    "version": "1.27.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
